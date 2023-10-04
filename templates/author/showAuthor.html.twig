@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <ul>
+            <li><img src="{{ asset(author.picture) }}" alt="{{ author.username }}" width="100"></li>
+            <li>Nom d'utilisateur: {{ author.username | upper }}</li>
+            <li>Email: {{ author.email }}</li>
+            <li>Nombre de Livres: {{ author.nb_books }}</li>
+    </ul>  
+</div>
+{% endblock %}
