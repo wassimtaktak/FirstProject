@@ -9,37 +9,31 @@
 </style>
 
 <div class="example-wrapper">
-    {% set nb = 0 %}
-    {% if authors is empty %}
-        <p>Aucun auteur n'est disponible pour l'affichage.</p>
-    {% endif %}
-    <h1>Nombre d'auteurs = {{ authors | length }}</h1>
-    <table>
+<h1>la liste des auteurs</h1>
+    <table border="1">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Image</th>
                 <th>Nom d'utilisateur</th>
                 <th>Email</th>
-                <th>Nombre de Livres</th>
-                <th>Détails</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for author in authors %}
                 <tr>
-                    <td>{{ author.id }}</td>
-                    <td><img src="{{ asset(author.picture) }}" alt="{{ author.username }}" width="100"></td>
                     <td>{{ author.username | upper }}</td>
                     <td>{{ author.email }}</td>
-                    <td>{{ author.nb_books }}</td>
-                    <td><a href="{{ path('detail_id', {'id': author.id}) }}">Details</a></td>
+                    <td>
+                        <a href="{{ path('app_author_delete', {'id': author.id}) }}">Supprimer</a>
+                        <a href="{{ path('app_author_edit', {'id': author.id}) }}">editer</a>
+                    </td>
                 </tr>
-                {% set nb = nb + author.nb_books %}
             {% endfor %}
         </tbody>
     </table>
-    <h1>Nombre de livres {{ nb }}</h1>
+    <a href="{{ path('author_ajout') }}">addlink</a>
+    <a href="{{ path('dqlorder') }}">DQL</a>
+    <a href="{{ path('ordered_username') }}">Ascendant</a>
 </div>
 
 {% endblock %}
