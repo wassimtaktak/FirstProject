@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reclamationreponse{% endblock %}
+
+{% block body %}
+    <h1>Reclamationreponse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reclamationreponse.id }}</td>
+            </tr>
+            <tr>
+                <th>Reponse</th>
+                <td>{{ reclamationreponse.reponse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reclamationreponse_index') }}">back to list</a>
+
+    <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}">edit</a>
+
+    {{ include('reclamationreponse/_delete_form.html.twig') }}
+{% endblock %}

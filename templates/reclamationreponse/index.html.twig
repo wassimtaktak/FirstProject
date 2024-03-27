@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reclamationreponse{% endblock %}
+
+{% block body %}
+    <h1>Reclamations Reponses</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reponse</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamationreponse in reclamationreponses %}
+            <tr>
+                <td>{{ reclamationreponse.id }}</td>
+                <td>{{ reclamationreponse.reponse }}</td>
+                <td>
+                    <a href="{{ path('app_reclamationreponse_show', {'id': reclamationreponse.id}) }}">show</a>
+                    <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reclamationreponse_new') }}">Create new</a>
+{% endblock %}
