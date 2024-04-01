@@ -4,40 +4,78 @@
 
 {% block body %}
     <h1>Reclamations</h1>
+    <a href="{{ path('app_reclamations_new') }}" class="new">Create new</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sujet</th>
-                <th>DateCreation</th>
-                <th>Status</th>
-                <th>Message</th>
-                <th>Captureecranpath</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
+                <div class="cards-header">
+                    <p class="header-text">Sujet</p>
+                    <p class="header-text">Message</p>
+                    <p class="header-text">Date de Création</p>
+                    <p class="header-text">Status</p>
+                    <p class="header-text">Action</p>
+                </div>
         {% for reclamation in reclamations %}
-            <tr>
-                <td>{{ reclamation.id }}</td>
-                <td>{{ reclamation.sujet }}</td>
-                <td>{{ reclamation.dateCreation }}</td>
-                <td>{{ reclamation.status }}</td>
-                <td>{{ reclamation.message }}</td>
-                <td>{{ reclamation.captureecranpath }}</td>
-                <td>
-                    <a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}">show</a>
-                    <a href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">{{ reclamation.sujet }}</p>
+                    <p class="card-text" ><a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}" class="show">Show more</a>{{ reclamation.message }}</p>
+                    <p class="card-text">{{ reclamation.dateCreation }}</p>
+                    <p class="card-text">{{ reclamation.status }}</p>
+                    <a href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" class="">Edit</a>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <div class="col">
+                <p>No reclamations found</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_reclamations_new') }}">Create new</a>
+    </div>
+    <style>
+    .row{
+        display:flex;
+        flex-direction:column;
+        width:95.5%;
+        margin:1.5%;
+        color:#ffffff;
+    }
+    .cards-header{
+        display:flex;
+        flex-direction:row;
+        justify-content:space-between;
+        width:97%;
+    }
+    .header-text{
+        position:relative;
+        width:10em;
+        color:#797979;
+        text-decoration-line: underline;
+    }
+    .card{
+        background-color: #323232;
+        border-radius:20px;
+        margin-bottom:10px;
+    }
+    .card-body {
+        display:flex;
+        flex-direction:row;
+        justify-content:space-between;
+        width:100%;  
+    }
+    .card-text{
+        position:relative;
+        width:10em;
+    }
+    .show{
+        position: absolute;
+        top:20px;
+        right:10px;
+        color:#797979;
+        text-decoration-line: underline;
+    }
+    .new{
+        float:right;
+    }
+   
+</style>
 {% endblock %}
+
