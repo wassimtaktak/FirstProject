@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipe index{% endblock %}
+
+{% block body %}
+    
+    <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tournoi</button>
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Participants</button>
+    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">mon equipe</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <h1>Les équipes du tournoi</h1>
+    <div class="row row-cols-1 row-cols-md-4">
+            {% for equipe in equipes %}
+            <!-- Carte 1 -->
+            <div class="col mb-4">
+                <div class="card custom-card">
+                    <img src="{{ asset("img/equipe.png") }}" class="card-img-top" alt="Equipe 1">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ equipe.nom }}</h5>
+                        <p class="card-text">{{ equipe.associationname }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+  </div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-8">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <h6 class="mb-4">Mon equipe</h6>
+                                    {{ include('equipe/_form.html.twig', {'button_label': 'Modifier'}) }}
+                                </div>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+    
+   
+
+
+
+    <a href="{{ path('app_equipe_new', {'id': idtournoi}) }}">Create new</a>
+{% endblock %}

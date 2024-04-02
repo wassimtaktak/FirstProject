@@ -124,6 +124,9 @@ class Equipe
     {
         $this->idtournoi = $idtournoi;
     }
-
+    public function __toString()
+    {
+        return $this->nom;
+    }
 
 }

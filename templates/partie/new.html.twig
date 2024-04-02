@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Partie{% endblock %}
+
+{% block body %}
+    <div class="background-container">
+        <img src="{{ asset('img/red_futuristic_background_03.jpg') }}" alt="Background Image" class="background-image">
+        <div class="button-container">
+            <a href="#" class="btn btn-outline-primary m-2">Génerer les parties</a>
+        </div>
+    </div>
+
+    <a href="{{ path('app_partie_index') }}">back to list</a>
+{% endblock %}
