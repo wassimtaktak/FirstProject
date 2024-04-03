@@ -143,7 +143,7 @@ class Utilisateur
         $this->telephone = $telephone;
     }
 
-    public function getIdrole(): Role
+    public function getIdrole(): ?Role
     {
         return $this->idrole;
     }
