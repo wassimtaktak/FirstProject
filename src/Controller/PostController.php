@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Utilisateur;
 use App\Form\PostType;
+use App\Repository\ForumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +27,14 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_post_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager,int $id,ForumRepository $forumRepository): Response
     {
         $post = new Post();
+        $forum = $forumRepository->find($id);
+        $post->setIdForum($forum);
+        
+        
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -62,7 +68,8 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('app_forum_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('post/edit.html.twig', [

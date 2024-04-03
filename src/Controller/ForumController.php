@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Forum;
 use App\Entity\Post;
 use App\Form\ForumType;
+use App\Form\PostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class ForumController extends AbstractController
             );
         return $this->render('post/index.html.twig', [
             'posts' => $posts,
-            'sujetforum' => $forum->getSujet(),
+            'forum' => $forum,
         ]);
         /*
         return $this->render('forum/show.html.twig', [
@@ -64,6 +65,7 @@ class ForumController extends AbstractController
         ]);*/
         
     }
+    
 
     #[Route('/{id}/edit', name: 'app_forum_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response

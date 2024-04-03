@@ -36,7 +36,7 @@ class Post
     private $nbLike;
 
     /**
-     * @var int
+     * @var Forum
      *
      * @ORM\ManyToOne(targetEntity="Forum")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class Post
     private $idForum;
 
     /**
-     * @var int
+     * @var utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -85,7 +85,7 @@ class Post
         $this->nbLike = $nbLike;
     }
 
-    public function getIdForum(): int
+    public function getIdForum(): Forum
     {
         return $this->idForum;
     }
@@ -95,7 +95,7 @@ class Post
         $this->idForum = $idForum;
     }
 
-    public function getIdUser(): int
+    public function getIdUser(): ?Utilisateur
     {
         return $this->idUser;
     }
