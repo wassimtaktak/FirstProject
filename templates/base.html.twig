@@ -69,21 +69,19 @@
                         <span>Admin</span>
                     </div>
                 </div>
-                <div class="navbar-nav w-100"><a href="chart.html" class="nav-item nav-link"><img class="rounded-circle" src="{{ asset('img/groupe.png') }}" alt="" style="width: 27px; height: 30px;">Gestion des users</a>
+                <div class="navbar-nav w-100"><a href="chart.html" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/groupe.png') }}" alt="">Utilisateurs</a>
                     <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle"data-bs-toggle="dropdown">
-                          <img class="rounded-circle" src="{{ asset('img/tournament.png') }}" alt="" style="width: 27px; height: 30px;">Gestion des tournois
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                          <img class="circle rounded-circle" src="{{ asset('img/tournament.png') }}" alt="">Tournois
                       </a>
                       <div class="dropdown-menu bg-transparent border-0">
-                          <a href="#" class="dropdown-item">Gestion des équipes</a>
-                          <a href="#" class="dropdown-item">Gestion des parties</a>
-                          <a href="#" class="dropdown-item">Gestion des jeux</a>
+                          <a href="#" class="dropdown-item">Equipes</a>
+                          <a href="#" class="dropdown-item">Parties</a>
+                          <a href="#" class="dropdown-item">Jeux</a>
                     </div>
-                    
-                    <a href="{{path('app_forum_index')}}" class="nav-item nav-link"><img class="rounded-circle" src="{{ asset('img/forum.png') }}" alt="" style="width: 27px; height: 27px;">Gestion des forums</a>
-                    <a href="form.html" class="nav-item nav-link"><img class="rounded-circle" src="{{ asset('img/fichier.png') }}" alt="" style="width: 27px; height: 27px;">Gestion des réclamations</a>
-                    <a href="table.html" class="nav-item nav-link"><img class="rounded-circle" src="{{ asset('img/products.png') }}" alt="" style="width: 27px; height: 27px;">Gestion des produits</a>
-
+                    <a href="{{path('app_forum_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/forum.png') }}" alt="">Forums</a>
+                    <a href="{{path('app_reclamations_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/fichier.png') }}" alt="">Réclamations</a>
+                    <a href="table.html" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/products.png') }}" alt="">Produits</a>
                   </div>
 
                 </div>
@@ -91,7 +89,18 @@
         </div>
         <!-- Sidebar End -->
 
-
+<style>
+.circle{
+    width: 45px;
+    height: 45px; 
+    background-color:#161616;
+    padding:7px; 
+    margin-right:10px;
+}
+.circle:hover{
+    background-color:#8B0000;
+}
+</style>
         <!-- Content Start -->
         <div class="content" style="background-color:#323232;">
             <!-- Navbar Start -->
@@ -183,7 +192,7 @@
                 </div>
             </nav>
             <!-- Navbar End -->
-            <div style="border-radius: 30px;background-color:black;padding:10px;margin:10px;">
+            <div style="border-radius: 30px;background-color:black;padding:20px;margin-right:10px;">
             {% block body %} {% endblock %}
             </div>
               <!-- Footer Start -->

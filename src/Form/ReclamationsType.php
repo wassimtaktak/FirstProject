@@ -6,6 +6,8 @@ use App\Entity\Reclamations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ReclamationsType extends AbstractType
 {
@@ -15,9 +17,14 @@ class ReclamationsType extends AbstractType
             ->add('sujet')
             ->add('dateCreation')
             ->add('status')
-            ->add('message')
+            ->add('message', TextareaType::class, [
+                'attr' => ['rows' => 8],
+            ])
             ->add('captureecranpath')
-            ->add('idUser')
+            ->add('idUser', EntityType::class, [
+                'class' => 'App\Entity\Utilisateur',
+                'choice_label' => 'username', // Replace 'username' with the property you want to display in the dropdown
+            ]);
         ;
     }
 

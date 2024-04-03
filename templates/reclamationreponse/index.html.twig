@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Reponse</th>
+                <th>id reclamation</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ reclamationreponse.id }}</td>
                 <td>{{ reclamationreponse.reponse }}</td>
+                <td>{{ reclamationreponse.idReclamation.id }}</td>
                 <td>
                     <a href="{{ path('app_reclamationreponse_show', {'id': reclamationreponse.id}) }}">show</a>
                     <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}">edit</a>

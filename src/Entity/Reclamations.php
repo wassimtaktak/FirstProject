@@ -126,7 +126,7 @@ class Reclamations
         $this->captureecranpath = $captureecranpath;
     }
 
-    public function getIdUser(): Utilisateur
+    public function getIdUser(): ?Utilisateur
     {
         return $this->idUser;
     }

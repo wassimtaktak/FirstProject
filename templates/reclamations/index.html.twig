@@ -11,7 +11,7 @@
                     <p class="header-text">Sujet</p>
                     <p class="header-text">Message</p>
                     <p class="header-text">Date de Création</p>
-                    <p class="header-text">Status</p>
+                    <p class="header-text">Statut</p>
                     <p class="header-text">Action</p>
                 </div>
         {% for reclamation in reclamations %}
@@ -21,7 +21,10 @@
                     <p class="card-text" ><a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}" class="show">Show more</a>{{ reclamation.message }}</p>
                     <p class="card-text">{{ reclamation.dateCreation }}</p>
                     <p class="card-text">{{ reclamation.status }}</p>
-                    <a href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" class="">Edit</a>
+                    <div class="card-text">
+                    <a href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" >Edit</a>
+                    <div>{{ include('reclamations/_delete_form.html.twig') }}</div>
+                    </div>
                 </div>
             </div>
         {% else %}
@@ -42,14 +45,19 @@
         display:flex;
         flex-direction:row;
         justify-content:space-between;
-        width:97%;
+        
+        
     }
     .header-text{
         position:relative;
         width:10em;
         color:#797979;
         text-decoration-line: underline;
+      min-width:15em;
+        max-width:15em;
     }
+
+  
     .card{
         background-color: #323232;
         border-radius:20px;
@@ -63,14 +71,21 @@
     }
     .card-text{
         position:relative;
-        width:10em;
+        min-width:15em;
+        max-width:15em;
+           display:flex;
+        flex-direction:row;
+    align-items:center;
+
     }
+
     .show{
         position: absolute;
-        top:20px;
-        right:10px;
+        bottom:-2em;
+        right:1em;
         color:#797979;
         text-decoration-line: underline;
+        font-size:15px
     }
     .new{
         float:right;

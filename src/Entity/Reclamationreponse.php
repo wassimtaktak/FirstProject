@@ -68,7 +68,7 @@ class Reclamationreponse
         $this->reponse = $reponse;
     }
 
-    public function getIdReclamation(): Reclamations
+    public function getIdReclamation(): ?Reclamations
     {
         return $this->idReclamation;
     }
@@ -78,7 +78,7 @@ class Reclamationreponse
         $this->idReclamation = $idReclamation;
     }
 
-    public function getIdUser(): Utilisateur
+    public function getIdUser(): ?Utilisateur
     {
         return $this->idUser;
     }

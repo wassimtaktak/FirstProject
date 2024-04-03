@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reclamations;
 use App\Form\ReclamationsType;
+use App\Repository\ReclamationreponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,10 +47,13 @@ class ReclamationsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_reclamations_show', methods: ['GET'])]
-    public function show(Reclamations $reclamation): Response
+    public function show(Reclamations $reclamation,ReclamationreponseRepository $reclamationreponseRepository): Response
     {
+        $reponses = $reclamationreponseRepository->findBy(['idReclamation' => $reclamation->getId()]);
+
         return $this->render('reclamations/show.html.twig', [
             'reclamation' => $reclamation,
+            'reponses' => $reponses
         ]);
     }
 
@@ -71,13 +75,17 @@ class ReclamationsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_reclamations_delete', methods: ['POST'])]
-    public function delete(Request $request, Reclamations $reclamation, EntityManagerInterface $entityManager): Response
+    #[Route('/delete/{id}', name: 'app_reclamations_delete')]
+    public function delete(Request $request, Reclamations $reclamation, EntityManagerInterface $entityManager,int $id): Response
     {
         if ($this->isCsrfTokenValid('delete'.$reclamation->getId(), $request->request->get('_token'))) {
+            echo $reclamation->getId();
             $entityManager->remove($reclamation);
             $entityManager->flush();
+           
         }
+        echo '<script>alert("Welcome to Geeks for Geeks")</script>';
+        echo "test";
 
         return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
     }
