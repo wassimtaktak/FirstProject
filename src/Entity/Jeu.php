@@ -81,6 +81,9 @@ class Jeu
     {
         $this->imagedata = $imagedata;
     }
-
+    public function __toString()
+    {
+        return $this->nom;
+    }
 
 }

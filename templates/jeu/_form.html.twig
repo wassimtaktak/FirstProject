@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+        <div style="margin-top:10px">
+        <button class="btn btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-outline-danger" href="{{ path('app_jeu_index') }}">Annuler</a>
+        </div>
+{{ form_end(form) }}

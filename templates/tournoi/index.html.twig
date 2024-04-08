@@ -1,0 +1,40 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Tournoi index{% endblock %}
+
+{% block body %}
+    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Tournois</h1>
+  <div style="text-align: right;">
+    <a href="{{ path('app_tournoi_new') }}" class="add-btn">Add</a>
+</div>
+ <div class="filters-content">
+    <div class="row grid">
+        {% for tournament in tournois %}
+            <div class="col-sm-6 col-lg-4 ">
+                <div class="box">
+                    <div>
+                        <div class="img-box">
+                            <img src="{{ asset('uploads/images/' ~ tournament.idjeu.imagejeu) }}" alt="">
+                        </div>
+                        <div class="detail-box">
+                            <h5 style="text-align: center; font-family: 'Montserrat', sans-serif; color: #000000; font-weight: bold;">{{ tournament.name }}</h5>
+                            <p style="color:white"> <strong >Date : </strong>{{ tournament.jour | date('Y-m-d') }} -{{ tournament.tempsdeb }}</p>
+                            <p style="color:white"> <strong> Inscription : </strong> {{ tournament.registration }}</p>
+                            <p style="color:white"><strong > Prix :</strong>  {{tournament.prize}} Dinars </p>
+                            <div class="show-btn-container">
+                            <p>  <a href="{{ path('app_tournoi_show', {'id': tournament.id}) }}" class="show-btn">Détails</a> <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+</div>
+
+
+
+
+
+{% endblock %}

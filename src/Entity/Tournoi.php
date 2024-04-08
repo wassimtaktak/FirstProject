@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TournoiRepository;
 
 /**
  * Tournoi
@@ -178,7 +179,7 @@ class Tournoi
         $this->nbrequipe = $nbrequipe;
     }
 
-    public function getIdjeu(): Jeu
+    public function getIdjeu(): ?Jeu
     {
         return $this->idjeu;
     }

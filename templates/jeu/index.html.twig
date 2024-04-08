@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jeux{% endblock %}
+{% block search_bar %}
+    <form class="d-none d-md-flex ms-4">
+        <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+    </form>
+{% endblock %}
+
+{% block body %}
+
+<h1 style="text-align: center; font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Jeux</h1>
+
+<br></br>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+             
+                <th>Image</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for jeu in jeus %}
+            <tr>
+
+                <td><img src="{{ asset('uploads/images/' ~ jeu.imagejeu) }}" style="width: 150px;"></td>
+                <td>{{ jeu.nom }}</td>
+               <td>
+                <a href="{{ path('app_jeu_delete', {'id': jeu.id}) }}" style="color: #8B0000; margin-right: 10px;" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                <i class="fas fa-trash-alt"></i>
+                </a>
+                <a href="{{ path('app_jeu_edit', {'id': jeu.id}) }}" style="color: #8B0000;"data-toggle="tooltip" data-placement="top" title="Modifier">
+                <i class="fas fa-edit"></i>
+                </a>
+                </td>
+
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_jeu_new') }}">Create new</a>
+{% endblock %}

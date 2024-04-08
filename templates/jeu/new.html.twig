@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Jeu{% endblock %}
+
+{% block body %}
+    <div class="container-fluid pt-4 px-4 neon-border">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6">
+                <div class="bg-secondary rounded h-100 p-4" style="width:150%;margin-top:20px;">
+                    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Ajouter un Jeu</h1>
+                    <br></br>
+                    
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    
+                    <form method="POST" action="{{ path('app_jeu_new') }}" enctype="multipart/form-data">
+                        {{ form_start(form) }}
+
+                        <div class="form-floating mb-3">
+                            {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'floatingInput'}}) }}
+                            <label for="floatingInput">Nom jeu</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Image du jeu</label>
+                            {{ form_widget(form.imagejeu, {'attr': {'class': 'form-control bg-dark', 'id': 'formFile'}}) }}
+                        </div>
+                       <button class="btn btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+                        <a class="btn btn-outline-danger" href="{{ path('app_jeu_index') }}">Annuler</a>
+
+                        {{ form_end(form) }}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
