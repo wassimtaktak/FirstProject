@@ -19,7 +19,7 @@ class PostType extends AbstractType
             ->add('nbLike')
             ->add('idForum', EntityType::class, [
                 'class' => 'App\Entity\Forum',
-                'choice_label' => 'id', // Replace 'name' with the property you want to display in the dropdown
+                'choice_label' => 'sujet', // Replace 'name' with the property you want to display in the dropdown
             ])
             ->add('idUser', EntityType::class, [
                 'class' => 'App\Entity\Utilisateur',
