@@ -25,6 +25,10 @@
 <link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
 
 
+
+
+
+
 </head>
 
 <body>
@@ -42,7 +46,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html">
+                        <a href="{{ path('app_forum_index')}}">
                             <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
                         </a>
                     </div>
@@ -114,6 +118,9 @@
 
 <!-- Js Plugins -->
 <script src="{{ asset('js1/jquery-3.3.1.min.js') }}"></script>
+<script>
+    var $j = jQuery.noConflict();
+</script>
 <script src="{{ asset('js1/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js1/player.js') }}"></script>
 <script src="{{ asset('js1/jquery.nice-select.min.js') }}"></script>
@@ -121,6 +128,23 @@
 <script src="{{ asset('js1/jquery.slicknav.js') }}"></script>
 <script src="{{ asset('js1/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js1/main.js') }}"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+
+<script>
+    $j(function() {
+        // Replace '.datepicker' with the class you added to the dateCreation field
+        $j('.datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            language: 'fr'
+        });
+    });
+</script>
+
+
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Forum
@@ -25,6 +26,7 @@ class Forum
      * @var string
      *
      * @ORM\Column(name="sujet", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Veuillez fournir un sujet valide.")
      */
     private $sujet;
 

@@ -62,6 +62,25 @@ class ForumController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/new/admin', name: 'app_forumadmin_new', methods: ['GET', 'POST'])]
+    public function newadmin(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $forum = new Forum();
+        $form = $this->createForm(ForumType::class, $forum);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($forum);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_forum_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('forum/newadmin.html.twig', [
+            'forum' => $forum,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/{id}', name: 'app_forum_show', methods: ['GET','POST'])]
     public function show(int $id, Forum $forum, EntityManagerInterface $entityManager, Request $request, ForumRepository $forumRepository, TokenGeneratorInterface $tokenGenerator): Response

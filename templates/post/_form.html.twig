@@ -4,20 +4,15 @@
         tinymce.init({
             selector: '#mytextarea',
             skin: 'oxide-dark',
-            content_css: 'dark',
-            content_style: 'body { color: white; }',
-            setup: function(editor) {
-                editor.on('init', function() {
-                    editor.execCommand('ForeColor', false, '#ffffff'); // Set initial text color to white
-                });
-            }
+            content_css: 'dark', // Load the default dark theme CSS
+            forecolor : 'white',
+             
         });
     </script>
 </head>
 <body>
     <form method="post">
-        <textarea id="mytextarea" name="post_content">{{ post.message }}</textarea>
-        
+        <textarea id="mytextarea" name="post_content" style="color: white;">{{ post.message }}</textarea>
         <button type="submit">Poster</button>
     </form>
 </body>
