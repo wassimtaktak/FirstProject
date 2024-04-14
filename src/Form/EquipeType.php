@@ -13,12 +13,18 @@ class EquipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, [
-                'attr' => ['class' => 'form-control', 'id' => 'name']
-            ])
-            ->add('associationname', TextType::class, [
-                'attr' => ['class' => 'form-control', 'id' => 'associationname']
-            ]);
+        ->add('nom', TextType::class, [
+            'label' => 'Nom de votre équipe :',
+            'label_attr' => ['class' => 'col-sm-4 label-white'],
+            'attr' => ['class' => 'form-control col-sm-6', 'id' => 'name', 'placeholder' =>'Nom de votre équipe'],
+            'row_attr' => ['class' => 'mb-3 row'], 'required' => true
+        ])
+        ->add('associationname', TextType::class, [
+            'label' => 'Nom de l\'association :',
+            'label_attr' => ['class' => 'col-sm-4 label-white'],
+            'attr' => ['class' => 'form-control col-sm-6', 'id' => 'associationname', 'placeholder' =>'Nom de l\'association'],
+            'row_attr' => ['class' => 'mb-3 row'], 'required' => true
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

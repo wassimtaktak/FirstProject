@@ -46,6 +46,52 @@ class PartieRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function checkPartiesExistForPhase(string $phase, int $idTournoi): bool
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->innerJoin('p.idtournoi', 't')
+            ->where('p.phase = :phase')
+            ->andWhere('t.id = :idTournoi')
+            ->setParameter('phase', $phase)
+            ->setParameter('idTournoi', $idTournoi)
+            ->getQuery();
+
+        $count = $query->getSingleScalarResult();
+
+        return $count > 0;
+    }
+    public function findEquipesGagnantesByPhase($idTournoi, $phase)
+{
+    $qb = $this->createQueryBuilder('p');
+    $qb->select('CASE WHEN p.scoreequipe1 > p.scoreequipe2 THEN e1.id ELSE e2.id END AS equipeGagnanteId')
+       ->innerJoin('p.equipe1id', 'e1')
+       ->innerJoin('p.equipe2id', 'e2')
+       ->andWhere('p.idtournoi = :idTournoi')
+       ->andWhere('p.phase = :phase')
+       ->setParameter('idTournoi', $idTournoi)
+       ->setParameter('phase', $phase);
+
+    $result = $qb->getQuery()->getResult();
+
+    $equipesGagnantesIds = array_column($result, 'equipeGagnanteId');
+
+    return $equipesGagnantesIds;
+}
+    public function hasUnupdatedParties($idTournoi):bool
+{
+    return $this->createQueryBuilder('p')
+        ->select('COUNT(p.id)')
+        ->andWhere('p.idtournoi = :idTournoi')
+        ->andWhere('p.updated = :updated')
+        ->setParameter('idTournoi', $idTournoi)
+        ->setParameter('updated', false)
+        ->getQuery()
+        ->getSingleScalarResult() > 0;
+}
+
+
+    
 
 
 //    /**

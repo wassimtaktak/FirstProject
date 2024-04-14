@@ -50,7 +50,9 @@ h6 {
 	font-weight: 400;
 	font-family: "Mulish", sans-serif;
 }
-
+.label-white {
+    color: #ffffff; /* Code couleur pour le texte blanc */
+}
 h1 {
 	font-size: 70px;
 }

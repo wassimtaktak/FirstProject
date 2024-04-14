@@ -1,8 +1,8 @@
 /********** Template CSS **********/
 :root {
-    --primary: #EB1616;
-    --secondary: #191C24;
-    --light: #6C7293;
+    --primary: #8B0000;
+    --secondary: #323232;
+    --light: #FFFFFF;
     --dark: #000000;
 }
 
@@ -42,7 +42,7 @@
     width: 100%;
     padding: 20px;
     color: #fff;
-    background-color: #293139;
+    background-color: #262626;
 }
 
 .nk-match + .nk-match {

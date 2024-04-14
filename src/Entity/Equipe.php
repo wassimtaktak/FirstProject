@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Equipe
@@ -25,6 +27,7 @@ class Equipe
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Veuillez fournir un nom valide pour votre équipe.")
      */
     private $nom;
 
@@ -39,6 +42,7 @@ class Equipe
      * @var string
      *
      * @ORM\Column(name="associationname", type="string", length=70, nullable=false)
+     * @Assert\NotBlank(message="Veuillez fournir un nom d'association pour votre équipe.")
      */
     private $associationname;
 
@@ -74,7 +78,7 @@ class Equipe
         return $this->nom;
     }
 
-    public function setNom(string $nom): void
+    public function setNom(?string $nom): void
     {
         $this->nom = $nom;
     }
@@ -94,7 +98,7 @@ class Equipe
         return $this->associationname;
     }
 
-    public function setAssociationname(string $associationname): void
+    public function setAssociationname(?string $associationname): void
     {
         $this->associationname = $associationname;
     }

@@ -3,32 +3,47 @@
 {% block title %}Partie{% endblock %}
 
 {% block body %}
-    <h1>Partie</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Equipe 1</th>
-                <td>{{ partie.equipe1id }}</td>
-            </tr>
-            <tr>
-                <th>Equipe 2</th>
-                <td>{{ partie.equipe2id }}</td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ partie.commentaire }}</td>
-            </tr>
-            <tr>
-                <th>Phase</th>
-                <td>{{ partie.phase }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_partie_index') }}">back to list</a>
-
-    <a href="{{ path('app_partie_edit', {'id': partie.id}) }}">edit</a>
-
-    {{ include('partie/_delete_form.html.twig') }}
+    <div class="container-fluid pt-4 px-4">
+        <h1>Consulter la partie</h1>
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <!-- START: Now Playing -->
+                                    <div class="nk-match">
+                                        <div class="nk-match-team-left">
+                                            <a href="#">
+                                                <span class="nk-match-team-logo">
+                                                    <img src="{{ asset("img/equipe.png") }}" alt="" width="100px" height="100px">
+                                                </span>
+                                                <span class="nk-match-team-name">
+                                                   {{ partie.equipe1id }}
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="nk-match-status">
+                                            <a href="#">
+                                                <span class="nk-match-score bg-danger">
+                                                    {{partie.scoreequipe1}} - {{partie.scoreequipe2}}
+                                                </span>
+                                                <span class="nk-match-status-vs">  </span>
+                                                <span class="nk-match-status-vs">{{partie.phase}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="nk-match-team-right">
+                                            <a href="#">
+                                                <span class="nk-match-team-name">
+                                                    {{ partie.equipe2id }}
+                                                </span>
+                                                <span class="nk-match-team-logo">
+                                                    <img src="{{ asset("img/equipe.png") }}" alt="" width="100px" height="100px">
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                        <p>commentaire :     {{partie.commentaire}} </p>
+                                </div>                    
+            </div>
+            
+        </div>
+    </div>    
 {% endblock %}

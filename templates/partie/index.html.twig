@@ -21,7 +21,11 @@
                 <td>{{ partie.equipe2id }}</td>
                 <td>{{ partie.phase }}</td>
                 <td>
-                    <a href="{{ path('app_partie_edit', {'id': partie.id}) }}">Modifier</a>
+                    {% if partie.updated %}
+                        <a href="{{ path('app_afficher_partie', {'id': partie.id}) }}">Voir</a>
+                    {% else %}
+                        <a href="{{ path('app_partie_edit', {'id': partie.id, 'idtournament': partie.idtournoi.id}) }}">Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -31,6 +35,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_partie_new',{'id': idtournoi}) }}">Create new</a>
+    {% if  not existunupdated %}
+    <a href="{{ path('app_partie_new',{'id': idtournoi}) }}">Génerer les parties restants</a>
+    {% endif %}
 {% endblock %}

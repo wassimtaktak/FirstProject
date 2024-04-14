@@ -58,38 +58,27 @@ class EquipeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_equipe_show', methods: ['GET', 'POST'])]
-    public function show(EquipeRepository $equipeRepository,Request $request,EntityManagerInterface $entityManager): Response
+    public function show(EquipeRepository $equipeRepository, TournoiRepository $tournoiRepository,Request $request,EntityManagerInterface $entityManager): Response
     {   
-        $idTournoi = $request->get('id'); // Récupérer l'ID du tournoi depuis l'URL
-        // Recherche des équipes par ID de tournoi (utilisation de l'ID de l'URL)
-        $equipes = $equipeRepository->findByIdTournoi($idTournoi);
-
-        // équipe statique par son ID li bch neditiha ba3 nbadalha b session
-        $equipe = $equipeRepository->find(28);
-        // forumulaire  ta3 edit equipe ta3 li mlogi
-        $form = $this->createForm(EquipeType::class, $equipe);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_equipe_show', ['id' => $idTournoi], Response::HTTP_SEE_OTHER);
-        }
-        
+        $idTournoi = $request->get('id'); 
+        $equipes = $equipeRepository->findByIdTournoi($idTournoi);//afficher equipet tournoi
+        $tournoi = $tournoiRepository->find($idTournoi);
+        $equipesComplet = count($equipes) == $tournoi->getNbrequipe();
         return $this->render('equipe/index.html.twig', 
-        [ 'idtournoi'=>$idTournoi,'equipes' => $equipes,'equipe' => $equipe,'form' => $form->createView()]);
+        [ 'idtournoi'=>$idTournoi,'equipes' => $equipes,'equipesComplet' => $equipesComplet,]);
     }
 
-    #[Route('/{id}/edit', name: 'app_equipe_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit/{idtournoi}', name: 'app_equipe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Equipe $equipe, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EquipeType::class, $equipe);
         $form->handleRequest($request);
+        $idTournoi = $request->get('idtournoi'); 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_equipe_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_equipe_show', ['id' => $idTournoi], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('equipe/edit.html.twig', [

@@ -1,5 +1,19 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
-<button class="btn btn-outline-light m-2">Annuler</button>
+{{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+
+    {{ form_row(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom de votre équipe', 'id': 'validationCustom01', 'required': 'required', 'class': 'needs-validation'}}) }}
+    <div class="invalid-feedback">
+       {{ form_errors(form.nom) }}
+    </div>
+
+    {{ form_row(form.associationname, {'attr': {'class': 'form-control', 'placeholder': 'Nom de l\'association', 'id': 'validationCustom02', 'required': 'required', 'class': 'needs-validation'}}) }}
+    <div class="invalid-feedback">
+       {{ form_errors(form.associationname) }}
+    </div>
+
+    <div class="text-center col-12 mt-4"> <!-- Utilisation de la classe text-center pour centrer le contenu -->
+        <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+        <button type="button" class="btn btn-outline-light m-2">Annuler</button>
+    </div>
+
 {{ form_end(form) }}
+

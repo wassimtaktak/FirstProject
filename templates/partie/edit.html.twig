@@ -41,9 +41,34 @@
                                         </div>
                                     </div>
                                     <!-- END: Now Playing -->
-                                    {{ include('partie/_form.html.twig', {'button_label': 'Modifier'}) }}
+                                     <!-- Formulaire avec alerte de confirmation -->
+                                        {{ form_start(form, {'attr': {'id': 'formId'}}) }}
+                                        {{ form_widget(form) }}
+                                        <button type="button" id="submitBtn" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+                                        <a href="{{ path('app_partie_index') }}" class="btn btn-outline-light m-2">Annuler</a>
+                                        {{ form_end(form) }}
                                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('submitBtn').addEventListener('click', function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: "Voulez-vous vraiment modifier?",
+                    text: "Cette modification sera permanente.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#262626",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Oui, modifier!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('formId').submit(); // Soumettre le formulaire
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
