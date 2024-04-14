@@ -7,7 +7,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anime | Template</title>
+    <title>{% block title %}Welcome!{% endblock %}</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,9 +24,13 @@
 <link rel="stylesheet" href="{{ asset('css1/slicknav.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
 
+
 </head>
 
 <body>
+
+
+{# Your other Twig content #}
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -47,11 +51,11 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="./blog.html">Nos tournois</a></li>
-                                <li><a href="./blog.html">Produits</a></li>
-                                <li><a href="./blog.html">Réclamations</a></li>
-                                <li><a href="#">Forum</a></li>
+                                <li {% block active1 %}{% endblock %}><a href="./index.html">Home</a></li>
+                                <li {% block active2 %}{% endblock %}><a href="./blog.html">Nos tournois</a></li>
+                                <li {% block active3 %}{% endblock %}><a href="./blog.html">Produits</a></li>
+                                <li{% block active4 %}{% endblock %}><a href="./blog.html">Réclamations</a></li>
+                                <li {% block active5 %}{% endblock %}><a href="{{path("app_forum_index")}}">Forum</a></li>
                             </ul>
                         </nav>
                     </div>

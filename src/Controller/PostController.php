@@ -62,10 +62,11 @@ class PostController extends AbstractController
     #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        
+        if ($request->isMethod('POST')) {
+            $postData = $request->request->get('post_content');
+            $post->setMessage($postData);
+            $entityManager->persist($post);
             $entityManager->flush();
 
             //return $this->redirectToRoute('app_forum_show', [], Response::HTTP_SEE_OTHER);
@@ -74,18 +75,35 @@ class PostController extends AbstractController
 
         return $this->renderForm('post/edit.html.twig', [
             'post' => $post,
-            'form' => $form,
         ]);
     }
 
+    #[Route('/{id}/edit/admin', name: 'app_postadmin_edit', methods: ['GET', 'POST'])]
+    public function editadmin(Request $request, Post $post, EntityManagerInterface $entityManager): Response
+    {
+        
+        if ($request->isMethod('POST')) {
+            $postData = $request->request->get('post_content');
+            $post->setMessage($postData);
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            //return $this->redirectToRoute('app_forum_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('post/editadmin.html.twig', [
+            'post' => $post,
+        ]);
+    }
     #[Route('/{id}', name: 'app_post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
+        
             $entityManager->remove($post);
             $entityManager->flush();
-        }
+        
 
-        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
     }
 }
