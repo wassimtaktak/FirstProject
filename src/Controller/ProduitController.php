@@ -14,28 +14,100 @@ use App\Repository\CategorieRepository;
 
 class ProduitController extends AbstractController
 {
-    
-    
+
+
     #[Route('/produit-cards', name: 'produit_cards')]
-    public function cards(ProduitRepository  $rp): Response
+    public function cards(Request $request, ProduitRepository  $rp, CategorieRepository $crp): Response
     {
         $produit = $rp->findAll();
+        $cat = $crp->findAll();
+        if ($request->query->has('orderBy')) {
+            $orderBy = $request->query->get('orderBy');
+            // Perform additional treatment based on the submitted data
+            // For example, you can sort the products accordingly
+            if ($orderBy === 'asc') {
+                usort($produit, function ($a, $b) {
+                    return $a->getPrix() - $b->getPrix();
+                });
+
+                $cat = $crp->findAll();
+                return $this->render('produit/produitCards.html.twig', [
+                    'produit' => $produit,
+                    'cat' => $cat,
+                    'test' => 0,
+                ]);
+            } else {
+                usort($produit, function ($a, $b) {
+                    return $b->getPrix() - $a->getPrix();
+                });
+                $cat = $crp->findAll();
+                return $this->render('produit/produitCards.html.twig', [
+                    'produit' => $produit,
+                    'cat' => $cat,
+                    'test' => 0,
+
+                ]);
+            }
+        }
 
         return $this->render('produit/produitCards.html.twig', [
-            'produit' => $produit
+            'produit' => $produit,
+            'cat' => $cat,
+            'test' => 0,
+
         ]);
     }
+
+    #[Route('/produit-cards/{id}', name: 'cards_tri')]
+    public function cards_tri(Request $request, ProduitRepository  $rp, CategorieRepository $crp, $id): Response
+    {
+        $produit = $rp->findByCategorie($id);
+        $cat = $crp->findAll();
+
+        if ($request->query->has('orderBy')) {
+            $orderBy = $request->query->get('orderBy');
+            // Perform additional treatment based on the submitted data
+            // For example, you can sort the products accordingly
+            if ($orderBy === 'asc') {
+                $produit = $rp->findByCategorieASC($id);
+                $cat = $crp->findAll();
+                return $this->render('produit/produitCards.html.twig', [
+                    'produit' => $produit,
+                    'cat' => $cat,
+                    'test' => 1,
+                    'catid' => $id
+                ]);
+            } else {
+                $produit = $rp->findByCategorieDESC($id);
+                $cat = $crp->findAll();
+                return $this->render('produit/produitCards.html.twig', [
+                    'produit' => $produit,
+                    'cat' => $cat,
+                    'test' => 1,
+                    'catid' => $id
+                ]);
+            }
+        }
+
+        return $this->render('produit/produitCards.html.twig', [
+            'produit' => $produit,
+            'cat' => $cat,
+            'test' => 1,
+            'catid' => $id
+        ]);
+    }
+
 
     #[Route('/produit-detail/{id}', name: 'produit_detail')]
     public function produit_detail($id, ProduitRepository $repository): Response
     {
         $produit = $repository->find($id);
-    
+
         return $this->render('produit/produitDetail.html.twig', [
             'produit' => $produit
         ]);
     }
-    
+
 
     #[Route('/produit/add', name: 'add_produit')]
     public function add(Request $request,  EntityManagerInterface $entityManager): Response
