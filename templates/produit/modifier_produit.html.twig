@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProduitController!
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="container-fluid pt-4 px-4">
+		<div class="row g-4">
+			<center>
+				<div class="col-sm-12 col-xl-6">
+					<div class="bg-secondary rounded h-100 p-4">
+						<h6 class="mb-4">Modifier un Produit</h6>
+						 {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+						<div class="mb-3">
+							<label for="exampleInputEmail1" class="form-label">Libelle
+							</label>
+							{{ form_widget(f.libelle, {'attr': {'class': 'form-control','placeholder': 'libelle'}}) }}
+							{{ form_errors(f.libelle,{'attr':{'class':'text-danger'}}) }}
+
+						</div>
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label">description</label>
+							{{ form_widget(f.description, {'attr': {'class': 'form-control','placeholder': 'description'}}) }}
+							{{ form_errors(f.description,{'attr':{'class':'text-danger'}}) }}
+
+						</div>
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label">prix</label>
+							{{ form_widget(f.prix, {'attr': {'class': 'form-control','placeholder': 'prix'}}) }}
+							{{ form_errors(f.prix,{'attr':{'class':'text-danger'}}) }}
+
+						</div>
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label">marque</label>
+							{{ form_widget(f.marque, {'attr': {'class': 'form-control','placeholder': 'marque'}}) }}
+							{{ form_errors(f.marque,{'attr':{'class':'text-danger'}}) }}
+
+						</div>
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label">image</label>
+							{{ form_widget(f.image, {'attr': {'class': 'form-control','placeholder': 'image'}}) }}
+
+						</div>
+						<div class="mb-3">
+							<label for="exampleInputPassword1" class="form-label">categorie</label>
+							{{ form_widget(f.categorie, {'attr': {'class': 'form-select form-select-sm mb-3','placeholder': 'categorie'}}) }}
+
+						</div>
+
+						<button type="submit" class="btn btn-primary">Modifier</button>
+						{{ form_end(f) }}
+					</div>
+				</div>
+			</center>
+		</div>
+	</div>
+
+{% endblock %}

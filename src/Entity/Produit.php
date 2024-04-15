@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produit
@@ -21,30 +22,40 @@ class Produit
      */
     private $id;
 
+
+
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="libelle doit etre non vide")
+     * @Assert\Length(min=8, minMessage="libelle doit contenir au moins 8 caractères")
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
      */
     private $libelle;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="prix   :doit etre non vide")
+     * @Assert\Positive(message="prix   :doit etre positive")
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
     private $prix;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="description  doit etre non vide")
+     * @Assert\Length(
+     *      min = 7,
+     *      max = 100,
+     *      minMessage = "doit etre >=7 ",
+     *      maxMessage = "doit etre <=100" )
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="marque   :doit etre non vide")
      * @ORM\Column(name="marque", type="string", length=20, nullable=false)
      */
     private $marque;
@@ -59,9 +70,9 @@ class Produit
     /**
      * @var int|null
      *
-     * @ORM\Column(name="like", type="integer", nullable=true)
+     * @ORM\Column(name="likes", type="integer", nullable=true)
      */
-    private $like = '0';
+    private $likes = '0';
 
     /**
      * @var Categorie
@@ -136,20 +147,20 @@ class Produit
     /**
      * @return int|string|null
      */
-    public function getLike()
+    public function getLikes()
     {
-        return $this->like;
+        return $this->likes;
     }
 
     /**
      * @param int|string|null $like
      */
-    public function setLike($like): void
+    public function setLikes($likes): void
     {
-        $this->like = $like;
+        $this->likes = $likes;
     }
 
-    public function getCategorie(): Categorie
+    public function getCategorie(): ?Categorie
     {
         return $this->categorie;
     }
@@ -158,6 +169,4 @@ class Produit
     {
         $this->categorie = $categorie;
     }
-
-
 }
