@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseuser.html.twig' %}
 
 {% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Utilisateur</h1>
+    <h1>{{app.user.username}}</h1>
 
     <table class="table">
         <tbody>
