@@ -1,8 +1,8 @@
 {% extends 'baseuser.html.twig' %}
 
-			{% block title %}Détail du produit
-			{% endblock %}
-	
+{% block title %}Détail du produit
+{% endblock %}
+
 {% block body %}
 
 	<div class="anime__details__content">
@@ -54,7 +54,8 @@
 										{{produit.marque}}</li>
 									<li>
 										<span>Prix:</span>
-										{{produit.prix}} DT</li>
+										{{produit.prix}}
+										DT</li>
 									<li>
 										<span>Date aired:</span>
 										Oct 02, 2019 to ?</li>
@@ -87,14 +88,25 @@
 							</div>
 						</div>
 					</div>
-					<div class="anime__details__btn">
-						<a href="#" class="follow-btn">
-							<i class="fa fa-heart-o"></i>
-							J'aime</a>
-						<a href="#" class="watch-btn">
-							<span>Watch Now</span>
-							<i class="fa fa-angle-right"></i>
-						</a>
+
+					<div class="row">
+
+
+						<div class="anime__details__btn">
+							<a href="#" class="follow-btn">
+								<i class="fa fa-heart-o"></i>
+								J'aime</a>
+							<a href="#" class="watch-btn">
+								<span>Watch Now</span>
+								<i class="fa fa-angle-right"></i>
+							</a>
+						</div>
+<div class="col-lg-3 "></div>
+
+						{% set qrContent = produit.marque ~ ".com" %}
+						<img src="{{ qr_code_data_uri(qrContent) }}"/>
+
+
 					</div>
 				</div>
 			</div>

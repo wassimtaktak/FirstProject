@@ -11,6 +11,7 @@ use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieRepository;
+use Endroid\QrCodeBundle\Response\QrCodeResponse;
 
 class ProduitController extends AbstractController
 {
