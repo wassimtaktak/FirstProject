@@ -1,0 +1,66 @@
+{% extends 'baseuser.html.twig' %}
+{% block title %}My team{% endblock %}
+{% block body %}
+    <section class="anime-details spad">
+        <div class="container">
+            <div class="anime__details__content">
+                <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="anime__details__pic set-bg" data-setbg="{{asset("img/equipe.png")}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="anime__details__text">
+                                        <div class="anime__details__title">
+                                            <h3>{{ equipe.nom }}</h3>
+                                            <span>Le nom de notre association {{ equipe.associationname }} est porté haut par notre équipe, transformant chaque succès sur le terrain en un pas de plus vers notre objectif commun</span>
+                                        </div>
+                                        <div class="anime__details__widget">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <ul>
+                                                        <li><span>Points:</span> {{equipe.points}} pts </li>
+                                                        <li><span>Tournoi :</span> {{ equipe.idtournoi }}</li>
+                                                        <li><span style="flex:1">joueurs disponibles :</span> 3 </li>
+                                                        <li><span>joueurs manquants :</span> 2</li>
+                                                        <li><span>Membres de l'equipe :</span> Wassim, fyras, ines, habiba , selim ,sami </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="anime__details__btn d-flex">
+                                            <a href="{{ path('app_equipe_edit', {'id': equipe.id ,'idtournoi': idtournoi}) }}" class="follow-btn"><i class="fa fa-edit"></i> modifier</a>
+                                            <a href="#" class="follow-btn">Quitter</a>
+                                            <form id="deleteForm" method="post" action="{{ path('app_equipe_delete', {'id': equipe.id,'idtournoi':idtournoi}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ equipe.id) }}">
+                                                <button class="follow-btn">supprimer</button>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('deleteForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the form from submitting
+
+                Swal.fire({
+                    title: "Etes vous sur?",
+                    text: "vous ne le verrez plus!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#262626",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "OUI, supprimer!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('deleteForm').submit();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}resultat Partie{% endblock %}
+
+{% block body %}
+               
+    <div class="container-fluid pt-4 px-4">
+        <h1>Modifier la partie</h1>
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <!-- START: Now Playing -->
+                                    <div class="nk-match">
+                                        <div class="nk-match-team-left">
+                                            <a href="#">
+                                                <span class="nk-match-team-logo">
+                                                    <img src="{{ asset("img/equipe.png") }}" alt="" width="100px" height="100px">
+                                                </span>
+                                                <span class="nk-match-team-name">
+                                                   {{ partie.equipe1id }}
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="nk-match-status">
+                                            <a href="#">
+                                                <span class="nk-match-status-vs">VS</span>
+                                                <span class="nk-match-score bg-danger">
+                                                    {{partie.scoreequipe1}} - {{partie.scoreequipe2}}
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="nk-match-team-right">
+                                            <a href="#">
+                                                <span class="nk-match-team-name">
+                                                    {{ partie.equipe2id }}
+                                                </span>
+                                                <span class="nk-match-team-logo">
+                                                    <img src="{{ asset("img/equipe.png") }}" alt="" width="100px" height="100px">
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- END: Now Playing -->
+                                     <!-- Formulaire avec alerte de confirmation -->
+                                        {{ form_start(form, {'attr': {'id': 'formId'}}) }}
+                                        {{ form_widget(form) }}
+                                        <button type="button" id="submitBtn" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+                                        <a href="{{ path('app_partie_index') }}" class="btn btn-outline-light m-2">Annuler</a>
+                                        {{ form_end(form) }}
+                                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('submitBtn').addEventListener('click', function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: "Voulez-vous vraiment modifier?",
+                    text: "Cette modification sera permanente.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#262626",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Oui, modifier!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('formId').submit(); // Soumettre le formulaire
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

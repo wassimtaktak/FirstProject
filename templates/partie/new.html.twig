@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Partie{% endblock %}
+
+{% block body %}
+    <div class="background-container">
+        <img src="{{ asset('img/red_futuristic_background_03.jpg') }}" alt="Background Image" class="background-image">
+        <div class="button-container">
+            {% if existefinale %}
+            <h3>le tournoi est terminé</h3>
+            {% endif %}
+            {% if tournoi.nbrequipe ==8 and not existeQuart %}
+                <a href="{{ path('generer_partie', {'id': idtournoi}) }}" class="btn btn-primary">Générer Quarts de finale</a>
+            {% endif %}
+            {% if (tournoi.nbrequipe >= 4 and existeQuart and not existedemi) or(tournoi.nbrequipe == 4 and not existedemi) %}
+                <a href="{{ path('generer_partie_demi', {'id': idtournoi}) }}" class="btn btn-primary">Générer Demi-finales</a>
+            {% endif %}
+            {% if (tournoi.nbrequipe == 2 and not existefinale) or (tournoi.nbrequipe == 8 and existeQuart and existedemi and not existefinale) or (tournoi.nbrequipe == 4 and existedemi and not existefinale) %}
+                <a href="{{ path('generer_partie_finale', {'id': idtournoi}) }}" class="btn btn-primary">Générer la partie finale</a>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <a href="{{ path('app_partie_index') }}">back to list</a>
+{% endblock %}

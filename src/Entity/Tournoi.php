@@ -188,6 +188,9 @@ class Tournoi
     {
         $this->idjeu = $idjeu;
     }
-
+    public function __toString()
+    {
+        return $this->name;
+    }
 
 }

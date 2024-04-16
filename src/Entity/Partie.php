@@ -78,6 +78,12 @@ class Partie
      * })
      */
     private $idtournoi;
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="updated", type="boolean", nullable=false)
+     */
+    private $updated;
 
     public function getId(): int
     {
@@ -157,6 +163,18 @@ class Partie
     public function setIdtournoi(Tournoi $idtournoi): void
     {
         $this->idtournoi = $idtournoi;
+    }
+
+    public function isUpdated(): ?bool
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(bool $updated): static
+    {
+        $this->updated = $updated;
+
+        return $this;
     }
 
 

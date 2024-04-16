@@ -1,0 +1,17 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Edit Equipe{% endblock %}
+
+{% block body %}
+    <div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
+        <div class="row justify-content-center"">
+            <div class="col-sm-12 col-xl-8">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <h4 class="text-center">Modifier mon équipe</h4>
+                                    {{ include('equipe/_form.html.twig', {'button_label': 'Modifier'}) }}
+                                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

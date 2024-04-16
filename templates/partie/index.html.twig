@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partie index{% endblock %}
+
+{% block body %}
+    <h1>Gestion des résultats</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Equipe 1</th>
+                <th>Equipe 2</th>
+                <th>Phase</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partie in parties %}
+            <tr>
+                <td>{{ partie.equipe1id }}</td>
+                <td>{{ partie.equipe2id }}</td>
+                <td>{{ partie.phase }}</td>
+                <td>
+                    {% if partie.updated %}
+                        <a href="{{ path('app_afficher_partie', {'id': partie.id}) }}">Voir</a>
+                    {% else %}
+                        <a href="{{ path('app_partie_edit', {'id': partie.id, 'idtournament': partie.idtournoi.id}) }}">Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucune partie pour ce tournoi</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if  not existunupdated %}
+    <a href="{{ path('app_partie_new',{'id': idtournoi}) }}">Génerer les parties restants</a>
+    {% endif %}
+{% endblock %}
