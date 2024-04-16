@@ -3,11 +3,23 @@
 {% block title %}Edit Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Edit Utilisateur</h1>
+<div class="text-center col-12 mt-4">
+    <h1 class="text-center">modifier l'utilisateur</h1>
+    </div>
+    <div class="container-fluid pt-4 px-4" style="margin-bottom: 110px;">
+    
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-xl-8">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    
+                                    {{ include('utilisateur/_form.html.twig', {'button_label': 'modifier'}) }}
+                                </div>
+            </div>
 
-    {{ include('utilisateur/_form.html.twig', {'button_label': 'Update'}) }}
+        </div>
+    </div>
 
-    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
 
-    {{ include('utilisateur/_delete_form.html.twig') }}
+    
+
 {% endblock %}

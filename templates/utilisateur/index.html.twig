@@ -3,14 +3,15 @@
 {% block title %}Utilisateur index{% endblock %}
 
 {% block body %}
-    <h1>Gestion des Utilisateurs </h1>
-
+    <div class="text-center col-12 mt-4">
+        <h1 style="position : center">Gestion des Utilisateurs </h1>
+    </div>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
-                <th>Password</th>
+                
                 <th>Email</th>
                 <th>Nom</th>
                 <th>Prenom</th>
@@ -23,14 +24,15 @@
             <tr>
                 <td>{{ utilisateur.id }}</td>
                 <td>{{ utilisateur.username }}</td>
-                <td>{{ utilisateur.password }}</td>
+            
                 <td>{{ utilisateur.email }}</td>
                 <td>{{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.prenom }}</td>
                 <td>{{ utilisateur.telephone }}</td>
-                <td>
-                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+                <td style="display: flex;">
+                 <a type="button" class="btn btn-outline-light m-2"href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+                    {{ include('utilisateur/_delete_form.html.twig') }}
+                   
                 </td>
             </tr>
         {% else %}
@@ -40,8 +42,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_utilisateur_new') }}">Create new</a>
+    <div class="text-center col-12 mt-4">
+    <a type="button" class="btn btn-outline-primary m-2"href="{{ path('app_utilisateur_new') }}">Create new</a>
     <br>
-    <a href="{{ path('app_role_index')}}">show roles</a>
+    <a type="button" class="btn btn-outline-primary m-2"href="{{ path('app_role_index')}}">show roles</a>
+    </div>
 {% endblock %}

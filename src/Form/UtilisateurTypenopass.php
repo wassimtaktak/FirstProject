@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class UtilisateurType extends AbstractType
+class UtilisateurTypenopass extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,18 +32,7 @@ class UtilisateurType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
-                'attr' => ['class' => 'form-control col-sm-6', 'id' => 'password', 'placeholder' => 'Mot de passe'],
-                'row_attr' => ['class' => 'mb-3 row'],
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir votre mot de passe.',
-                    ]),
-                ],
-            ])
+
             ->add('email', TextType::class, [
                 'label' => 'Adresse email :',
                 'label_attr' => ['class' => 'col-sm-4 label-white'],

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Form\UtilisateurTypenopass;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +46,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('_id', name: 'app_utilisateur_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_utilisateur_show', methods: ['GET'])]
     public function show(Utilisateur $utilisateur): Response
     {
         return $this->render('utilisateur/show.html.twig', [
@@ -56,10 +57,11 @@ class UtilisateurController extends AbstractController
     #[Route('/{id}/editUser', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurTypenopass::class, $utilisateur);
         $form->handleRequest($request);
-
+        $utilisateur = $this->getUser();
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($utilisateur);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
@@ -71,7 +73,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $utilisateur->getId(), $request->request->get('_token'))) {
