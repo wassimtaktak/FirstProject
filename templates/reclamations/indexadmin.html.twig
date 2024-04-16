@@ -1,19 +1,10 @@
-{% extends 'baseuser.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Reclamations{% endblock %}
 
 {% block body %}
     <h1>Reclamations</h1>
     <a href="{{ path('app_reclamations_new') }}" class="new">Create new reclamation</a>
-     <!-- Boutons de filtrage par statut -->
-    <div>
-        <h3>Filtrer par statut :</h3>
-        <button onclick="filterByStatus('all')">Tous</button>
-        {% for status in statuses %}
-            <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
-        {% endfor %}
-    </div>
-    <div>
           <!-- Boutons de filtrage par sujet -->
     <div>
         <h3>Filtrer par sujet :</h3>
@@ -29,14 +20,22 @@
         <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
     </div>
 
-   
+    <!-- Boutons de filtrage par statut -->
+    <div>
+        <h3>Filtrer par statut :</h3>
+        <button onclick="filterByStatus('all')">Tous</button>
+        {% for status in statuses %}
+            <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
+        {% endfor %}
+    </div>
     <div class="row">
                 <div class="cards-header">
                     <p class="header-text">Utilisateur</p>
+                    
                     <p class="header-text">Message</p>
                     <p class="header-text">Date de Création</p>
                     <p class="header-text">Statut</p>
-                    <p class="header-text">Action</p>
+            
                 </div>
         {% for reclamation in reclamations %}
             <div class="card">
@@ -49,10 +48,6 @@
             </span>
                     <p class="card-text">{{ reclamation.dateCreation }}</p>
                     <p class="card-text">{{ reclamation.status }}</p>
-                         <div class="card-text">
-                    <a href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" >Edit</a>
-                    <div>{{ include('reclamations/_delete_form.html.twig') }}</div>
-                    </div>
                 </div>
             </div>
         {% else %}
@@ -105,7 +100,6 @@
         flex-direction:row;
         align-items:center;
         margin-right : 10px;
-        margin-left: 10px;
 
     }
     .container{
@@ -115,7 +109,7 @@
     .message {
         max-height: 50px; /* ajustez la hauteur maximale selon vos besoins */
         overflow: hidden;
-        margin: 0;
+        margin-bottom: 0;
     }
     .show-more{
         position: absolute;

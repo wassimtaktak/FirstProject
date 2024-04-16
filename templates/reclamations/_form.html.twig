@@ -1,4 +1,11 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+{{ form_start(form ,{'attr': {'novalidate': 'novalidate'}}) }}
+
+   {{ form_row(form.sujet) }}
+    {{ form_row(form.message) }}
+
+    {{ form_row(form.captureecranpath) }} {# Utilisation de form_row pour le champ captureecranpath #}
+
+
+
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

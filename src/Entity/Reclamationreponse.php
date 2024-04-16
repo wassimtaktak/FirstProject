@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reclamationreponse
@@ -25,6 +26,7 @@ class Reclamationreponse
      * @var string
      *
      * @ORM\Column(name="reponse", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Le message ne peut pas être vide")
      */
     private $reponse;
 

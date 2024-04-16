@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Reclamations
@@ -24,7 +26,9 @@ class Reclamations
     /**
      * @var string
      *
-     * @ORM\Column(name="sujet", type="string", length=50, nullable=false)
+     * @ORM\Column(name="sujet", type="string", length=50, nullable=true)
+     * @Assert\NotBlank(message="Le sujet ne peut pas être vide")
+     * @Assert\Choice(choices={"Jeu", "Tournoi", "Equipe","Compte","Forum"}, message="Sujet invalide")
      */
     private $sujet;
 
@@ -45,7 +49,8 @@ class Reclamations
     /**
      * @var string
      *
-     * @ORM\Column(name="message", type="string", length=50, nullable=false)
+     * @ORM\Column(name="message", type="string", length=50, nullable=true)
+     * @Assert\NotBlank(message="Le message ne peut pas être vide")
      */
     private $message;
 
@@ -53,13 +58,14 @@ class Reclamations
      * @var string|null
      *
      * @ORM\Column(name="captureEcranPath", type="string", length=255, nullable=true)
+     * @Assert\File(maxSize="5M", mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="Veuillez télécharger une image au format JPEG ou PNG")
      */
     private $captureecranpath;
 
     /**
      * @var Utilisateur
      *
-     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\ManyToOne(targetEntity="Utilisateur", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * })

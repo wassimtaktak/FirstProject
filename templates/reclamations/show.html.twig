@@ -2,9 +2,11 @@
 
 {% block title %}Reclamation details{% endblock %}
 
+
 {% block body %}
     <h1>Reclamation details</h1>
 
+{#
   <div class="row">
                 <div class="cards-header">
                     <p class="header-text">Sujet</p>
@@ -33,11 +35,10 @@
                 <p class="card-text">{{reclamationreponse.reponse}}</p>
                 <div class="card-text">
             <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}">Edit</a>
-            <div>{{ include('reclamationreponse/_delete_form.html.twig') }}</div>
+            <div>{{ include('reclamationreponse/_delete_form.html.twig') }}
             </div>
             </div>
-            
-            
+            </div> 
         </div>
     {% endfor %}
     <div class="card mt-3">
@@ -47,13 +48,119 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-     <style>
+     <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Change Status</h5>
+            <form action="{{ path('change_reclamation_status', {'id': reclamation.id}) }}" method="post">
+                <div class="form-group">
+                    <label for="status">Select Status:</label>
+                    <select id="status" name="status" class="form-control">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+        </div>
+    </div>
+    {% if reclamation.captureecranpath is not null %}
+    <img src="{{ asset('uploads/captures/' ~ reclamation.captureecranpath) }}" alt="Capture d'écran">
+{% else %}
+    <p>No capture screen available</p>
+{% endif %} #}
+<div class="row">       
+    <div class="card">
+        <div class= "card-body">
+            <div>
+                <p class="header-text">Nom de l'utilisateur</p>
+                <p class="card-text">{{ reclamation.idUser.username }}</p>
+                <p class="header-text">Sujet</p>
+                <p class="card-text">{{ reclamation.sujet }}</p>
+                <p class="header-text">Message</p>
+                <p class="card-text" >{{ reclamation.message }}</p>
+                <p class="header-text">Date de Création</p>
+                <p class="card-text">{{ reclamation.dateCreation }}</p>
+                <p class="header-text">Status</p>
+                <p class="card-text">{{ reclamation.status }}</p>
+                <h5 class="card-title">Change Status</h5>
+            <form action="{{ path('change_reclamation_status', {'id': reclamation.id}) }}" method="post">
+                <div class="form-group">
+                    <label for="status">Select Status:</label>
+                    <select id="status" name="status" class="form-control">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+            </div>
+            <div>
+                {% if reclamation.captureecranpath is not null %}
+                    <img src="{{ asset('uploads/captures/' ~ reclamation.captureecranpath) }}"  alt="Capture d'écran" class="screenshot-img" id="screenshot-img">
+                {% else %}
+                    <p class="no-capture-text">No capture screen available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+   {#  <div class="col-sm-12 col-xl-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Change Status</h5>
+            <form action="{{ path('change_reclamation_status', {'id': reclamation.id}) }}" method="post">
+                <div class="form-group">
+                    <label for="status">Select Status:</label>
+                    <select id="status" name="status" class="form-control">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+        </div>
+    </div>
+    </div>#}
+    <div class="col-sm-12 col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            Réponses
+        </div>
+        <div class="card-body">
+            {% for reclamationreponse in reponses %}
+                <div class="response">
+                    <p>{{ reclamationreponse.reponse }}</p>
+                    <div class="action-buttons">
+                        <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        <div class="delete-form">{{ include('reclamationreponse/_delete_form.html.twig') }}</div>
+                    </div>
+                </div>
+                <hr/>
+            {% endfor %}
+            <div class="new-response">
+                <form action="{{ path('app_reclamationreponse_new') }}" method="post">
+                    <div class="form-group">
+                        <label for="new_response">Nouvelle réponse :</label>
+                        <textarea class="form-control" id="new_response" name="new_response" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
+</div>
+  
+<style>
     .row{
         display:flex;
         flex-direction:column;
         width:95.5%;
         margin:1.5%;
         color:#ffffff;
+        align-items:center;
     }
     .cards-header{
         display:flex;
@@ -68,12 +175,13 @@
         color:#797979;
         text-decoration-line: underline;
     }
-
-  
     .card{
         background-color: #323232;
         border-radius:20px;
         margin-bottom:10px;
+        width:100%;
+        color:#ffffff;
+        
     }
     .card-body {
         display:flex;
@@ -88,6 +196,8 @@
            display:flex;
         flex-direction:row;
          align-items:center;
+        margin-right : 10px;
+        
     }
     .card-date{
         min-width:100px;
@@ -110,6 +220,37 @@
     .new{
         float:right;
     }
+
+.screenshot-img {
+    width: 75%;
+    height: auto;
+    max-height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+     transition: transform 0.3s ease;
+}
+  .screenshot-img:hover {
+        transform: scale(1.5);
+    }
+.no-capture-text {
+    font-style: italic;
+    color: #777;
+}
+
    
 </style>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var image = document.getElementById('screenshot-img');
+            image.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    image.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+        });
+    </script>
 {% endblock %}
