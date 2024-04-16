@@ -40,6 +40,10 @@
               <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
               <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
               <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+              <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
 
             <!-- Template Javascript -->
               <script src="{{ asset('js/main.js') }}"></script>
@@ -59,7 +63,7 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="#" class="navbar-brand mx-4 mb-3">
+                <a href="{{ path('app_forumadmin_index')}}" class="navbar-brand mx-4 mb-3">
                     <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;"/>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
@@ -83,7 +87,7 @@
                           <a href="{{ path('app_partie_index') }}" class="dropdown-item">Parties</a>
                           <a href="#" class="dropdown-item">Jeux</a>
                     </div>
-                    <a href="{{path('app_forum_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/forum.png') }}" alt="">Forums</a>
+                    <a href="{{path('app_forumadmin_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/forum.png') }}" alt="">Forums</a>
                     <a href="{{path('app_reclamations_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/fichier.png') }}" alt="">Réclamations</a>
                     <a href="table.html" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/products.png') }}" alt="">Produits</a>
                   </div>

@@ -1,4 +1,18 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<head>
+    <script src="https://cdn.tiny.cloud/1/4o9f4fijrr3q5qzvhkynquagslplrxm6c8edrjw8w959w9ou/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea',
+            skin: 'oxide-dark',
+            content_css: 'dark', // Load the default dark theme CSS
+            forecolor : 'white',
+             
+        });
+    </script>
+</head>
+<body>
+    <form method="post">
+        <textarea id="mytextarea" name="post_content" style="color: white;">{{ post.message }}</textarea>
+        <button type="submit">Poster</button>
+    </form>
+</body>

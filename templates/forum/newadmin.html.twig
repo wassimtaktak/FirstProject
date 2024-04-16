@@ -1,10 +1,8 @@
-{% extends 'baseuser.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Forum{% endblock %}
-{% block active5 %}class="active"{% endblock %}
 
 {% block body %}
-
 <div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
     <div class="row justify-content-center">
         <div class="col-sm-12 col-xl-8">
@@ -16,8 +14,9 @@
     </div>
 </div>
 <script>
-    $j(function() {
-        $j('.datepicker').datepicker({
+    $(function() {
+        // Replace '.datepicker' with the class you added to the dateCreation field
+        $('.datepicker').datepicker({
             dateFormat: 'yy-mm-dd',
             language: 'fr'
         });
