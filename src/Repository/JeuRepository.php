@@ -37,15 +37,18 @@ class JeuRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function searchByNom($name)
+    /**
+     *
+     * @param string $searchQuery
+     * @return Jeu[]
+     */
+    public function findBySearchQuery(string $searchQuery): array
     {
-        $queryBuilder = $this->createQueryBuilder('j');
-
-        if ($name) {
-            $queryBuilder->andWhere('j.nom LIKE :name')
-                ->setParameter('name', '%'.$name.'%');
-        }
-
-        return $queryBuilder->getQuery()->getResult();
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.nom LIKE :search')
+            ->setParameter('search', '%' . $searchQuery . '%')
+            ->orderBy('j.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

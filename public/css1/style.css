@@ -57,7 +57,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 210px; /* Adjust this value as needed */
+    height: 210px;
     border-radius: 0 0 0 45px;
     margin: -1px;
     padding: 25px;
@@ -65,7 +65,7 @@ body {
   
   .box .img-box img {
     max-width: 100%;
-    max-height: 100%; /* Adjust this value as needed */
+    max-height: 100%; 
     width: auto;
     height: auto;
     transition: all 0.2s;
@@ -558,9 +558,7 @@ ol {
   Hero
 -----------------------*/
 
-.hero {
-	padding-top: 50px;
-}
+
 
 .hero__items {
 	padding: 250px 0 42px 50px;
@@ -769,7 +767,7 @@ ol {
 }
 
 .product__item__pic {
-	height: 325px;
+	height: 250px;
 	position: relative;
 	border-radius: 5px;
 }
@@ -811,7 +809,8 @@ ol {
 }
 
 .product__item__text {
-	padding-top: 20px;
+	padding-top: 10px;
+	padding-left: 7px
 }
 
 .product__item__text ul {

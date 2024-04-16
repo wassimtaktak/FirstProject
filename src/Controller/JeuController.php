@@ -19,12 +19,19 @@ use Symfony\Component\Form\FormError;
 class JeuController extends AbstractController
 {
     #[Route('/', name: 'app_jeu_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, JeuRepository $jeuRepository): Response
     {
-        $jeus = $entityManager
-            ->getRepository(Jeu::class)
-            ->findAll();
-
+        $searchQuery = $request->query->get('q');
+        $type = $request->query->get('type');
+    
+        if ($searchQuery) {
+            $jeus = $jeuRepository->findBySearchQuery($searchQuery);
+        } elseif ($type === 'alphabetique-desc') {
+            $jeus = $jeuRepository->findBy([], ['nom' => 'DESC']);
+        } else {
+            $jeus = $jeuRepository->findBy([], ['nom' => 'ASC']);
+        }
+    
         return $this->render('jeu/index.html.twig', [
             'jeus' => $jeus,
         ]);
@@ -41,13 +48,15 @@ class JeuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $nom = $form->get('nom')->getData();
             $imageFile = $form->get('imagejeu')->getData();
-    
+            if (empty($nom)) {
+                $this->addFlash('error', 'Le champ "Nom" ne peut pas être vide.');
+                return $this->redirectToRoute('app_jeu_new');
+            }
             if (empty($imageFile)) {
                 $this->addFlash('error', 'Le champ "Image du jeu" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_new');
             }
             $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
-    
             if ($existingJeu) {
                 $this->addFlash('error', 'Le nom du jeu existe déjà.');
                 return $this->redirectToRoute('app_jeu_new');
@@ -63,7 +72,6 @@ class JeuController extends AbstractController
                     );
                     $jeu->setImagejeu($fileName);
                 } catch (FileException $e) {
-                    // Gérer l'erreur de téléchargement de fichier
                 }
             }
     
@@ -106,11 +114,9 @@ public function edit(Request $request, Jeu $jeu, JeuRepository $jeuRepository): 
                 );
                 $jeu->setImagejeu($fileName);
             } catch (FileException $e) {
-                // Handle exception if something happens during file upload
+              
             }
         }
-
-        // Persist and flush the entity
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($jeu);
         $entityManager->flush();

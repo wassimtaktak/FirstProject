@@ -16,6 +16,7 @@ class JeuType extends AbstractType
     $builder
         ->add('nom', TextType::class, [
             'label' => 'Nom jeu',
+            'required' => false,
             'attr' => ['class' => 'form-control', 'id' => 'floatingInput']
         ])
         ->add('imagejeu', FileType::class, [

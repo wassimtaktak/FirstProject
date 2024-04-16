@@ -2,9 +2,14 @@
 
 {% block title %}Jeux{% endblock %}
 {% block search_bar %}
-    <form class="d-none d-md-flex ms-4">
-        <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-    </form>
+    <div class="d-flex align-items-center">
+        <form class="d-none d-md-flex ms-4" action="{{ path('app_jeu_index') }}" method="GET">
+            <input class="form-control bg-dark border-0" type="search" name="q" placeholder="Search">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+
+    </div>
 {% endblock %}
 
 {% block body %}
@@ -19,7 +24,14 @@
             <tr>
              
                 <th>Image</th>
-                <th>Nom</th>
+                <th>Nom 
+{% set currentType = app.request.query.get('type') %}
+{% set newType = currentType == 'alphabetique-desc' ? 'alphabetique-asc' : 'alphabetique-desc' %}
+{% set newIconClass = currentType == 'alphabetique-desc' ? 'fas fa-sort-alpha-up ms-2' : 'fas fa-sort-alpha-down ms-2' %}
+
+<a href="{{ path('app_jeu_index', {'type': newType}) }}" class="btn btn-link text-decoration-none">
+    <i class="{{ newIconClass }}"></i>
+</a></th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -29,14 +41,20 @@
 
                 <td><img src="{{ asset('uploads/images/' ~ jeu.imagejeu) }}" style="width: 150px;"></td>
                 <td>{{ jeu.nom }}</td>
-               <td>
-                <a href="{{ path('app_jeu_delete', {'id': jeu.id}) }}" style="color: #8B0000; margin-right: 10px;" data-toggle="tooltip" data-placement="top" title="Supprimer">
-                <i class="fas fa-trash-alt"></i>
+          <td>
+            <div style="display: flex; align-items: center;">
+                <form method="post" action="{{ path('app_jeu_delete', {'id': jeu.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ jeu.id) }}">
+                    <button type="submit" style="background: none; border: none; color: #8B0000;" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+                <a href="{{ path('app_jeu_edit', {'id': jeu.id}) }}" style="color: #8B0000; margin-left: 10px;" data-toggle="tooltip" data-placement="top" title="Modifier">
+                    <i class="fas fa-edit"></i>
                 </a>
-                <a href="{{ path('app_jeu_edit', {'id': jeu.id}) }}" style="color: #8B0000;"data-toggle="tooltip" data-placement="top" title="Modifier">
-                <i class="fas fa-edit"></i>
-                </a>
-                </td>
+            </div>
+        </td>
+
 
 
             </tr>

@@ -21,24 +21,29 @@ class TournoiType extends AbstractType
     $builder
         ->add('name', TextType::class, [
             'label' => 'Nom',
+            'required' => false,
             'attr' => ['class' => 'form-control', 'id' => 'name']
         ])
         ->add('regles', TextareaType::class, [
             'label' => 'Règles',
+            'required' => false,
             'attr' => ['class' => 'form-control', 'id' => 'regles']
         ])
         ->add('jour', DateType::class, [
             'label' => 'Jour',
+            'required' => false,
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
             'attr' => ['class' => 'form-control', 'id' => 'jour']
         ])
         ->add('prize', TextType::class, [
             'label' => 'Prix',
+            'required' => false,
             'attr' => ['class' => 'form-control', 'id' => 'prize']
         ])
         ->add('tempsdeb', null, [
             'label' => 'Temps début',
+            'required' => false,
             'attr' => ['class' => 'form-control', 'id' => 'tempsdeb']
         ])
         ->add('registration', ChoiceType::class, [
