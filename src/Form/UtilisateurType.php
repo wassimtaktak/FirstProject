@@ -33,6 +33,7 @@ class UtilisateurType extends AbstractType
                 ],
             ])
             ->add('password', PasswordType::class, [
+                'mapped' => false,
                 'label' => 'Mot de passe :',
                 'label_attr' => ['class' => 'col-sm-4 label-white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'password', 'placeholder' => 'Mot de passe'],
