@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Categorie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProduitType extends AbstractType
 {
@@ -18,7 +19,11 @@ class ProduitType extends AbstractType
             ->add('prix')
             ->add('description')
             ->add('marque')
-            ->add('image')
+            ->add('image', FileType::class, [ 
+                'label' => 'Image', 
+                'required' => false, 
+                'mapped' => false,
+            ])
 
             ->add(
                 'categorie',
