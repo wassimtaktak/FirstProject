@@ -152,6 +152,17 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('image')->getData();
+
+            if ($file) {
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
+
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+                $produit->setImage($fileName);
+            }
 
 
             $entityManager->flush();
