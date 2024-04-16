@@ -7,7 +7,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anime | Template</title>
+    <title>{% block title %}Welcome!{% endblock %}</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,9 +24,17 @@
 <link rel="stylesheet" href="{{ asset('css1/slicknav.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
 
+
+
+
+
+
 </head>
 
 <body>
+
+
+{# Your other Twig content #}
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -38,7 +46,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html">
+                        <a href="{{ path('app_forum_index')}}">
                             <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
                         </a>
                     </div>
@@ -47,11 +55,11 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="./blog.html">Nos tournois</a></li>
-                                <li><a href="./blog.html">Produits</a></li>
-                                <li><a href="./blog.html">Réclamations</a></li>
-                                <li><a href="#">Forum</a></li>
+                                <li {% block active1 %}{% endblock %}><a href="./index.html">Home</a></li>
+                                <li {% block active2 %}{% endblock %}><a href="./blog.html">Nos tournois</a></li>
+                                <li {% block active3 %}{% endblock %}><a href="./blog.html">Produits</a></li>
+                                <li {% block active4 %}{% endblock %}><a href="{{path("app_reclamations_index")}}">Réclamations</a></li>
+                                <li {% block active5 %}{% endblock %}><a href="{{path("app_forum_index")}}">Forum</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -98,7 +106,7 @@
             </div>
             <div class="col-lg-3">
                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | made by PlayForHope</a>
+                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 
               </div>
@@ -109,8 +117,10 @@
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js1/jquery-3.3.1.min.js') }}"></script>
+<script>
+    var $j = jQuery.noConflict();
+</script>
 <script src="{{ asset('js1/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js1/player.js') }}"></script>
 <script src="{{ asset('js1/jquery.nice-select.min.js') }}"></script>
@@ -118,6 +128,23 @@
 <script src="{{ asset('js1/jquery.slicknav.js') }}"></script>
 <script src="{{ asset('js1/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js1/main.js') }}"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+
+<script>
+    $j(function() {
+        // Replace '.datepicker' with the class you added to the dateCreation field
+        $j('.datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            language: 'fr'
+        });
+    });
+</script>
+
+
 
 
 

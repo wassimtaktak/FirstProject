@@ -1,11 +1,13 @@
 {% extends 'baseuser.html.twig' %}
 
 {% block title %}Reclamations{% endblock %}
+{% block active4 %}class="active"{% endblock %}
 
 {% block body %}
-    <h1>Reclamations</h1>
+    <h1>My reclamations</h1>
     <a href="{{ path('app_reclamations_new') }}" class="new">Create new reclamation</a>
-     <!-- Boutons de filtrage par statut -->
+    <div class="row" style="display:flex; justify-content:space-between;" >
+     
     <div>
         <h3>Filtrer par statut :</h3>
         <button onclick="filterByStatus('all')">Tous</button>
@@ -13,8 +15,7 @@
             <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
         {% endfor %}
     </div>
-    <div>
-          <!-- Boutons de filtrage par sujet -->
+          
     <div>
         <h3>Filtrer par sujet :</h3>
         {% for sujet in sujets %}
@@ -22,26 +23,26 @@
         {% endfor %}
     </div>
 
-    <!-- Bouton de tri par date de création -->
+    
     <div>
         <h3>Trier par date de création :</h3>
         <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
         <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
     </div>
+    </div>
 
    
-    <div class="row">
+    <div class="row1">
                 <div class="cards-header">
-                    <p class="header-text">Utilisateur</p>
                     <p class="header-text">Message</p>
                     <p class="header-text">Date de Création</p>
                     <p class="header-text">Statut</p>
                     <p class="header-text">Action</p>
                 </div>
         {% for reclamation in reclamations %}
+        {% if reclamation.idUser.id == "13" %} {#session.udiser.id#}
             <div class="card">
                 <div class="card-body">
-                    <p class="card-text">{{ reclamation.idUser.username }}</p>
               <span class="card-text container">
                 <p class="card-text">{{ reclamation.sujet }}</p>
                 <p class="card-text message">{{ reclamation.message }}</p>
@@ -55,15 +56,17 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         {% else %}
             <div class="col">
                 <p>No reclamations found</p>
             </div>
+            
         {% endfor %}
     </div>
     <style>
 
-    .row{
+    .row1{
         display:flex;
         flex-direction:column;
         width:95.5%;
@@ -74,6 +77,7 @@
         display:flex;
         flex-direction:row;
         justify-content:space-between;
+        margin-left:10px;
     }
     .header-text{
         position:relative;

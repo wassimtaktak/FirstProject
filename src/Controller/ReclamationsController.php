@@ -19,9 +19,23 @@ use App\Repository\ReclamationsRepository;
 #[Route('/reclamations')]
 class ReclamationsController extends AbstractController
 {
+    #[Route('/admin', name: 'app_reclamationsadmin_index', methods: ['GET'])]
+    public function indexadmin(EntityManagerInterface $entityManager, ReclamationsRepository $reclamationsRepository): Response
+    {
+        $reclamations = $entityManager
+            ->getRepository(Reclamations::class)
+            ->findAll();
+            $sujets = $reclamationsRepository->findAllSujets();
+            $statuses = $reclamationsRepository->findAllStatuses();
+
+        return $this->render('reclamations/indexadmin.html.twig', [
+            'reclamations' => $reclamations,'sujets' => $sujets,'statuses' => $statuses,
+        ]);
+    }
     #[Route('/', name: 'app_reclamations_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager, ReclamationsRepository $reclamationsRepository): Response
     {
+        
         $reclamations = $entityManager
             ->getRepository(Reclamations::class)
             ->findAll();
