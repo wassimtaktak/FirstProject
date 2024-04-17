@@ -62,7 +62,7 @@ class ReclamationreponseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reclamationreponse_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamationsadmin_show', ["id"=>$reclamationreponse->getIdReclamation()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reclamationreponse/edit.html.twig', [
@@ -78,7 +78,8 @@ class ReclamationreponseController extends AbstractController
             $entityManager->remove($reclamationreponse);
             $entityManager->flush();
         }
+        $id = $reclamationreponse->getIdReclamation()->getId();
 
-        return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
     }
 }

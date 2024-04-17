@@ -1,11 +1,22 @@
 {{ form_start(form ,{'attr': {'novalidate': 'novalidate'}}) }}
 
-   {{ form_row(form.sujet) }}
-    {{ form_row(form.message) }}
+   {{ form_row(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Sujet réclamation', 'required': 'required', 'class': 'needs-validation','style':'background-color:#323232;color:#fff'}}) }}
+    <div class="invalid-feedback">
+       {{ form_errors(form.sujet) }}
+    </div>
+    {{ form_row(form.message, {'attr': {'class': 'form-control ', 'placeholder': 'Message', 'required': 'required', 'class': 'needs-validation','style':'background-color:#323232;color:#fff'}}) }}
+    <div class="invalid-feedback">
+       {{ form_errors(form.message) }}
+    </div>
 
-    {{ form_row(form.captureecranpath) }} {# Utilisation de form_row pour le champ captureecranpath #}
+    {{ form_row(form.captureecranpath,{'attr':{'class':'form-control','style':'background-color:#323232;color:#fff'}}) }}
 
 
-
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="text-center col-12 mt-4"> 
+        <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_reclamations_index') }}" class="btn btn-outline-light m-2">Annuler</a>
+    </div>
 {{ form_end(form) }}
+
+
+

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Reclamationreponse;
 use App\Entity\Reclamations;
 use App\Form\ReclamationsType;
+use App\Form\ReclamationreponseType;
 use App\Entity\Utilisateur;
 use App\Repository\ReclamationreponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +17,7 @@ use Symfony\Component\Security\Core\Security;
 use DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\ReclamationsRepository;
+
 
 #[Route('/reclamations')]
 class ReclamationsController extends AbstractController
@@ -65,8 +68,24 @@ class ReclamationsController extends AbstractController
         $reclamation->setDateCreation($dateCreation);
         $form = $this->createForm(ReclamationsType::class, $reclamation);
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $captureFile = $form->get('captureecranpath')->getData();
+            
+            // Check if a new file was uploaded
+            if ($captureFile instanceof UploadedFile) {
+                $fileName = pathinfo($captureFile->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $captureFile->guessExtension();
+                $captureFile->move(
+                    $this->getParameter('capture_directory'),
+                    $fileName
+                    
+                );
+                $reclamation->setCaptureecranpath($fileName);
+            } else {
+                // If no new file was uploaded, retain the existing file path
+                $reclamation->setCaptureecranpath($reclamation->getCaptureecranpath());
+            }
             
             $entityManager->persist($reclamation);
             $entityManager->flush();
@@ -90,21 +109,49 @@ class ReclamationsController extends AbstractController
             'reponses' => $reponses
         ]);
     }
+    #[Route('/admin/{id}', name: 'app_reclamationsadmin_show', methods: ['GET','POST'])]
+    public function showadmin(Reclamations $reclamation,ReclamationreponseRepository $reclamationreponseRepository,EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $reclamationreponse= new Reclamationreponse();
+        $form = $this->createForm(ReclamationreponseType::class, $reclamationreponse);
+        $form->handleRequest($request);
+        $reclamationreponse->setIdUser($reclamation->getIdUser());
+        $reclamationreponse->setIdReclamation($reclamation);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($reclamationreponse);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$reclamation->getId()], Response::HTTP_SEE_OTHER);
+        }
+        $reponses = $reclamationreponseRepository->findBy(['idReclamation' => $reclamation->getId()]);
+
+        return $this->render('reclamations/showadmin.html.twig', [
+            'reclamation' => $reclamation,
+            'reponses' => $reponses,
+            'form' => $form->createView(),
+        ]);
+        
+    }
+
 
     #[Route('/{id}/edit', name: 'app_reclamations_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamations $reclamation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ReclamationsType::class, $reclamation);
         $form->handleRequest($request);
+
     
         if ($form->isSubmitted() && $form->isValid()) {
             $captureFile = $form->get('captureecranpath')->getData();
+            
             // Check if a new file was uploaded
             if ($captureFile instanceof UploadedFile) {
-                $fileName = uniqid().'.'.$captureFile->guessExtension();
+                $fileName = pathinfo($captureFile->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $captureFile->guessExtension();
                 $captureFile->move(
                     $this->getParameter('capture_directory'),
                     $fileName
+                    
                 );
                 $reclamation->setCaptureecranpath($fileName);
             } else {
@@ -147,6 +194,6 @@ class ReclamationsController extends AbstractController
         $entityManager->flush();
 
         // Redirect to the reclamation details page
-        return $this->redirectToRoute('app_reclamations_show', ['id' => $reclamation->getId()]);
+        return $this->redirectToRoute('app_reclamationsadmin_show', ['id' => $reclamation->getId()]);
     }
 }

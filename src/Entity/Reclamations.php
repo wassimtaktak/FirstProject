@@ -47,7 +47,7 @@ class Reclamations
     private $status;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="message", type="string", length=50, nullable=true)
      * @Assert\NotBlank(message="Le message ne peut pas être vide")
@@ -112,7 +112,7 @@ class Reclamations
         $this->status = $status;
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }

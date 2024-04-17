@@ -4,23 +4,9 @@
 
 {% block body %}
     <h1>Reclamations</h1>
-    <a href="{{ path('app_reclamations_new') }}" class="new">Create new reclamation</a>
-          <!-- Boutons de filtrage par sujet -->
-    <div>
-        <h3>Filtrer par sujet :</h3>
-        {% for sujet in sujets %}
-            <button onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
-        {% endfor %}
-    </div>
+   <!-- <a href="{{ path('app_reclamations_new') }}" class="new">Create new reclamation</a>
 
-    <!-- Bouton de tri par date de création -->
-    <div>
-        <h3>Trier par date de création :</h3>
-        <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
-        <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
-    </div>
-
-    <!-- Boutons de filtrage par statut -->
+   <div class="col" style="display:flex; justify-content:space-between;" >
     <div>
         <h3>Filtrer par statut :</h3>
         <button onclick="filterByStatus('all')">Tous</button>
@@ -28,6 +14,21 @@
             <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
         {% endfor %}
     </div>
+          
+    <div>
+        <h3>Filtrer par sujet :</h3>
+        {% for sujet in sujets %}
+            <button onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
+        {% endfor %}
+    </div>
+
+    
+    <div>
+        <h3>Trier par date de création :</h3>
+        <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
+        <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
+    </div>
+    </div>-->
     <div class="row1">
                 <div class="cards-header">
                     <p class="header-text">Utilisateur</p>
@@ -44,7 +45,7 @@
               <span class="card-text container">
                 <p class="card-text">{{ reclamation.sujet }}</p>
                 <p class="card-text message">{{ reclamation.message }}</p>
-                <a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}" class="show-more">Show more</a>
+                <a href="{{ path('app_reclamationsadmin_show', {'id': reclamation.id}) }}" class="show-more">Show more</a>
             </span>
                     <p class="card-text">{{ reclamation.dateCreation }}</p>
                     <p class="card-text">{{ reclamation.status }}</p>

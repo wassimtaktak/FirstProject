@@ -32,13 +32,15 @@ class ReclamationsType extends AbstractType
         ->add('message', TextareaType::class, [
             'attr' => ['rows' => 10], 
             'required' => true, 
+            
         ])
        // ->add('dateCreation')
         //->add('status')
        ->add('captureecranpath', FileType::class, [
-           'label' => 'Capture d\'écran',
-          'required' => false, // Le champ n'est pas requis pour l'édition
-          'mapped' => false, // Ne pas mapper le champ à une propriété de l'entité
+        'label' => 'Capture ecran',
+        'attr' => ['class' => 'form-control bg-dark', 'id' => 'formFile'],
+        'required' => false,
+        'data_class' => null,
      ])
         
     ->add('idUser', EntityType::class, [

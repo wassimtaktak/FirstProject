@@ -14,14 +14,14 @@ class ReclamationreponseType extends AbstractType
     {
         $builder
             ->add('reponse')
-            ->add('idReclamation', EntityType::class, [
-                'class' => 'App\Entity\Reclamations',
-                'choice_label' => 'sujet', // Replace 'name' with the property you want to display in the dropdown
-            ])
+            //->add('idReclamation', EntityType::class, [
+           //     'class' => 'App\Entity\Reclamations',
+            //    'choice_label' => 'sujet', // Replace 'name' with the property you want to display in the dropdown
+            /*])
             ->add('idUser', EntityType::class, [
                 'class' => 'App\Entity\Utilisateur',
                 'choice_label' => 'username', // Replace 'name' with the property you want to display in the dropdown
-            ])
+            ])*/
         ;
     }
 
