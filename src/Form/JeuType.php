@@ -13,6 +13,7 @@ class JeuType extends AbstractType
 {
    public function buildForm(FormBuilderInterface $builder, array $options): void
 {
+    $imagejeuDefault = $options['imagejeu_default'];
     $builder
         ->add('nom', TextType::class, [
             'label' => 'Nom jeu',
@@ -24,6 +25,7 @@ class JeuType extends AbstractType
             'attr' => ['class' => 'form-control bg-dark', 'id' => 'formFile'],
             'required' => false,
             'data_class' => null,
+            'empty_data' => $imagejeuDefault,
         ]);
      
 }
@@ -32,6 +34,7 @@ class JeuType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Jeu::class,
+            'imagejeu_default' => null,
         ]);
     }
 }

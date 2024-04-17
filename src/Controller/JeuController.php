@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Jeu;
 use App\Form\JeuType;
+use App\Entity\Tournoi;
+use App\Repository\TournoiRepository;
 use App\Repository\JeuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,35 +95,34 @@ class JeuController extends AbstractController
     #[Route('/{id}/edit', name: 'app_jeu_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Jeu $jeu, JeuRepository $jeuRepository): Response
     {
-        $form = $this->createForm(JeuType::class, $jeu);
+        $imageFileName=$jeu->getImagejeu();
+        $form = $this->createForm(JeuType::class, $jeu,['imagejeu_default' => $imageFileName]);
         $form->handleRequest($request);
        
         if ($form->isSubmitted() && $form->isValid()) {
             $nom = $form->get('nom')->getData();
             $imageFile = $form->get('imagejeu')->getData();
             
-            // Check if the image file is empty
+          
             if (!$imageFile) {
                 $this->addFlash('error', 'Le champ "Image du jeu" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
             }
-            
-            // Check for existing jeu with the same name
+         
             $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
             if ($existingJeu && $existingJeu->getId() !== $jeu->getId()) {
                 $this->addFlash('error', 'Le nom du jeu existe déjà.');
                 return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
             }
             
-            // Check if the nom field is empty
+           
             if (empty($nom)) {
                 $this->addFlash('error', 'Le champ "Nom" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
             }
           
-            // Handle file upload
             $file = $form->get('imagejeu')->getData();
-            if ($file) {
+            if ($file!=$imageFileName) {
                 $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
                 try {
                     $file->move(
@@ -130,37 +131,44 @@ class JeuController extends AbstractController
                     );
                     $jeu->setImagejeu($fileName);
                 } catch (FileException $e) {
-                    // Handle file upload error
+                 
                 }
             }
-            
-            // Persist and flush the entity
+          
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($jeu);
             $entityManager->flush();
             $jeuRepository->add($jeu, true);
           
-            // Redirect to the index page
+       
             return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
         }
     
-        // Render the edit form with errors
+     
         return $this->renderForm('jeu/edit.html.twig', [
             'jeu' => $jeu,
             'form' => $form,
         ]);
     }
-    
 
 
     #[Route('/{id}', name: 'app_jeu_delete', methods: ['POST'])]
-    public function delete(Request $request, Jeu $jeu, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Jeu $jeu, EntityManagerInterface $entityManager, TournoiRepository $tournoiRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$jeu->getId(), $request->request->get('_token'))) {
+            // Check if the game is used in a tournament
+            if ($tournoiRepository->jeuTournoi($jeu->getId())) {
+                // Display error message if the game is used in a tournament
+                $this->addFlash('error', 'This game has already been used in a tournament.');
+                return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
+            }
+    
+            // Proceed with deletion if the game is not used in a tournament
             $entityManager->remove($jeu);
             $entityManager->flush();
         }
-
+    
         return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }

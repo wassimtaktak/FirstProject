@@ -58,6 +58,17 @@ class TournoiRepository extends ServiceEntityRepository
             ->getResult();
     }
     
-    
+    public function jeuTournoi($jeuId): bool
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('COUNT(p.idjeu)')
+            ->where('p.idjeu = :jeuId')
+            ->setParameter('jeuId', $jeuId)
+            ->getQuery();
+
+        $count = $qb->getSingleScalarResult();
+
+        return $count > 0;
+    }
     
 }

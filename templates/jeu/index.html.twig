@@ -13,8 +13,18 @@
 {% endblock %}
 
 {% block body %}
-
-<h1 style="text-align: center; font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Jeux</h1>
+   {% if app.flashes('error') %}
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ce jeu est déjà utilisé dans un tournoi',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+         </script>
+    {% endif %}
+<h1 style="text-align: center; font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif;">Liste des Jeux</h1>
 
 <br></br>
 
@@ -67,4 +77,5 @@
     </table>
 
     <a href="{{ path('app_jeu_new') }}">Create new</a>
+ 
 {% endblock %}
