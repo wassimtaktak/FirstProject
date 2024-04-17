@@ -30,7 +30,7 @@
                                       </div>
                                       <div class="col-lg-4 col-md-4 col-sm-6">
                                           <div class="product__page__filter">
-                                              <a class="btn btn-outline-primary m-2" href="{{ path('app_afficher_equipe', {'id': 47 ,'idtournoi': idtournoi}) }}">mon équipe</a>
+                                              <a class="btn btn-outline-primary m-2" href="{{ path('app_afficher_equipe', {'id': 59 ,'idtournoi': idtournoi}) }}">mon équipe</a>
                                           </div>
                                       </div>
                                   </div>
@@ -39,10 +39,11 @@
                               {% for equipe in equipes %}
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="{{asset("img/equipe.png")}}">
-                                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                        </div>
+                                        {% if equipe.imageequipe %}
+                                            <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/images/' ~ equipe.imageequipe) }}"></div>
+                                        {% else %}
+                                            <div class="product__item__pic set-bg" data-setbg="{{asset("img/equipe.png")}}"></div>
+                                        {% endif %}
                                         <div class="product__item__text">
                                             <h5><a href="#">{{ equipe.nom }}</a></h5>
                                         </div>

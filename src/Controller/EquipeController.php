@@ -54,6 +54,18 @@ class EquipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('imageequipe')->getData();
+            if ($file) {
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $equipe->setImageequipe($fileName);
+                } catch (FileException $e) {
+                }
+            }
             $entityManager->persist($equipe);
             $entityManager->flush();
 
@@ -76,23 +88,40 @@ class EquipeController extends AbstractController
         return $this->render('equipe/index.html.twig', 
         [ 'idtournoi'=>$idTournoi,'equipes' => $equipes,'equipesComplet' => $equipesComplet,]);
     }
-
     #[Route('/{id}/edit/{idtournoi}', name: 'app_equipe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Equipe $equipe, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(EquipeType::class, $equipe);
+    {   
+        $imageFileName = $equipe->getImageequipe();
+        $form = $this->createForm(EquipeType::class, $equipe, [
+            'imageequipe_default' => $imageFileName,
+        ]);
         $form->handleRequest($request);
         $idTournoi = $request->get('idtournoi'); 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $file = $form->get('imageequipe')->getData();
+            if ($file!=$imageFileName) {
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $equipe->setImageequipe($fileName);
+                } catch (FileException $e) {
+                    dump($file);
+                }
+            } 
 
+            $entityManager->flush();
             return $this->redirectToRoute('app_equipe_show', ['id' => $idTournoi], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('equipe/edit.html.twig', [
+        
+        return $this->render('equipe/edit.html.twig', [
             'equipe' => $equipe,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

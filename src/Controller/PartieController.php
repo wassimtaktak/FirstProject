@@ -71,9 +71,13 @@ class PartieController extends AbstractController
         $form = $this->createForm(PartieType::class, $partie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $partie->setUpdated(true);
             $scoreEquipe1 = $partie->getScoreequipe1();
             $scoreEquipe2 = $partie->getScoreequipe2();
+            if($scoreEquipe1==$scoreEquipe2){
+                $this->addFlash('error', 'Une partie ne peut pas se terminer par un score égal.');
+                return $this->redirectToRoute('app_partie_edit', ['id'=>$partie->getId(),'idtournament'=>$idTournoi], Response::HTTP_SEE_OTHER);
+            }
+            $partie->setUpdated(true);
             $equipeGagnanteId = ($scoreEquipe1 > $scoreEquipe2) ? $partie->getEquipe1id()->getId() : $partie->getEquipe2id()->getId();
             $equipeGagnante = $equipeRepository->find($equipeGagnanteId);
             if ($equipeGagnante) {

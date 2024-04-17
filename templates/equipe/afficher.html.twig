@@ -6,7 +6,11 @@
             <div class="anime__details__content">
                 <div class="row">
                                 <div class="col-lg-3">
-                                    <div class="anime__details__pic set-bg" data-setbg="{{asset("img/equipe.png")}}">
+                                {% if equipe.imageequipe %}
+                                    <div class="anime__details__pic set-bg" data-setbg="{{ asset('uploads/images/' ~ equipe.imageequipe) }}">
+                                {% else %}
+                                    <div class="anime__details__pic set-bg" data-setbg="{{ asset('img/equipe.png') }}">
+                                {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
