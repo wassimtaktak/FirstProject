@@ -56,34 +56,12 @@
 										<span>Prix:</span>
 										{{produit.prix}}
 										DT</li>
-									<li>
-										<span>Date aired:</span>
-										Oct 02, 2019 to ?</li>
-									<li>
-										<span>Status:</span>
-										Airing</li>
-									<li>
-										<span>Genre:</span>
-										Action, Adventure, Fantasy, Magic</li>
+									
 								</ul>
 							</div>
 							<div class="col-lg-6 col-md-6">
 								<ul>
-									<li>
-										<span>Scores:</span>
-										7.31 / 1,515</li>
-									<li>
-										<span>Rating:</span>
-										8.5 / 161 times</li>
-									<li>
-										<span>Duration:</span>
-										24 min/ep</li>
-									<li>
-										<span>Quality:</span>
-										HD</li>
-									<li>
-										<span>Views:</span>
-										131,541</li>
+									
 								</ul>
 							</div>
 						</div>
@@ -96,15 +74,21 @@
 							<a href="#" class="follow-btn">
 								<i class="fa fa-heart-o"></i>
 								J'aime</a>
-							<a href="#" class="watch-btn">
-								<span>Watch Now</span>
+							<a href="{{ path('add_to_card', {'id': produit.id}) }}" class="watch-btn">
+								<span>Ajouter au panier</span>
 								<i class="fa fa-angle-right"></i>
 							</a>
 						</div>
-<div class="col-lg-3 "></div>
+						<div class="col-lg-3 "></div>
 
 						{% set qrContent = produit.marque ~ ".com" %}
 						<img src="{{ qr_code_data_uri(qrContent) }}"/>
+
+						{% for message in app.flashes('produit_card') %}
+							<div class="alert alert-success">
+								{{ message }}
+							</div>
+						{% endfor %}
 
 
 					</div>

@@ -14,7 +14,19 @@
 							<div class="row">
 								<div class="col-lg-4 col-md-8 col-sm-6">
 									<div class="section-title">
-										<h4></h4>
+										<h4>Nos Produits</h4>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-4 col-sm-6">
+									<div class="product__page__filter">
+										<form id="categoryForm" action="" method="GET">
+											<p>Tri par:</p>
+											<select id="categorySelect" onchange="redirectToSelected()">
+												{% for c in cat %}
+													<option value="{{ path('cards_tri', {'id': c.id}) }}">{{ c.nom }}</option>
+												{% endfor %}
+											</select>
+										</form>
 									</div>
 								</div>
 								{% if test == 1 %}
@@ -23,8 +35,8 @@
 											<form id="" action="{{ path('cards_tri', {'id': catid}) }}" method="GET">
 
 												<select name="orderBy" id="">
-													<option value="asc">Price Ascending</option>
-													<option value="desc">Price Descending</option>
+													<option value="asc">Prix croissant</option>
+													<option value="desc">Prix décroissant</option>
 												</select>
 												<button type="submit">Sort</button>
 											</form>
@@ -37,28 +49,18 @@
 											<form id="" action="{{ path('produit_cards') }}" method="GET">
 
 												<select name="orderBy" id="">
-													<option value="asc">Price Ascending</option>
-													<option value="desc">Price Descending</option>
+													<option value="asc">Prix croissant</option>
+													<option value="desc">Prix décroissant</option>
 												</select>
-												<button type="submit">Sort</button>
+												<button type="submit" class="btn btn-secondary rounded-pill m-2">Tri</button>
+
 											</form>
 
 										</div>
 									</div>
 								{% endif %}
 
-								<div class="col-lg-3 col-md-4 col-sm-6">
-									<div class="product__page__filter">
-										<form id="categoryForm" action="" method="GET">
-											<p>Order by:</p>
-											<select id="categorySelect" onchange="redirectToSelected()">
-												{% for c in cat %}
-													<option value="{{ path('cards_tri', {'id': c.id}) }}">{{ c.nom }}</option>
-												{% endfor %}
-											</select>
-										</form>
-									</div>
-								</div>
+
 								<div class="col-lg-3 col-md-4 col-sm-4">
 									<div class="btn__all">
 										<a href="{{ path('produit_cards')}}" class="primary-btn">View All
@@ -73,7 +75,8 @@
 								<div class="col-lg-3 col-md-6 col-sm-6">
 									<div class="product__item">
 										<a href="{{ path('produit_detail', {'id': p.id}) }}">
-											<div class="product__item__pic set-bg" data-setbg="img/{{ p.image }}" style="background-image: url(&quot;img/trending/trend-1.jpg&quot;);">
+											<div class="product__item__pic set-bg" >
+												<img src={{asset('img/' ~ p.image)}} alt="" width="270" height="330"/>
 												<div class="ep">{{ p.prix }}</div>
 												<div class="comment">
 													<i class="fa fa-comments"></i>

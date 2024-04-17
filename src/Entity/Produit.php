@@ -28,7 +28,7 @@ class Produit
      * @var string
      *
      * @Assert\NotBlank(message="libelle doit etre non vide")
-     * @Assert\Length(min=8, minMessage="libelle doit contenir au moins 8 caractères")
+     * @Assert\Length(min=4, minMessage="libelle doit contenir au moins 4 caractères")
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
      */
     private $libelle;
@@ -46,9 +46,9 @@ class Produit
      * @Assert\NotBlank(message="description  doit etre non vide")
      * @Assert\Length(
      *      min = 7,
-     *      max = 100,
-     *      minMessage = "doit etre >=7 ",
-     *      maxMessage = "doit etre <=100" )
+     *      max = 300,
+     *      minMessage = "decription doit contenir au moins 7 caractéres ",
+     *      maxMessage = "doit contenir au maximum 300 caractéres" )
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;

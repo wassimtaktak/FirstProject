@@ -176,6 +176,23 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/produit/add-to-card/{id}', name: 'add_to_card')]
+    public function addToCard(Request $request, Produit $product): Response
+    {
+        $session = $request->getSession();
+        $products = $session->get('products', []);
+        $products = [...$products, $product];
+        $session->set('products', $products);
+$this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
+        return $this->redirectToRoute('produit_detail', ['id' => $product->getId()]);
+    }
+
+    #[Route('/produit/checkout', name: 'checkout')]
+    public function checkout(Request $request): Response
+    {
+       
+        return $this->render('Produit/checkout.html.twig', ['products' => $request->getSession()->get('products', [])]);
+    }
 
 
     #[Route('/produit/supprimer/{id}', name: 'supprimer_produit')]

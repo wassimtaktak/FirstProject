@@ -77,6 +77,12 @@
 							<a href="./login.html">
 								<span class="icon_profile"></span>
 							</a>
+							<a href="/produit/checkout">
+
+								<span class="badge badge-light">
+									Panier {{ app.session.get('products')|length }}
+								</span>
+							</a>
 						</div>
 					</div>
 				</div>
