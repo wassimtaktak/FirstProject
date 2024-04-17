@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}New Tournoi{% endblock %}
+{% block stylesheet %}
+<style>
+    .disabled-date {
+        background-color: #f2f2f2;
+        color: #999; 
+    }
+</style>
 
+{% endblock %}
 {% block body %}
  <div class="container-fluid pt-4 px-4 neon-border">
         <div class="row g-4">
@@ -17,4 +25,20 @@
             </div>
         </div>
     </div>
+    <script>
+    $(function() {
+        $('.datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            language: 'fr',
+            minDate: 0, // Disable past dates
+            beforeShowDay: function(date) {
+                var today = new Date();
+                if (date < today) {
+                    return [false, 'disabled-date', 'This date has already passed'];
+                }
+                return [true, ''];
+            }
+        });
+    });
+</script>
 {% endblock %}

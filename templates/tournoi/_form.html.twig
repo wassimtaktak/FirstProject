@@ -1,7 +1,7 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
         <div style="margin-top:10px;display:flex;justify-content:center;">
-        <button style="margin-right:10px"class="btn btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
-        <a class="btn btn-outline-danger" href="{{ path('app_tournoi_index') }}">Annuler</a>
+         <a style="background-color:gray;margin-right:10px" class="show-btn" href="{{ path('app_tournoi_index') }}">Annuler</a>
+        <button class="show-btn">{{ button_label|default('Enregistrer') }}</button>
         </div>
 {{ form_end(form) }}

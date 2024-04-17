@@ -91,45 +91,66 @@ class JeuController extends AbstractController
     
 
     #[Route('/{id}/edit', name: 'app_jeu_edit', methods: ['GET', 'POST'])]
-public function edit(Request $request, Jeu $jeu, JeuRepository $jeuRepository): Response
-{
-    $form = $this->createForm(JeuType::class, $jeu);
-    $form->handleRequest($request);
-   
-    if ($form->isSubmitted() && $form->isValid()) {
-        $nom = $form->get('nom')->getData();
-        $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
-        if ($existingJeu && $existingJeu->getId() !== $jeu->getId()) {
-            $this->addFlash('error', 'Le nom du jeu existe déjà.');
-            return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
-        }
-        $file = $form->get('imagejeu')->getData();
-        if ($file) {
+    public function edit(Request $request, Jeu $jeu, JeuRepository $jeuRepository): Response
+    {
+        $form = $this->createForm(JeuType::class, $jeu);
+        $form->handleRequest($request);
        
-            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
-            try {
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-                $jeu->setImagejeu($fileName);
-            } catch (FileException $e) {
-              
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nom = $form->get('nom')->getData();
+            $imageFile = $form->get('imagejeu')->getData();
+            
+            // Check if the image file is empty
+            if (!$imageFile) {
+                $this->addFlash('error', 'Le champ "Image du jeu" ne peut pas être vide.');
+                return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
             }
+            
+            // Check for existing jeu with the same name
+            $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
+            if ($existingJeu && $existingJeu->getId() !== $jeu->getId()) {
+                $this->addFlash('error', 'Le nom du jeu existe déjà.');
+                return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
+            }
+            
+            // Check if the nom field is empty
+            if (empty($nom)) {
+                $this->addFlash('error', 'Le champ "Nom" ne peut pas être vide.');
+                return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
+            }
+          
+            // Handle file upload
+            $file = $form->get('imagejeu')->getData();
+            if ($file) {
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $jeu->setImagejeu($fileName);
+                } catch (FileException $e) {
+                    // Handle file upload error
+                }
+            }
+            
+            // Persist and flush the entity
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($jeu);
+            $entityManager->flush();
+            $jeuRepository->add($jeu, true);
+          
+            // Redirect to the index page
+            return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
         }
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($jeu);
-        $entityManager->flush();
-        $jeuRepository->add($jeu, true);
-      
-       return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
+    
+        // Render the edit form with errors
+        return $this->renderForm('jeu/edit.html.twig', [
+            'jeu' => $jeu,
+            'form' => $form,
+        ]);
     }
-
-    return $this->renderForm('jeu/edit.html.twig', [
-        'jeu' => $jeu,
-        'form' => $form,
-    ]);
-}
+    
 
 
     #[Route('/{id}', name: 'app_jeu_delete', methods: ['POST'])]

@@ -3,14 +3,16 @@
 {% block title %}Tournoi index{% endblock %}
 
 {% block body %}
-    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Tournois 
+    <div style="display:flex; justify-content:center;">
+    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Tournois </h1>
     {% set currentType = app.request.query.get('type') %}
     {% set newType = currentType == 'date_desc' ? 'date_asc' : 'date_desc' %}
-    {% set newIconClass = currentType == 'date_desc' ? 'fas fa-sort-alpha-up ms-2 white-icon' : 'fas fa-sort-alpha-down ms-2 white-icon' %}
+    {% set newIconClass = currentType == 'date_desc' ? 'fas fa-sort-amount-up ms-2 white-icon' : 'fas fa-sort-amount-down ms-2 white-icon' %}
 
-    <a href="{{ path('app_tournoi_index', {'type': newType}) }}" class="btn btn-link text-decoration-none">
+    <a style="color:white;margin-top:40px"href="{{ path('app_tournoi_index', {'type': newType}) }}" class="btn btn-link text-decoration-none">
         <i class="{{ newIconClass }}"></i>
-    </a></h1>
+    </a>
+    </div>
      <form action="{{ path('app_tournoi_index') }}" method="get">
     <select name="game" class="form-control">
         <option value="">Tous les jeux</option>

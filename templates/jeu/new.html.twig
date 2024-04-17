@@ -28,9 +28,10 @@
                             <label for="formFile" class="form-label">Image du jeu</label>
                             {{ form_widget(form.imagejeu, {'attr': {'class': 'form-control bg-dark', 'id': 'formFile'}}) }}
                         </div>
-                       <button class="btn btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
-                        <a class="btn btn-outline-danger" href="{{ path('app_jeu_index') }}">Annuler</a>
-
+                        <div style="margin-top:10px;display:flex;justify-content:center;">
+                            <a style="background-color:gray;margin-right:10px" class="show-btn" href="{{ path('app_jeu_index') }}">Annuler</a>
+                            <button  class="show-btn">{{ button_label|default('Enregistrer') }}</button>
+                        </div>
                         {{ form_end(form) }}
 
                     </form>

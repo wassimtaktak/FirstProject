@@ -34,7 +34,7 @@ class TournoiType extends AbstractType
             'required' => false,
             'widget' => 'single_text',
             'format' => 'yyyy-MM-dd',
-            'attr' => ['class' => 'form-control', 'id' => 'jour']
+            'attr' => ['class' => 'form-control datepicker', 'id' => 'jour']
         ])
         ->add('prize', TextType::class, [
             'label' => 'Prix',
