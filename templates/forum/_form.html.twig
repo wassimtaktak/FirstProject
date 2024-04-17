@@ -1,16 +1,16 @@
 {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
-    {{ form_row(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Sujet forum', 'id': 'validationCustom01', 'required': 'required', 'class': 'needs-validation'}}) }}
+    {{ form_row(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Sujet forum', 'id': 'validationCustom01', 'required': 'required', 'class': 'needs-validation','style':'background-color:#323232;color:#fff'}}) }}
     <div class="invalid-feedback">
        {{ form_errors(form.sujet) }}
     </div>
 
-    {{ form_row(form.dateCreation, {'attr': {'class': 'form-control ', 'placeholder': 'date de creation', 'id': 'validationCustom02', 'required': 'required', 'class': 'needs-validation datepicker'}}) }}
+    {{ form_row(form.dateCreation, {'attr': {'class': 'form-control ', 'placeholder': 'date de creation', 'id': 'validationCustom02', 'required': 'required', 'class': 'needs-validation','style':'background-color:#323232;color:#fff'}}) }}
     <div class="invalid-feedback">
        {{ form_errors(form.dateCreation) }}
     </div>
 
     <div class="text-center col-12 mt-4"> 
-        <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+        <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Enregistrer') }}</button>
         <a href="{{ path('app_forum_index') }}" class="btn btn-outline-light m-2">Annuler</a>
     </div>
 

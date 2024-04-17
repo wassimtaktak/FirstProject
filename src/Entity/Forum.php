@@ -34,6 +34,7 @@ class Forum
      * @var string
      *
      * @ORM\Column(name="date_creation", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Veuillez fournir une date valide.")
      */
     private $dateCreation;
 

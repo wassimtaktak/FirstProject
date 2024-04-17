@@ -97,7 +97,7 @@ class ForumController extends AbstractController
         $postData = $request->request->get('post_content');
         $post->setMessage($postData);
         $post->setNbLike(0);
-        $user = $entityManager->getRepository(Utilisateur::class)->find(5);
+        $user = $entityManager->getRepository(Utilisateur::class)->find(4);
         $post->setIdUser($user);
         $entityManager->persist($post);
         $entityManager->flush();
