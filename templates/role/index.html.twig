@@ -22,9 +22,11 @@
                         <tr>
                             <td>{{ role.id }}</td>
                             <td>{{ role.role }}</td>
-                            <td style="display: flex;"> 
+                            <td> 
+                            <div  style="display: flex;">
                                <a type="button" class="btn btn-outline-light m-2"href="{{ path('app_role_edit', {'id': role.id}) }}">edit</a>
                                 {{ include('role/_delete_form.html.twig') }}
+                            </div>
                             </td>
                         </tr>
                     {% else %}

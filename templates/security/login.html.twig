@@ -10,22 +10,28 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <div class="text-center col-12 mt-4">
+    <h3>Login</h3>
+    <div>
     <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control,input__item" autocomplete="username" required autofocus>
+    </div>
+    <div>
     <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+    <input type="password" name="password" id="inputPassword" class="form-control,input__item" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
-
-    <button class="btn btn-lg btn-primary" type="submit">
+    </div>
+    <button class="primary-btn" type="submit">
         Sign in
     </button>
+    <br>
+    <a href="{{path('app_register')}}"class="text">don't have an account yet?Register now</a>
+    </div>
 </form>
 {% endblock %}

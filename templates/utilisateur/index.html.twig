@@ -31,10 +31,11 @@
                 <td>{{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.prenom }}</td>
                 <td>{{ utilisateur.telephone }}</td>
-                <td style="display: flex;">
+                <td>
+                <div  style="display: flex;">
                  <a type="button" class="btn btn-outline-light m-2"href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
                     {{ include('utilisateur/_delete_form.html.twig') }}
-                   
+                </div>  
                 </td>
             </tr>
         {% else %}

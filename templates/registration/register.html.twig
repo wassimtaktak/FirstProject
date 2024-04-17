@@ -3,10 +3,8 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
+    
+    <div class="text-center col-12 mt-4">
     <h1>Register</h1>
 
     {{ form_errors(registrationForm) }}
@@ -21,7 +19,9 @@
             label: 'Password'
         }) }}
         
-
-        <button type="submit" class="btn">Register</button>
+        
+        <button type="submit" class="primary-btn">Register</button>
+        <div class="text-center col-12 mt-4">
+        <a href="{{path('app_login')}}"class="forget__pass">Already have an account?Log in here!</a>
     {{ form_end(registrationForm) }}
 {% endblock %}

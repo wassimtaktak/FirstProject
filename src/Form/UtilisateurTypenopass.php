@@ -25,7 +25,7 @@ class UtilisateurTypenopass extends AbstractType
                 'label_attr' => ['class' => 'col-sm-4 label-white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'username', 'placeholder' => 'Nom d\'utilisateur'],
                 'row_attr' => ['class' => 'mb-3 row'],
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre nom d\'utilisateur.',
