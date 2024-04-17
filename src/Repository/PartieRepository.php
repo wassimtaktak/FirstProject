@@ -89,6 +89,19 @@ class PartieRepository extends ServiceEntityRepository
         ->getQuery()
         ->getSingleScalarResult() > 0;
 }
+public function EquipeInParties($teamId): bool
+{
+    $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(p.id)')
+        ->where('p.equipe1id = :teamId')
+        ->orWhere('p.equipe2id = :teamId')
+        ->setParameter('teamId', $teamId)
+        ->getQuery();
+
+    $count = $qb->getSingleScalarResult();
+
+    return $count > 0;
+}
 
 
     

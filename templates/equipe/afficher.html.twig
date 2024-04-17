@@ -35,10 +35,14 @@
                                         <div class="anime__details__btn d-flex">
                                             <a href="{{ path('app_equipe_edit', {'id': equipe.id ,'idtournoi': idtournoi}) }}" class="follow-btn"><i class="fa fa-edit"></i> modifier</a>
                                             <a href="#" class="follow-btn">Quitter</a>
+                                            {% if not existpartie %}
                                             <form id="deleteForm" method="post" action="{{ path('app_equipe_delete', {'id': equipe.id,'idtournoi':idtournoi}) }}">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ equipe.id) }}">
                                                 <button class="follow-btn">supprimer</button>
                                             </form>
+                                            {% else %}
+                                                <button class="follow-btn" type="button" onclick="showAlert()">supprimer</button>
+                                            {% endif %}
                                         </div>
                                         </div>
                                     </div>
@@ -49,7 +53,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('deleteForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Prevent the form from submitting
+                e.preventDefault();
 
                 Swal.fire({
                     title: "Etes vous sur?",
@@ -66,5 +70,14 @@
                 });
             });
         });
+        function showAlert() {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Impossible de supprimer , votre équipe a déja joué des parties!",
+            confirmButtonColor: '#ff0000', 
+
+        });
+    }
     </script>
 {% endblock %}

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Equipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Membre;
+
 
 /**
  * @extends ServiceEntityRepository<Equipe>
@@ -44,9 +46,35 @@ class EquipeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->andWhere('e.idtournoi = :idTournoi')
             ->setParameter('idTournoi', $idTournoi)
+            ->orderBy('e.points', 'DESC')
             ->getQuery()
             ->getResult();
     }
+    public function getMyTeamForTournament(int $user, int $tournamentId) : ?Equipe
+    {    
+        return $this->createQueryBuilder('e')
+            ->join(Membre::class, 'm', 'WITH', 'm.idequipe = e.id')
+            ->andWhere('m.iduser = :userId')
+            ->andWhere('e.idtournoi = :tournamentId')
+            ->setParameter('userId', $user)
+            ->setParameter('tournamentId', $tournamentId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function isTeamNameExistsForTournament(string $teamName, int $idTournoi): bool
+{
+    $query = $this->createQueryBuilder('e')
+        ->select('COUNT(e.id)')
+        ->where('e.nom = :teamName')
+        ->andWhere('e.idtournoi = :idTournoi')
+        ->setParameter('teamName', $teamName)
+        ->setParameter('idTournoi', $idTournoi)
+        ->getQuery();
+
+    $count = $query->getSingleScalarResult();
+
+    return $count > 0;
+}
 
 //    /**
 //     * @return Pays[] Returns an array of Pays objects

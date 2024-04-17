@@ -6,6 +6,7 @@ use App\Entity\Equipe;
 use App\Form\EquipeType;
 use App\Repository\TournoiRepository;
 use App\Repository\EquipeRepository;
+use App\Repository\PartieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,16 +29,29 @@ class EquipeController extends AbstractController
     }
     //page taffichi PARTIE SCORE 
     #[Route('/afficher/{id}/{idtournoi}', name: 'app_afficher_equipe', methods: ['GET'])]
-    public function afficher(Request $request, Equipe $equipe, EntityManagerInterface $entityManager): Response
+    public function afficher(Request $request,PartieRepository $partieRepository, Equipe $equipe, EntityManagerInterface $entityManager): Response
+    {   
+        $idTournoi = $request->get('idtournoi');
+        $existpartie=$partieRepository->EquipeInParties($equipe->getId());
+        return $this->render('equipe/afficher.html.twig', [
+            'equipe' => $equipe,
+            'idtournoi'=>$idTournoi,
+            'existpartie'=>$existpartie,
+        ]);
+    }
+    //
+    #[Route('/myteam/{idtournoi}', name: 'app_myteam_equipe', methods: ['GET'])]
+    public function monequipe(EquipeRepository $equipeRepository,Request $request, Equipe $equipe, EntityManagerInterface $entityManager): Response
     {   
         $idTournoi = $request->get('idtournoi'); 
-        return $this->render('equipe/afficher.html.twig', [
+        $equipe=$equipeRepository->getMyTeamForTournament(14,$idTournoi);
+        return $this->render('equipe/show.html.twig', [
             'equipe' => $equipe,
             'idtournoi'=>$idTournoi
         ]);
     }
     #[Route('/new/{id}', name: 'app_equipe_new', methods: ['GET', 'POST'])]
-    public function new($id, TournoiRepository $tournoiRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function new($id,EquipeRepository $equipeRepository, TournoiRepository $tournoiRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $tournoi = $tournoiRepository->find($id);
 
@@ -54,6 +68,12 @@ class EquipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //exist nom
+            if($equipeRepository->isTeamNameExistsForTournament($equipe->getNom(),$tournoi->getId()))
+                {
+                    $this->addFlash('error', 'Ce nom est déja utilisé');
+                    return $this->redirectToRoute('app_equipe_new', ['id'=>$tournoi->getId()], Response::HTTP_SEE_OTHER);
+                }
             $file = $form->get('imageequipe')->getData();
             if ($file) {
                 $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
@@ -136,4 +156,16 @@ class EquipeController extends AbstractController
 
         return $this->redirectToRoute('app_equipe_show',  ['id'=>$idTournoi], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/classement/{id}', name: 'app_equipe_classement', methods: ['GET'])]
+    public function classement(Request $request,EquipeRepository $equipeRepository,EntityManagerInterface $entityManager): Response
+    {
+        
+        $idTournoi = $request->get('id'); 
+        $equipes = $equipeRepository->findByIdTournoi($idTournoi);
+        return $this->render('equipe/Classement.html.twig', [
+            'equipes' => $equipes,
+            'idtournoi'=>$idTournoi,
+        ]);
+    }
+    
 }
