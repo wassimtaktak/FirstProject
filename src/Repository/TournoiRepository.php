@@ -1,66 +1,63 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Tournoi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Tournoi>
- *
- * @method Tournoi|null find($id, $lockMode = null, $lockVersion = null)
- * @method Tournoi|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tournoi[]    findAll()
- * @method Tournoi[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class TournoiRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tournoi::class);
     }
-
-    public function add(Tournoi $entity, bool $flush = false): void
+    public function findFilteredAndSortedTournois(?string $type): array
     {
-        $this->getEntityManager()->persist($entity);
+        $currentDate = new \DateTime();
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->where('t.jour > :currentDate')
+            ->setParameter('currentDate', $currentDate);
+
+        switch ($type) {
+            case 'date_desc':
+                $queryBuilder->orderBy('t.jour', 'DESC');
+                break;
+            case 'date_asc':
+                $queryBuilder->orderBy('t.jour', 'ASC');
+                break;
+            default:
+                $queryBuilder->orderBy('t.jour', 'ASC');
         }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+    public function SortedTournois(): array
+    {
+        $currentDate = new \DateTime();
+
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->where('t.jour > :currentDate')
+            ->setParameter('currentDate', $currentDate)
+            ->orderBy('t.jour', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+    public function filteredByGames(?int $idjeu): array
+    {
+        $currentDate = new \DateTime();
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.idjeu = :idjeu')
+            ->andWhere('t.jour > :currentDate')
+            ->setParameters([
+                'idjeu' => $idjeu,
+                'currentDate' => $currentDate,
+            ])
+            ->orderBy('t.jour', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
-    public function remove(Tournoi $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 
-//    /**
-//     * @return Pays[] Returns an array of Pays objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Pays
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
