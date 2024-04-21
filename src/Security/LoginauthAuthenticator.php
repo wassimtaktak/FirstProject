@@ -52,11 +52,17 @@ class LoginauthAuthenticator extends AbstractLoginFormAuthenticator
 
         // For example:
         $user = $token->getUser();
-        if ($user->getIdrole()->getRole() == "Joueur") {
-            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        if ($user != null) {
+            if ($user->getIdrole()->getRole() == "Joueur") {
+                return new RedirectResponse($this->urlGenerator->generate('app_home'));
+            } else {
+                return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_index'));
+            }
         } else {
-            return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_index'));
+            return new RedirectResponse($this->urlGenerator->generate('app_login'));
         }
+
+
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
