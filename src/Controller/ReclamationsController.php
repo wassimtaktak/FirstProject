@@ -17,7 +17,8 @@ use Symfony\Component\Security\Core\Security;
 use DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\ReclamationsRepository;
-
+use Joli\JoliNotif\Notification;
+use Joli\JoliNotif\NotifierFactory;
 
 #[Route('/reclamations')]
 class ReclamationsController extends AbstractController
@@ -121,7 +122,12 @@ class ReclamationsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamationreponse);
             $entityManager->flush();
-
+            $notifier = NotifierFactory::create();
+            $notification =
+                    (new Notification())
+                ->setTitle('Nouvelle réponse')
+                ->setBody('Une réponse à été ajoutée');
+            $notifier->send($notification);
             return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$reclamation->getId()], Response::HTTP_SEE_OTHER);
         }
         $reponses = $reclamationreponseRepository->findBy(['idReclamation' => $reclamation->getId()]);
@@ -159,6 +165,7 @@ class ReclamationsController extends AbstractController
                 $reclamation->setCaptureecranpath($reclamation->getCaptureecranpath());
             }
             $entityManager->flush();
+            
     
             return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
         }

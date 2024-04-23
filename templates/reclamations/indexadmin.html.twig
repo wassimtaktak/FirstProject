@@ -4,7 +4,6 @@
 
 {% block body %}
     <h1>Reclamations</h1>
-   <!-- <a href="{{ path('app_reclamations_new') }}" class="new">Create new reclamation</a>
 
    <div class="col" style="display:flex; justify-content:space-between;" >
     <div>
@@ -28,7 +27,7 @@
         <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
         <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
     </div>
-    </div>-->
+    </div>
     <div class="row1">
                 <div class="cards-header">
                     <p class="header-text">Utilisateur</p>
@@ -43,12 +42,12 @@
                 <div class="card-body">
                     <p class="card-text">{{ reclamation.idUser.username }}</p>
               <span class="card-text container">
-                <p class="card-text">{{ reclamation.sujet }}</p>
+                <p class="card-text subject">{{ reclamation.sujet }}</p>
                 <p class="card-text message">{{ reclamation.message }}</p>
                 <a href="{{ path('app_reclamationsadmin_show', {'id': reclamation.id}) }}" class="show-more">Show more</a>
             </span>
-                    <p class="card-text">{{ reclamation.dateCreation }}</p>
-                    <p class="card-text">{{ reclamation.status }}</p>
+                    <p class="card-text date">{{ reclamation.dateCreation }}</p>
+                    <p class="card-text status">{{ reclamation.status }}</p>
                 </div>
             </div>
         {% else %}

@@ -10,7 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\File;
+use App\Validator\Constraints as CustomAssert;
+
 
 class ReclamationsType extends AbstractType
 {
@@ -31,7 +32,10 @@ class ReclamationsType extends AbstractType
         ])
         ->add('message', TextareaType::class, [
             'attr' => ['rows' => 10], 
-            'required' => true, 
+            'required' => true,
+            'constraints' => [
+                new CustomAssert\InappropriateWords(),
+            ], 
             
         ])
        // ->add('dateCreation')
