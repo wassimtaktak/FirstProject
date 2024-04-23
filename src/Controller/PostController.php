@@ -58,6 +58,15 @@ class PostController extends AbstractController
             'post' => $post,
         ]);
     }
+    #[Route('/{id}/like', name: 'app_like_add', methods : ['GET'])]
+    public function nblike(Post $post,EntityManagerInterface $entityManager):Response
+    {
+        $post->setNbLike($post->getNbLike()+1);
+        $entityManager->persist($post);
+        $entityManager->flush();
+        return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
+        
+    }
 
     #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response

@@ -26,8 +26,8 @@
                         <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
                         {{ include('post/_delete_form.html.twig') }}
                         {% endif %}
-                        <!--<a href="#">like</a>-->
-                        <!--<p class="card-text">{{ post.nblike }}</p>-->
+                        <a href="{{ path('app_like_add', {'id': post.id}) }}"><img src="{{asset('/img/coeur.png')}}"/></a>
+                        <p class="card-text">{{ post.nblike }}</p>
                         </div>
                         
                     </div>
@@ -68,6 +68,9 @@
     .card-body{
         display:flex;
         justify-content: space-between;
+    }
+    .card-text{
+        color:white;
     }
     .card-title{
         

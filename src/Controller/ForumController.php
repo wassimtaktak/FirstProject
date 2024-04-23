@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Joli\JoliNotif\Notification;
+use Joli\JoliNotif\NotifierFactory;
 
 #[Route('/forum')]
 class ForumController extends AbstractController
@@ -89,9 +91,6 @@ class ForumController extends AbstractController
     $post = new Post();
     $forum = $forumRepository->find($id);
     $post->setIdForum($forum);
-
-   
-
     if ($request->isMethod('POST')) {
         
         $postData = $request->request->get('post_content');
@@ -100,16 +99,21 @@ class ForumController extends AbstractController
         $user = $entityManager->getRepository(Utilisateur::class)->find(4);
         $post->setIdUser($user);
         $entityManager->persist($post);
-        $entityManager->flush();
-
-        
+        $entityManager->flush(); 
+        $notifier = NotifierFactory::create();
+        $notification =
+                (new Notification())
+            ->setTitle('Notification title')
+            ->setBody('This is the body of your notification');
+        $notifier->send($notification);
         return new RedirectResponse($this->generateUrl('app_forum_show', ['id' => $id]));
+        
     }
+    
 
     $posts = $entityManager
         ->getRepository(Post::class)
         ->findBy(['idForum' => $id]);
-
         $postvide = new Post();
         $postvide->setMessage("");
     return $this->render('post/index.html.twig', [
