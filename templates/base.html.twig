@@ -74,7 +74,8 @@
 
                         {% if app.user %}
                         <span class="d-none d-lg-inline-flex">{{ app.user.username }}</span>
-                        
+                        <br>
+                        <span class="d-none d-lg-inline-flex">{{app.user.idRole.role}}</span>
                         
                         {% endif %}
                     </div>
