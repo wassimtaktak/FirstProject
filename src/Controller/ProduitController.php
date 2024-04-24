@@ -176,24 +176,6 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/produit/add-to-card/{id}', name: 'add_to_card')]
-    public function addToCard(Request $request, Produit $product): Response
-    {
-        $session = $request->getSession();
-        $products = $session->get('products', []);
-        $products = [...$products, $product];
-        $session->set('products', $products);
-$this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
-        return $this->redirectToRoute('produit_detail', ['id' => $product->getId()]);
-    }
-
-    #[Route('/produit/checkout', name: 'checkout')]
-    public function checkout(Request $request): Response
-    {
-       
-        return $this->render('Produit/checkout.html.twig', ['products' => $request->getSession()->get('products', [])]);
-    }
-
 
     #[Route('/produit/supprimer/{id}', name: 'supprimer_produit')]
     public function supprimer_specialite(ProduitRepository  $rp, $id, Request $request, EntityManagerInterface $em)
@@ -215,4 +197,56 @@ $this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
             'produit' => $produit
         ]);
     }
+
+    
+    #[Route('/produit/add-to-card/{id}', name: 'add_to_card')]
+    public function addToCard(Request $request, Produit $product): Response
+    {
+        $session = $request->getSession();
+        $products = $session->get('products', []);
+        $products = [...$products, $product];
+        $session->set('products', $products);
+$this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
+        return $this->redirectToRoute('produit_detail', ['id' => $product->getId()]);
+    }
+
+    #[Route('/produit/checkout', name: 'checkout')]
+    public function checkout(Request $request): Response
+    {
+       
+        return $this->render('Produit/checkout.html.twig', ['products' => $request->getSession()->get('products', [])]);
+    }
+
+    #[Route('/produit/remove-from-card/{id}', name: 'remove_from_card')]
+    public function removeFromCart(Request $request, Produit $product): Response
+    {
+        $session = $request->getSession();
+        $products = $session->get('products', []);
+        
+        // Parcourir le tableau des produits pour trouver le produit à retirer
+        foreach ($products as $key => $prod) {
+            if ($prod->getId() === $product->getId()) {
+                unset($products[$key]); // Retirer le produit du panier
+                break; // Sortir de la boucle dès que le produit est retiré
+            }
+        }
+        
+        $session->set('products', $products);
+        
+        $this->addFlash('produit_card', 'Produit retiré du panier avec succès');
+        
+        return $this->redirectToRoute('checkout');
+    }
+    
+
+#[Route('/produit/clear-card', name: 'clear_card')]
+public function clearCard(Request $request): Response
+{
+    $session = $request->getSession();
+    $session->set('products', []);
+    $this->addFlash('produit_card', 'Panier vidé avec succès');
+    return $this->redirectToRoute('produit_cards');
+}
+
+
 }

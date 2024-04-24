@@ -1,51 +1,79 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseuser.html.twig' %}
 
-{% block title %}Produit stats{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-    
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+{% block title %}Afficher Produit
 {% endblock %}
 
 {% block body %}
-<div class="bg-secondary rounded h-100 p-4">
-    <h6 class="mb-4">Pie Chart</h6>
-    <canvas id="pie-chart" width="465" height="465" style="display: block; box-sizing: border-box; height: 465px; width: 465px;"></canvas>
-</div>
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-    
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-{% endblock %}
+	<div class="container-fluid pt-4 px-4">
+		<div class="row g-4">
+
+			<div class="col-12">
+				<div class="bg-secondary rounded h-100 p-4">
+					<h6 class="mb-4">Panier</h6>
+				</div>
+			</div>
+			<div class="col-12">
+
+				<table class="table-responsive table bg-white">
+					<thead>
+						<tr>
+							<th>Libellé</th>
+							<th>Image</th>
+							<th>Prix</th>
+							<th>Marque</th>
+							<th>Quantité</th>
+							<th>Total</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody style="width:100%">
+						{% set grouped_products = {} %}
+						{% for product in products %}
+							{% set product_id = product.id %}
+							{% if product_id not in grouped_products %}
+								{% set grouped_products = grouped_products|merge({(product_id): {'product': product, 'quantity': 1}}) %}
+							{% else %}
+								{% set grouped_products = grouped_products|merge({(product_id): {'product': product, 'quantity': grouped_products[product_id].quantity + 1}}) %}
+							{% endif %}
+						{% endfor %}
+						{% for productKey, grouped_product in grouped_products %}
+							{% set product = grouped_product.product %}
+							{% set quantity = grouped_product.quantity %}
+							<tr>
+								<td>{{ product.libelle }}</td>
+								<td><img src="{{ asset('img/' ~ product.image) }}" alt="" width="200" height="200"/></td>
+								<td>{{ product.prix}}</td>
+								<td>{{ product.marque }}</td>
+								<td>
+									<span>{{ quantity }}</span>
+									<button class="btn btn-sm btn-success" onclick="addToCard('{{ product.id }}')">+</button>
+									<button class="btn btn-sm btn-danger" onclick="removeFromCard('{{ product.id }}')">-</button>
+								</td>
+								<td>{{ product.prix * quantity }}</td>
+								<td>
+									<a href="{{ path('remove_from_card', {'id': product.id}) }}" class="btn btn-danger">Retirer du panier</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="anime__details__btn w-100  pl-2 text-right">
+				<a href="{{ path('checkout') }}" class="watch-btn">
+					<span>Acheter</span>
+				</a>
+				<a href="{{ path('clear_card') }}" class="btn btn-danger">Vider le panier</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function addToCard(productId) { // Implement your logic to add product to cart with AJAX or form submission
+}
+
+function removeFromCard(productId) { // Implement your logic to remove product from cart with AJAX or form submission
+}
+	</script>
+
 {% endblock %}
