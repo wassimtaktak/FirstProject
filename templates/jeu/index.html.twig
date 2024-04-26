@@ -2,14 +2,21 @@
 
 {% block title %}Jeux{% endblock %}
 {% block search_bar %}
-    <div class="d-flex align-items-center">
-        <form class="d-none d-md-flex ms-4" action="{{ path('app_jeu_index') }}" method="GET">
-            <input class="form-control bg-dark border-0" type="search" name="q" placeholder="Search">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
+<div class="d-flex align-items-center">
+    <input id="myInput" class="form-control bg-dark border-0" type="text" placeholder="Search">
+    <ul id="searchResults"></ul>
+</div>
 
-
-    </div>
+<script>
+       $(document).ready(function () {
+           $("#myInput").on("keyup", function () {
+               var value = $(this).val().toLowerCase();
+               $("#myTable tr").filter(function () {
+                   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+               });
+           })
+       });
+   </script>
 {% endblock %}
 
 {% block body %}
@@ -29,7 +36,7 @@
 <br></br>
 
 
-    <table class="table">
+    <table id="myTable"class="table">
         <thead>
             <tr>
              
@@ -46,7 +53,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for jeu in jeus %}
+        {% for jeu in pagination %}
             <tr>
 
                 <td><img src="{{ asset('uploads/images/' ~ jeu.imagejeu) }}" style="width: 150px;"></td>
@@ -75,7 +82,9 @@
         {% endfor %}
         </tbody>
     </table>
-
+     <div style="display:flex; justify-content:center;color:#8B0000">
+        {{knp_pagination_render(pagination)}}
+    </div>
     <a href="{{ path('app_jeu_new') }}">Create new</a>
  
 {% endblock %}

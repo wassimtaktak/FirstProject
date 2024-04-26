@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Entity\Jeu;
+use App\Entity\Tournoi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,18 +38,5 @@ class JeuRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    /**
-     *
-     * @param string $searchQuery
-     * @return Jeu[]
-     */
-    public function findBySearchQuery(string $searchQuery): array
-    {
-        return $this->createQueryBuilder('j')
-            ->andWhere('j.nom LIKE :search')
-            ->setParameter('search', '%' . $searchQuery . '%')
-            ->orderBy('j.nom', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
+    
 }

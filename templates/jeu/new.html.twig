@@ -17,16 +17,22 @@
                     {% endfor %}
                     
                     <form method="POST" action="{{ path('app_jeu_new') }}" enctype="multipart/form-data">
-                        {{ form_start(form) }}
+                        {{ form_start (form,{'attr': {'novalidate': 'novalidate'}}) }}
 
                         <div class="form-floating mb-3">
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'id': 'floatingInput'}}) }}
                             <label for="floatingInput">Nom jeu</label>
+                                <div class="invalid-feedback">
+                                {{ form_errors(form.nom) }}
+                                </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Image du jeu</label>
-                            {{ form_widget(form.imagejeu, {'attr': {'class': 'form-control bg-dark', 'id': 'formFile'}}) }}
+                            {{ form_widget(form.imagejeu, {'attr': {'class': 'form-control bg-dark','id': 'validationCustom02', 'class': 'needs-validation'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.imagejeu) }}
+                            </div>
                         </div>
                         <div style="margin-top:10px;display:flex;justify-content:center;">
                             <a style="background-color:gray;margin-right:10px" class="show-btn" href="{{ path('app_jeu_index') }}">Annuler</a>

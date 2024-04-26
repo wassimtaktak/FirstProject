@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Entity\Tournoi;
+use App\Entity\Jeu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -69,6 +70,16 @@ class TournoiRepository extends ServiceEntityRepository
         $count = $qb->getSingleScalarResult();
 
         return $count > 0;
+    }
+    public function countTournoisByJeu(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id) AS nombreTournois', 'j.nom AS jeuNom')
+            ->join('t.idjeu', 'j')
+            ->groupBy('j.nom')
+            ->orderBy('nombreTournois', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
     
 }

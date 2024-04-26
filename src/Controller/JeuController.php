@@ -15,31 +15,35 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Form\FormError;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 #[Route('/jeu')]
 class JeuController extends AbstractController
 {
     #[Route('/', name: 'app_jeu_index', methods: ['GET'])]
-    public function index(Request $request, JeuRepository $jeuRepository): Response
+    public function index(Request $request, JeuRepository $jeuRepository,PaginatorInterface $paginator): Response
     {
-        $searchQuery = $request->query->get('q');
         $type = $request->query->get('type');
-    
-        if ($searchQuery) {
-            $jeus = $jeuRepository->findBySearchQuery($searchQuery);
-        } elseif ($type === 'alphabetique-desc') {
+        
+        if ($type === 'alphabetique-desc') {
             $jeus = $jeuRepository->findBy([], ['nom' => 'DESC']);
         } else {
             $jeus = $jeuRepository->findBy([], ['nom' => 'ASC']);
         }
-    
+        $pagination = $paginator->paginate(
+            $jeus,
+            $request->query->getInt('page', 1), 
+            4 
+        );
+        
         return $this->render('jeu/index.html.twig', [
-            'jeus' => $jeus,
+            
+            'pagination' => $pagination,
         ]);
     }
 
-
+ 
     #[Route('/new', name: 'app_jeu_new', methods: ['GET', 'POST'])]
     public function new(Request $request, JeuRepository $jeuRepository): Response
     {
@@ -50,14 +54,14 @@ class JeuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $nom = $form->get('nom')->getData();
             $imageFile = $form->get('imagejeu')->getData();
-            if (empty($nom)) {
+           /* if (empty($nom)) {
                 $this->addFlash('error', 'Le champ "Nom" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_new');
             }
             if (empty($imageFile)) {
                 $this->addFlash('error', 'Le champ "Image du jeu" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_new');
-            }
+            }*/
             $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
             if ($existingJeu) {
                 $this->addFlash('error', 'Le nom du jeu existe déjà.');
@@ -104,10 +108,10 @@ class JeuController extends AbstractController
             $imageFile = $form->get('imagejeu')->getData();
             
           
-            if (!$imageFile) {
+          /*  if (!$imageFile) {
                 $this->addFlash('error', 'Le champ "Image du jeu" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
-            }
+            }*/
          
             $existingJeu = $jeuRepository->findOneBy(['nom' => $nom]);
             if ($existingJeu && $existingJeu->getId() !== $jeu->getId()) {
@@ -116,10 +120,10 @@ class JeuController extends AbstractController
             }
             
            
-            if (empty($nom)) {
+           /* if (empty($nom)) {
                 $this->addFlash('error', 'Le champ "Nom" ne peut pas être vide.');
                 return $this->redirectToRoute('app_jeu_edit', ['id' => $jeu->getId()]);
-            }
+            }*/
           
             $file = $form->get('imagejeu')->getData();
             if ($file!=$imageFileName) {
@@ -170,5 +174,5 @@ class JeuController extends AbstractController
     
         return $this->redirectToRoute('app_jeu_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+  
 }

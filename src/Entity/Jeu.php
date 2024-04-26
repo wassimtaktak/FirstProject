@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Jeu
  *
@@ -24,14 +24,16 @@ class Jeu
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Le nom ne peut pas être vide")
+     * @ORM\Column(name="nom", type="string", length=50, nullable=true)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imageJeu", type="string", length=150, nullable=false)
+     * @Assert\NotBlank(message="L'image ne peut pas être vide")
+     * @ORM\Column(name="imageJeu", type="string", length=150, nullable=true)
      */
     private $imagejeu;
 

@@ -12,12 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/tournoi')]
 class TournoiController extends AbstractController
 {
     #[Route('/', name: 'app_tournoi_index', methods: ['GET'])]
-    public function index(Request $request, TournoiRepository $tournoiRepository, JeuRepository $jeuRepository): Response
+    public function index(Request $request, TournoiRepository $tournoiRepository, JeuRepository $jeuRepository,PaginatorInterface $paginator): Response
     {
         $gameId = $request->query->get('game');
         $jeux = $jeuRepository->findAll();
@@ -27,13 +28,24 @@ class TournoiController extends AbstractController
         } else {
             $tournois = $tournoiRepository->findFilteredAndSortedTournois($request->query->get('type'));
         }
-        
+        $pagination = $paginator->paginate(
+            $tournois,
+            $request->query->getInt('page', 1), 
+            3
+        );
         return $this->render('tournoi/index.html.twig', [
-            'tournois' => $tournois,
+            'pagination' => $pagination,
             'jeux' => $jeux,
         ]);
     }
-
+    #[Route('/statistiques', name: 'app_statistiques', methods: ['GET'])]
+    public function statistiques(TournoiRepository $tournoiRepository): Response
+    {
+        $tournoisByJeu= $tournoiRepository->countTournoisByJeu();
+        return $this->render('tournoi/statistiques.html.twig', [
+            'tournoisByJeu' => $tournoisByJeu,
+        ]);
+    }
     
     #[Route('/new', name: 'app_tournoi_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -171,4 +183,6 @@ class TournoiController extends AbstractController
 
         return $this->redirectToRoute('app_tournoi_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+   
 }

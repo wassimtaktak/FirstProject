@@ -29,7 +29,7 @@
     
     <div class="filters-content">
         <div style="margin-bottom:30px;" class="row grid">
-            {% for tournament in tournois %}
+            {% for tournament in pagination %}
                 <div class="col-sm-6 col-lg-4 ">
                     <div class="box">
                         <div>
@@ -52,9 +52,8 @@
         </div>
         
     </div>
-
-
-
-
+    <div style="display:flex; justify-content:center;color:#8B0000">
+        {{knp_pagination_render(pagination)}}
+    </div>
 
 {% endblock %}
