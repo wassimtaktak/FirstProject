@@ -4,6 +4,7 @@
 {% block active5 %}class="active"{% endblock %}
 {% block body %}
     <h2>{{forum.sujet}}</h2>
+    <a class="btn btn-lg btn-primary m-2" href="{{ path('app_forumadmin_statistics',{'id': forum.id}) }}">Voir Statistiques</a>
     
     
 

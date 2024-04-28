@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistics for Forum {{ forum.sujet }}{% endblock %}
+
+{% block body %}
+    <h1>Statistics for Forum: {{ forum.sujet }}</h1>
+
+    <div>
+        {% if usersWithPostCount is not empty %}
+            {% for userData in usersWithPostCount|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+                <div>
+                    <p>User: {{ userData[0].username }}</p>
+                    <p>Number of Posts: {{ userData.postCount }}</p>
+                </div>
+            {% else %}
+                <p>No users found for this forum</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Top 5 Users Bar Chart</h6>
+            <canvas id="top-users-bar-chart" width="688" height="343" style="display: block; box-sizing: border-box; height: 274.4px; width: 550.4px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Top 5 Users Bar Chart
+        var ctx = $("#top-users-bar-chart").get(0).getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: [
+                    {% for userData in usersWithPostCount|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+                        "{{ userData[0].username }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: 'Number of Posts',
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: [
+                        {% for userData in usersWithPostCount|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+                            {{ userData.postCount }},
+                        {% endfor %}
+                    ]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+{% endblock %}

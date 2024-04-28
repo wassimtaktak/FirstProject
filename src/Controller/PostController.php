@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\UserLikes;
 
 #[Route('/post')]
 class PostController extends AbstractController
@@ -61,10 +62,37 @@ class PostController extends AbstractController
     #[Route('/{id}/like', name: 'app_like_add', methods : ['GET'])]
     public function nblike(Post $post,EntityManagerInterface $entityManager):Response
     {
-        $post->setNbLike($post->getNbLike()+1);
-        $entityManager->persist($post);
+        // Get the current user from the session or authentication context
+        $user = new Utilisateur();
+        
+        $user->setId(5);
+
+    // Assuming you have a user entity with an ID property
+    $userId = $user->getId();
+
+    // Check if the user has already liked the post
+    $userLiked = $entityManager->getRepository(UserLikes::class)->findOneBy([
+        'user' => $user,
+        'post' => $post,
+    ]);
+
+    // If the user has not already liked the post, add a like
+    if (!$userLiked) {
+        // Update the like count of the post
+        $post->setNbLike($post->getNbLike() + 1);
+
+        // Create a new UserLikes entity and set its properties
+        $userLike = new UserLikes();
+        $userLike->setUser($user);
+        $userLike->setPost($post);
+
+        // Persist the UserLikes entity and flush changes to the database
+        $entityManager->persist($userLike);
         $entityManager->flush();
-        return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
+    }
+
+    // Redirect to the forum page or any other appropriate page
+    return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
         
     }
 

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+{% block active6 %}class="active"{% endblock %}
+{% block body %}
+    <h2>Statistiques du forum</h2>
+
+    <!-- Afficher les 5 premiers utilisateurs en fonction du nombre de posts -->
+    <h3>Top 5 utilisateurs par nombre de posts :</h3>
+    <ul>
+        {% for user in userData|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+            <li>{{ user.username }} - {{ user.postCount }} posts</li>
+        {% else %}
+            <li>Aucun utilisateur trouvé</li>
+        {% endfor %}
+    </ul>
+
+    {# Afficher un graphique à barres pour les statistiques des 5 meilleurs utilisateurs #}
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Graphique à barres des statistiques des 5 meilleurs utilisateurs</h6>
+            <canvas id="top-users-bar-chart" width="688" height="343" style="display: block; box-sizing: border-box; height: 274.4px; width: 550.4px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Graphique à barres des statistiques des 5 meilleurs utilisateurs
+        var ctx = $("#top-users-bar-chart").get(0).getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: [
+                    {% for user in userData|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+                        "{{ user.username }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: 'Nombre de posts',
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: [
+                        {% for user in userData|sort((a, b) => b.postCount - a.postCount)|slice(0, 5) %}
+                            {{ user.postCount }},
+                        {% endfor %}
+                    ]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+
+{% endblock %}

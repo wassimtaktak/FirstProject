@@ -5,6 +5,11 @@
 {% block body %}
 <h1>Liste des forums</h1>
 <a class="btn btn-lg btn-primary m-2" style="width:100%" href="{{ path('app_forum_new') }}">Ajouter forum</a>
+<div>
+        <h3>Trier par date de création :</h3>
+        <button class="btn btn-dark rounded-pill m-1" onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
+        <button class="btn btn-light rounded-pill m-1" onclick="sortByCreationDate('desc')">Plus récent en premier</button>
+    </div>
 
     
     <div class="row1">
@@ -16,7 +21,7 @@
                 <div class="card">
                     <div class="card-body" >
                         <a href="{{ path('app_forum_show', {'id': forum.id}) }}"><p class="card-title" >{{ forum.sujet }}</p></a>
-                        <p class="card-text">{{ forum.dateCreation }}</p>
+                        <p class="card-text date">{{ forum.dateCreation }}</p>
                     </div>
                 </div>
             
@@ -88,6 +93,34 @@
         margin-right : 10px;
     }
     </style>
+    <script>
+    function sortByCreationDate(order) {
+        // Sélectionnez toutes les réclamations
+        var reclamations = document.querySelectorAll('.card');
+
+        // Convertissez les réclamations en un tableau pour pouvoir les trier
+        var reclamationsArray = Array.from(reclamations);
+
+        // Triez les réclamations en fonction de la date de création
+        reclamationsArray.sort(function(a, b) {
+            // Récupérez les dates de création des réclamations
+            var dateA = new Date(a.querySelector('.date').textContent.trim());
+            var dateB = new Date(b.querySelector('.date').textContent.trim());
+
+            // Déterminez l'ordre de tri en fonction du paramètre order
+            if (order === 'asc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        });
+
+        // Mettez à jour l'affichage des réclamations dans le DOM
+        reclamationsArray.forEach(function(reclamation) {
+            reclamation.parentNode.appendChild(reclamation);
+        });
+    }
+    </script>
         
 
     

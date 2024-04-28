@@ -34,6 +34,12 @@ class Post
      * @ORM\Column(name="nb_like", type="integer", nullable=false)
      */
     private $nbLike;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_post", type="string", nullable=false)
+     */
+    private $datePost;
 
     /**
      * @var Forum
@@ -89,6 +95,15 @@ class Post
     {
         return $this->idForum;
     }
+    public function getDatePost(): ?string
+    {
+        return $this->datePost;
+    }
+
+    public function setDatePost(string $datePost): void
+    {
+        $this->datePost = $datePost;
+    }
 
     public function setIdForum(Forum $idForum): void
     {
@@ -104,6 +119,7 @@ class Post
     {
         $this->idUser = $idUser;
     }
+    
 
 
 }
