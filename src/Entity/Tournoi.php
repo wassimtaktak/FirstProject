@@ -5,6 +5,8 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\TournoiRepository;
 
 /**
  * Tournoi
@@ -26,6 +28,7 @@ class Tournoi
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Le champ nom ne peut pas être vide")
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
@@ -33,6 +36,7 @@ class Tournoi
     /**
      * @var string|null
      *
+     * @Assert\NotBlank(message="Le champ régles ne peut pas être vide")
      * @ORM\Column(name="regles", type="text", length=65535, nullable=true)
      */
     private $regles;
@@ -40,20 +44,23 @@ class Tournoi
     /**
      * @var DateTime|null
      *
+     * @Assert\NotBlank(message="Le champ date ne peut pas être vide")
      * @ORM\Column(name="jour", type="date", nullable=true)
      */
     private $jour;
 
     /**
      * @var int|null
-     *
+     * 
+     *@Assert\NotBlank(message="Le champ prix ne peut pas être vide")
      * @ORM\Column(name="prize", type="integer", nullable=true)
      */
     private $prize;
 
     /**
      * @var string|null
-     *
+     * 
+     * @Assert\NotBlank(message="Le champ date début ne peut pas être vide")
      * @ORM\Column(name="tempsDeb", type="string", length=20, nullable=true)
      */
     private $tempsdeb;
@@ -179,7 +186,7 @@ class Tournoi
         $this->nbrequipe = $nbrequipe;
     }
 
-    public function getIdjeu(): Jeu
+    public function getIdjeu(): ?Jeu
     {
         return $this->idjeu;
     }

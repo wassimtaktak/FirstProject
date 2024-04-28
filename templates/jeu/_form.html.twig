@@ -1,0 +1,7 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+        <div style="margin-top:30px;display:flex;justify-content:center;">
+        <a style="background-color:gray;margin-right:10px" class="show-btn" href="{{ path('app_jeu_index') }}">Annuler</a>
+        <button class="show-btn">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+{{ form_end(form) }}

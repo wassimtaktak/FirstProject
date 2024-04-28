@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(EntityManagerInterface $entityManager, TournoiRepository $tournoiRepository): Response
+    public function index(EntityManagerInterface $entityManager,TournoiRepository $tournoiRepository): Response
     {
         $tournois = $tournoiRepository->SortedTournois();
         return $this->render('home/index.html.twig', [

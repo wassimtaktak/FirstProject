@@ -1,0 +1,80 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+                
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Nombre de tournoi par jeu</h6>
+                                <a href="">Show All</a>
+                            </div>
+                            <canvas id="jeuChart"></canvas>
+                        </div>
+                
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('jeuChart').getContext('2d');
+            var tournoisByJeu = {{ tournoisByJeu|json_encode|raw }};
+
+            var labels = [];
+            var data = [];
+            var backgroundColors = []; // Tableau pour stocker les couleurs
+
+            // Définir les couleurs pour chaque événement
+            var colors = ['#EB1616', '#dc3545', '#dc3545', '#dc3545']; // Ajoutez plus de couleurs si nécessaire
+
+            tournoisByJeu.forEach(function (tournoi, index) {
+                labels.push(tournoi.jeuNom);
+                data.push(tournoi.nombreTournois);
+                backgroundColors.push(colors[index % colors.length]); // Choix de couleur circulaire
+            });
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nombre des tournois',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+            options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)' 
+                    },
+                    title: {
+                    display: true,
+                    text: 'Nombre des tournoi',
+                    color: 'white'
+                }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)' 
+                    },
+                    title: {
+                    display: true,
+                    text: 'Nom de Jeu',
+                    color: 'white' 
+                }
+                }
+            }
+        }
+    });
+});
+    </script>
+{% endblock %}
