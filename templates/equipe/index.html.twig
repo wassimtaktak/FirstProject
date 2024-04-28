@@ -29,11 +29,13 @@
                                               <h4>Les Participants</h4>
                                           </div>
                                       </div>
+                                      {% if myteam %}
                                       <div class="col-lg-4 col-md-4 col-sm-6">
                                           <div class="product__page__filter">
-                                              <a class="btn btn-outline-primary m-2" href="{{ path('app_afficher_equipe', {'id': 59 ,'idtournoi': idtournoi}) }}">mon équipe</a>
+                                              <a class="btn btn-outline-primary m-2" href="{{ path('app_afficher_equipe', {'idtournoi': idtournoi}) }}">mon équipe</a>
                                           </div>
                                       </div>
+                                      {% endif %}
                                   </div>
                               </div>
                               <div class="row">

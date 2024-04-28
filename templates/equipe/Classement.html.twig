@@ -56,4 +56,8 @@
                             </div>
                           </div>
     </section>
+    {% if existefinale and not existunupdated and gagnant %}
+    <h3>vous avez gagné le tournoi </h3>
+    <a class="btn btn-outline-primary m-2" href="{{ path('app_generer_certificat') }}"> génerer cetificat </a>
+    {% endif %}
 {% endblock %}

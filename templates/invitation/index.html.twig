@@ -1,0 +1,39 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Invitation index{% endblock %}
+
+{% block body %}         
+    <section class="anime-details spad">
+        <div class="container">
+            <div class="anime__details__content">
+                
+                    <div class="col-lg-12 col-md-12">
+                        <div class="anime__details__review">
+                            <div class="section-title">
+                                <h5>Invitations</h5>
+                            </div>
+                            {% for inv in invitations %}
+                            <div class="anime__review__item">
+                                <div class="anime__review__item__pic">
+                                    <img src="{{asset("img/user.png")}}" alt="">
+                                </div>
+                                <div class="anime__review__item__text">
+                                    <h6>{{inv.joueurinviteur.username}} - <span>1 Hour ago</span></h6>
+                                    <p>Vous avez reçu une invitation pour rejoindre l equipe  <b>{{inv.idequipe.nom}}
+                                    <div class="d-inline">
+                                        <a  type="button" href="{{ path('invitation_accept', {'id': inv.id}) }}" class="btn btn-success mr-2">Accepter</a>
+                                        <a type="button" href="{{ path('invitation_refuse', {'id': inv.id}) }}" class="btn btn-danger">Refuser</a>
+                                    </div>  
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!---->
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </section
+{% endblock %}

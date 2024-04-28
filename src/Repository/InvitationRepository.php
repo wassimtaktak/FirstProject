@@ -2,26 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Membre;
+use App\Entity\Invitation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Membre;
+
 
 /**
- * @extends ServiceEntityRepository<Membre>
+ * @extends ServiceEntityRepository<Invitation>
  *
- * @method Membre|null find($id, $lockMode = null, $lockVersion = null)
- * @method Membre|null findOneBy(array $criteria, array $orderBy = null)
- * @method Membre[]    findAll()
- * @method Membre[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Invitation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Invitation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Invitation[]    findAll()
+ * @method Invitation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MembreRepository extends ServiceEntityRepository
+class InvitationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Membre::class);
+        parent::__construct($registry, Invitation::class);
     }
 
-    public function add(Membre $entity, bool $flush = false): void
+    public function add(Invitation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +32,7 @@ class MembreRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Membre $entity, bool $flush = false): void
+    public function remove(Invitation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,25 +41,17 @@ class MembreRepository extends ServiceEntityRepository
         }
     }
     
-    public function findMembresByEquipeId($idEquipe)
+    public function findInvitationsByJoueurInviteAndStatut($idJoueurInvite)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.idequipe = :idEquipe')
-            ->setParameter('idEquipe', $idEquipe)
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.joueurinvite = :idJoueurInvite')
+            ->andWhere('i.statut = :statut')
+            ->setParameter('idJoueurInvite', $idJoueurInvite)
+            ->setParameter('statut', 'en attente')
             ->getQuery()
             ->getResult();
     }
-    public function findMembreByEquipeAndUserId($idEquipe, $idUser)
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.idequipe = :idEquipe')
-            ->andWhere('m.iduser = :idUser')
-            ->setParameter('idEquipe', $idEquipe)
-            ->setParameter('idUser', $idUser)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
+    
 
 //    /**
 //     * @return Pays[] Returns an array of Pays objects
