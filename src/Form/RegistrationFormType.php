@@ -23,7 +23,7 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-black', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'username', 'placeholder' => 'Nom d\'utilisateur'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -36,7 +36,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', TextType::class, [
                 'label' => 'Adresse email :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'email', 'placeholder' => 'Adresse email'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -51,7 +51,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'nom', 'placeholder' => 'Nom'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -67,7 +67,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'Prenom', 'placeholder' => 'Prenom'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -83,7 +83,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'telephone', 'placeholder' => 'Téléphone'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -100,8 +100,8 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
-                'label' => 'Passwrod',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label' => 'Passwrod : ',
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'password', 'placeholder' => 'Password'],
                 'required' => false,
@@ -112,7 +112,7 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+
                         'max' => 4096,
                     ]),
                 ],
