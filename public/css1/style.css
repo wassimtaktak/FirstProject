@@ -38,6 +38,16 @@ body {
 	-webkit-font-smoothing: antialiased;
 	background: #0b0b0b;
 }
+.fc-header-toolbar {
+    background-color: #313030; 
+}
+
+.fc-daygrid-event {
+    background-color: #dc3545; 
+}
+.fc {
+    background-color: #313131; 
+}
 /***card ***/
 .box {
     position: relative;
@@ -1179,16 +1189,16 @@ ol {
 }
 
 .anime__details__btn .follow-btn {
-	font-size: 13px;
+
+	border-radius: 10px ;
 	color: #ffffff;
 	background: #e53637;
 	display: inline-block;
-	font-weight: 700;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-	padding: 14px 20px;
-	border-radius: 4px;
+	padding: 10px 10px;
 	margin-right: 11px;
+	margin-left: 11px;
 }
 
 .anime__details__btn .watch-btn span {

@@ -17,6 +17,8 @@ use Knp\Component\Pager\PaginatorInterface;
 #[Route('/tournoi')]
 class TournoiController extends AbstractController
 {
+  
+    
     #[Route('/', name: 'app_tournoi_index', methods: ['GET'])]
     public function index(Request $request, TournoiRepository $tournoiRepository, JeuRepository $jeuRepository,PaginatorInterface $paginator): Response
     {
@@ -46,7 +48,25 @@ class TournoiController extends AbstractController
             'tournoisByJeu' => $tournoisByJeu,
         ]);
     }
+    #[Route('/calendrier', name: 'app_tournoi_calendrier', methods: ['GET'])]
+    public function calendar(TournoiRepository $tournoiRepository): Response
+    {
+        $tournaments = $tournoiRepository->findAll();
+        $events = [];
+        foreach ($tournaments as $tournament) {
+            $startDateTime = $tournament->getJour()->format('Y-m-d') . 'T' . $tournament->getTempsdeb();
+            $events[] = [
+                'title' => $tournament->getName(),
+                'start' => $startDateTime, 
+                'url' => $this->generateUrl('app_tournoi_show', ['id' => $tournament->getId()]),
+               
+            ];
+        }
     
+        return $this->render('tournoi/Calender.html.twig', [
+            'events' => $events, 
+        ]);
+    }
     #[Route('/new', name: 'app_tournoi_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
