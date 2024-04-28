@@ -3,41 +3,43 @@
 {% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>{{app.user.username}}</h1>
+   
+    <div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-xl-8">
+                <div class="rounded h-100 p-4" style="background: #262626;text-align: center;">
+                    <h1 style="margin-bottom: 30px;text-align: center;">{{app.user.username}}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ utilisateur.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ utilisateur.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ utilisateur.email }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ utilisateur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ utilisateur.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ utilisateur.telephone }}</td>
-            </tr>
-        </tbody>
-    </table>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="color: white;">Username</th>
+                                <td style="color: white;">{{ app.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th style="color: white;">Email</th>
+                                <td style="color: white;">{{ app.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th style="color: white;">Nom</th>
+                                <td style="color: white;">{{ app.user.nom }}</td>
+                            </tr>
+                            <tr>
+                                <th style="color: white;">Prenom</th>
+                                <td style="color: white;">{{ app.user.prenom }}</td>
+                            </tr>
+                            <tr>
+                                <th style="color: white;">Telephone</th>
+                                <td style="color: white;">{{ app.user.telephone }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
-
-    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+                    <a href="{{ path('app_utilisateur_edit', {'id': app.user.id}) }}" class="btn btn-outline-light m-2">edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
-    {{ include('utilisateur/_delete_form.html.twig') }}
 {% endblock %}

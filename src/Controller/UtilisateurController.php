@@ -56,12 +56,23 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_utilisateur_show', methods: ['GET'])]
-    public function show(Utilisateur $utilisateur): Response
+    public function show(\Symfony\Component\Security\Core\Security $security): Response
     {
+        $user = $security->getUser();
+
+        // Initialize the userId variable
+        $userId = null;
+
+        // Check if a user is logged in
+        if ($user) {
+            $userId = $user->getId();
+        }
+
         return $this->render('utilisateur/show.html.twig', [
-            'utilisateur' => $utilisateur,
+            'userId' => $userId,
         ]);
     }
+
 
     #[Route('/{id}/editUser', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
