@@ -22,7 +22,7 @@ class UtilisateurTypeNoRole extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'username', 'placeholder' => 'Nom d\'utilisateur'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -35,7 +35,7 @@ class UtilisateurTypeNoRole extends AbstractType
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'label' => 'Mot de passe :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'password', 'placeholder' => 'Mot de passe'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -47,7 +47,7 @@ class UtilisateurTypeNoRole extends AbstractType
             ])
             ->add('email', TextType::class, [
                 'label' => 'Adresse email :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'email', 'placeholder' => 'Adresse email'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -62,7 +62,7 @@ class UtilisateurTypeNoRole extends AbstractType
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'nom', 'placeholder' => 'Nom'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -78,7 +78,7 @@ class UtilisateurTypeNoRole extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'prenom', 'placeholder' => 'Prénom'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,
@@ -94,7 +94,7 @@ class UtilisateurTypeNoRole extends AbstractType
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
+                'label_attr' => ['class' => 'col-sm-4 label-white', 'style' => 'color : white'],
                 'attr' => ['class' => 'form-control col-sm-6', 'id' => 'telephone', 'placeholder' => 'Téléphone'],
                 'row_attr' => ['class' => 'mb-3 row'],
                 'required' => false,

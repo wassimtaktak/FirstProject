@@ -98,20 +98,17 @@ class UtilisateurController extends AbstractController
     {
         $form = $this->createForm(UtilisateurTypeNoRole::class, $utilisateur);
         $form->handleRequest($request);
-        $utilisateur = $this->getUser();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($utilisateur);
+
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_utilisateur_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_utilisateur_show', ['id' => $utilisateur->getId()], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('utilisateur/editProfile.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);
     }
-
     #[Route('/delete/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {

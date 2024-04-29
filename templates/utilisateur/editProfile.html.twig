@@ -8,20 +8,18 @@
         <div class="col-sm-12 col-xl-8">
             <div class="rounded h-100 p-4" style="background: #262626;text-align: center;">
                 <h1 class="text-center">modify your profile</h1>
-                <div class="container-fluid pt-4 px-4" style="margin-bottom: 110px;">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-12 col-xl-8">
+                <br>
+                
                                                       
-                                <div class="text-center col-12 mt-4">
+                                
                                     {{ form_start(form) }}
                                         {{ form_widget(form) }}
-                                    {{ form_end(form) }}
-                                    <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+                                    
+                                    <button type="submit" class="btn btn-outline-light m-2">{{ button_label|default('Save') }}</button>
                                     <a type="button" class="btn btn-outline-light m-2" href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}">Annuler</a>        
-                            </div>
+                                    {{ form_end(form) }}
                     
-                </div>
-            </div>
+                
         </div>
     </div>
 </div>
