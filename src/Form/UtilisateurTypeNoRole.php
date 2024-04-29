@@ -108,15 +108,6 @@ class UtilisateurTypeNoRole extends AbstractType
                     ]),
                 ],
 
-            ])
-            ->add('idrole', EntityType::class, [
-                'class' => 'App\Entity\Role',
-                'choice_label' => 'role',
-                'label' => 'Rôle :',
-                'label_attr' => ['class' => 'col-sm-4 label-white'],
-                'attr' => ['class' => 'form-control col-sm-6', 'id' => 'idrole'],
-                'row_attr' => ['class' => 'mb-3 row'],
-                'required' => true
             ]);
 
     }
