@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * Produit
  *
@@ -30,6 +29,8 @@ class Produit
      * @Assert\NotBlank(message="libelle doit etre non vide")
      * @Assert\Length(min=4, minMessage="libelle doit contenir au moins 4 caractères")
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Titre doit etre non vide")
+     * @Assert\Length(min=5, minMessage="Titre doit contenir au moins {{ limit }} caractères")
      */
     private $libelle;
 

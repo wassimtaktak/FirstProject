@@ -35,49 +35,45 @@
 			<div class="loader"></div>
 		</div>
 
-		<!-- Header Section Begin -->
-		<header class="header">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-2">
-						<div class="header__logo">
-							<a href="./index.html">
-								<img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-8">
-						<div class="header__nav">
-							<nav class="header__menu mobile-menu">
-								<ul>
-									<li class="active">
-										<a href="./index.html">Home</a>
-									</li>
-									<li>
-										<a href="./blog.html">Nos tournois</a>
-									</li>
-									<li>
-										<a href="{{ path ('produit_cards') }}">Produits</a>
-									</li>
-									<li>
-										<a href="./blog.html">Réclamations</a>
-									</li>
-									<li>
-										<a href="#">Forum</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="header__right">
-							<a href="#" class="search-switch">
-								<span class="icon_search"></span>
-							</a>
-							<a href="./login.html">
-								<span class="icon_profile"></span>
-							</a>
-							<a href="/produit/checkout">
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a href="./index.html">
+                            <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li class="active"><a href="./index.html">Home</a></li>
+                                <li><a href="./blog.html">Nos tournois</a></li>
+                                <li><a href="./blog.html">Produits</a></li>
+                                <li><a href="./blog.html">Réclamations</a></li>
+                                <li><a href="#">Forum</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        {% if app.user is not null %}
+                            <a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}"><span class="icon_profile"></span></a>
+                        {% else %}
+                            <a href="#"><span class="icon_profile"></span></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header End -->
 
 								<span class="badge badge-light">
 									Panier {{ app.session.get('products')|length }}

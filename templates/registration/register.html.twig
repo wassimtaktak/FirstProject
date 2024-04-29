@@ -1,0 +1,35 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
+    <div class="row justify-content-center" style="align-items : center">
+        <div class="col-sm-12 col-xl-8">
+            <div class="rounded h-100 p-4" style="background : #262626;">
+              <h1 style="margin-bottom: 30px;text-align : center">Register</h1>
+               {{ form_errors(registrationForm) }}
+
+                {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.username) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.nom) }}
+                {{ form_row(registrationForm.prenom) }}
+                {{ form_row(registrationForm.telephone) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password : '
+                }) }}
+        
+        
+        
+        <div class="text-center col-12 mt-4">
+        <button type="submit" class="btn btn-outline-light m-2" >Register</button>
+        <br>
+        <a href="{{path('app_login')}}"class="forget__pass">Already have an account?Log in here!</a>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
