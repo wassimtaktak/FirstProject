@@ -52,6 +52,7 @@
                                 <li><a href="./blog.html">Produits</a></li>
                                 <li><a href="./blog.html">Réclamations</a></li>
                                 <li><a href="#">Forum</a></li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -61,6 +62,7 @@
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
                         {% if app.user is not null %}
                             <a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}"><span class="icon_profile"></span></a>
+                            
                         {% else %}
                             <a href="#"><span class="icon_profile"></span></a>
                         {% endif %}
