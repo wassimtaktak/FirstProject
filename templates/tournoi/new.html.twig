@@ -16,6 +16,7 @@
         <div class="row g-4">
             <div class="col-sm-12 col-xl-6" >
                 <div class="bg-secondary rounded h-100 p-4" style="width:150% ;margin-top:5px;margin-left:120px">
+                <a style="display:flex;Text-align:right;justify-content:right;color:#fff"href="{{ path('app_statistiques') }}">Consulter les Statistiques</a>
                     <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; ">Ajouter un Tournoi</h1>
                     {% for message in app.flashes('success') %}
                             <div class="alert alert-success">{{ message }}</div>

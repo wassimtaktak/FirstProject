@@ -23,10 +23,15 @@
     <button style="background-color:#8B0000"type="submit" class="btn btn-primary">Filtrer</button>
 </form>
 
+    {% if app.user and app.user.idrole.id == 2 %}
     <div style="text-align: right;">
         <a href="{{ path('app_tournoi_new') }}" class="add-btn">Add</a>
     </div>
-    
+    {% else %}
+   <div style="text-align: right;">
+       <a href="{{ path('app_tournoi_calendrier') }}" >Calendrier des Tournois</a>
+    </div>
+    {% endif %}
     <div class="filters-content">
         <div style="margin-bottom:30px;" class="row grid">
             {% for tournament in pagination %}

@@ -8,7 +8,6 @@
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">Nombre de tournoi par jeu</h6>
-                                <a href="">Show All</a>
                             </div>
                             <canvas id="jeuChart"></canvas>
                         </div>
@@ -29,7 +28,7 @@
             var backgroundColors = []; // Tableau pour stocker les couleurs
 
             // Définir les couleurs pour chaque événement
-            var colors = ['#EB1616', '#dc3545', '#dc3545', '#dc3545']; // Ajoutez plus de couleurs si nécessaire
+            var colors = ['#dc3545']; // Ajoutez plus de couleurs si nécessaire
 
             tournoisByJeu.forEach(function (tournoi, index) {
                 labels.push(tournoi.jeuNom);

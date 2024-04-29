@@ -75,6 +75,15 @@ class EquipeRepository extends ServiceEntityRepository
 
     return $count > 0;
 }
+    public function countTeamsInTournament(Tournoi $tournoi): int
+    {
+        return $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->andWhere('e.idtournoi = :tournoiId')
+            ->setParameter('tournoiId', $tournoi->getId())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
 //    /**
 //     * @return Pays[] Returns an array of Pays objects

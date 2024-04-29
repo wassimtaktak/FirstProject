@@ -65,12 +65,16 @@
                             </div>
                             <div style="display:flex;justify-content:center;"class="anime__details__btn">
                                 <a style="background-color:gray; margin-right:10px;" class="show-btn" href="{{ path('app_tournoi_index') }}">Annuler</a>
+                                {% if app.user and app.user.idrole.id == 2 %}
                                 <a href="{{ path('app_tournoi_edit', {'id': tournoi.id}) }}" class="show-btn">Modifier</a>
-                                <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i>S'inscrire</a>
+                                {% endif %}
+                                <a href="{{ path('app_equipe_show', {'id': tournoi.id}) }}" class="follow-btn"><i class="fa fa-heart-o"></i>S'inscrire</a>
+                                {% if app.user and app.user.idrole.id == 2 %}
                                 <form method="post" action="{{ path('app_tournoi_delete', {'id': tournoi.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce tournoi ?');">
                                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tournoi.id) }}">
                                     <a> <button type="submit" class="show-btn">Supprimer</button></a>
                                 </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>

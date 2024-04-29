@@ -61,6 +61,10 @@ class Tournoi
      * @var string|null
      * 
      * @Assert\NotBlank(message="Le champ date début ne peut pas être vide")
+     * @Assert\Regex(
+     * pattern="/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/",
+     * message="Le format du temps doit être HH:mm"
+     * )
      * @ORM\Column(name="tempsDeb", type="string", length=20, nullable=true)
      */
     private $tempsdeb;
@@ -75,6 +79,7 @@ class Tournoi
     /**
      * @var int|null
      *
+     * @Assert\NotBlank(message="Le champ nombre de joueurs par équipe ne peut pas être vide")
      * @ORM\Column(name="jpt", type="integer", nullable=true)
      */
     private $jpt;
@@ -82,6 +87,7 @@ class Tournoi
     /**
      * @var int|null
      *
+     * @Assert\NotBlank(message="Le champ nombre d'équipe ne peut pas être vide")
      * @ORM\Column(name="NbrEquipe", type="integer", nullable=true)
      */
     private $nbrequipe;

@@ -86,7 +86,6 @@
                     {% endfor %} 
                 </div>
             </div>
-
                  <div class="popular__product">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -100,6 +99,25 @@
                                 </div>
                             </div>
                         </div>
+            <div class="row">
+                {% set tProduits = produits|slice(0, 3) %}
+                {% for produit in tProduits %}
+                <div style="box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), 0 0 30px 5px rgba(255, 255, 255, 0.5), inset 0 0 15px 2px #8B0000, inset 0 0 30px 5px #8B0000;" class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ asset('img/' ~ produit.image) }}">
+                                <div style="background-color:#8B0000"class="ep">Acheter maintenant</div>
+                            </div>
+                            <div class="product__item__text">
+                                <ul>
+                                    <li>{{produit.marque}}</li>
+                                </ul>
+                                <h5 style="text-align:center;"><a href="#">{{produit.libelle}}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} 
+                </div>
+            </div>
           
 </section>
 <!-- Product Section End -->
