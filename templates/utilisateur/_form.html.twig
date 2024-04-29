@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    
+    <div class="text-center col-12 mt-4">
+        <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
+        <a type="button" class="btn btn-outline-light m-2" href="{{ path('app_utilisateur_index') }}">Annuler</a>
+        
+    </div>
+        
+{{ form_end(form) }}

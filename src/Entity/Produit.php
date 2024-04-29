@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produit
@@ -21,10 +22,14 @@ class Produit
      */
     private $id;
 
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="Titre doit etre non vide")
+     * @Assert\Length(min=5, minMessage="Titre doit contenir au moins {{ limit }} caractères")
      */
     private $libelle;
 
@@ -59,9 +64,9 @@ class Produit
     /**
      * @var int|null
      *
-     * @ORM\Column(name="like", type="integer", nullable=true)
+     * @ORM\Column(name="likes", type="integer", nullable=true)
      */
-    private $like = '0';
+    private $likes = '0';
 
     /**
      * @var Categorie
@@ -136,20 +141,20 @@ class Produit
     /**
      * @return int|string|null
      */
-    public function getLike()
+    public function getLikes()
     {
-        return $this->like;
+        return $this->likes;
     }
 
     /**
      * @param int|string|null $like
      */
-    public function setLike($like): void
+    public function setLikes($likes): void
     {
-        $this->like = $like;
+        $this->likes = $likes;
     }
 
-    public function getCategorie(): Categorie
+    public function getCategorie(): ?Categorie
     {
         return $this->categorie;
     }
@@ -158,6 +163,4 @@ class Produit
     {
         $this->categorie = $categorie;
     }
-
-
 }

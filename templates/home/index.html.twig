@@ -1,0 +1,110 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<section class="hero">
+    <div  class="container">
+        <div style="box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), 0 0 30px 5px rgba(255, 255, 255, 0.5), inset 0 0 15px 2px #8B0000, inset 0 0 30px 5px #8B0000;" class="hero__slider owl-carousel">
+            
+            <div>
+                <div  class="video-background">
+                    <video autoplay muted loop style="width: 100%; height: auto;">
+                        <source src="/uploads/7914778-hd_1920_1080_30fps.mp4" type="video/mp4">
+                        </video>
+                </div>
+                
+            </div>
+            {% set tri_tournament = tournois|sort((a, b) => a.jour <=> b.jour) %}
+            {% set closest_tournament = tri_tournament|slice(0,1) %}
+            {% for tournoi in closest_tournament %}
+            <div class="hero__items set-bg" data-setbg={{ asset('uploads/images/' ~ tournoi.idjeu.imagejeu) }}>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <div class="label">{{tournoi.idjeu.nom}}</div>
+                            <h2 style="color:#8B0000;">{{tournoi.name}}</h2>
+                            <p>Dernière chance pour rejoindre le tournoi</p>
+                            <a href="{{ path('app_tournoi_show', {'id': tournoi.id}) }}"><span>Inscription</span> <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Third Slide with Image Background -->
+            <div class="hero__items set-bg" data-setbg="img/hero/hero-3.jpg">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <div class="label">Third Label</div>
+                            <h2>Third Title</h2>
+                            <p>Third description...</p>
+                            <a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Hero Section End -->
+
+    <!-- Product Section Begin -->
+    
+    <section class="product spad">
+       <div class="trending__product">
+            <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="section-title">
+                <h4>Nos tournois</h4>
+            </div>
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="btn__all">
+                <a href="/tournoi" class="primary-btn">View All <span class="arrow_right"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+                    {% set tournois_tries = tournois|sort((a, b) => a.jour <=> b.jour) %}
+                    {% set prochains_tournois = tournois_tries|slice(0, 3) %}
+                    {% for tournoi in prochains_tournois %}
+                    <div style="box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5), 0 0 30px 5px rgba(255, 255, 255, 0.5), inset 0 0 15px 2px #8B0000, inset 0 0 30px 5px #8B0000;" class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/images/' ~ tournoi.idjeu.imagejeu) }}">
+                                <div style="background-color:#8B0000"class="ep">S'inscrire maintenant</div>
+                                <div class="comment"><i class="fa fa-clock"></i> {{tournoi.tempsdeb}}</div>
+                                <div class="view"><i class="icon ion-md-calendar"></i>{{ tournoi.jour | date('d-m-Y') }}</div>
+                            </div>
+                            <div class="product__item__text">
+                                <ul>
+                                    <li>{{tournoi.idjeu.nom}}</li>
+                                </ul>
+                                <h5 style="text-align:center;"><a href="{{ path('app_tournoi_show', {'id': tournoi.id}) }}">{{tournoi.name}}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} 
+                </div>
+            </div>
+
+                 <div class="popular__product">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Nos Produits</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+          
+</section>
+<!-- Product Section End -->
+
+
+{% endblock %}
