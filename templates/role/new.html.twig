@@ -3,9 +3,18 @@
 {% block title %}New Role{% endblock %}
 
 {% block body %}
+<div class="text-center col-12 mt-4">
     <h1>Create new Role</h1>
-
+    </div>
+    <div class="container-fluid pt-4 px-4" style="margin-bottom: 110px;">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-xl-8">
+                                <div class="bg-secondary rounded h-100 p-4">
     {{ include('role/_form.html.twig') }}
+ </div>
+            </div>
 
-    <a href="{{ path('app_role_index') }}">back to list</a>
+        </div>
+    </div>
+
 {% endblock %}

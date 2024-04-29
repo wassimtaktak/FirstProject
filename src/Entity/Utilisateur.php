@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="utilisateur", indexes={@ORM\Index(name="idRole", columns={"idRole"})})
  * @ORM\Entity
  */
-class Utilisateur
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
@@ -72,6 +76,9 @@ class Utilisateur
      * })
      */
     private $idrole;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function getId(): int
     {
@@ -143,7 +150,7 @@ class Utilisateur
         $this->telephone = $telephone;
     }
 
-    public function getIdrole(): Role
+    public function getIdrole(): ?Role
     {
         return $this->idrole;
     }
@@ -152,6 +159,30 @@ class Utilisateur
     {
         $this->idrole = $idrole;
     }
+    public function getSalt()
+    {
+        // Implement to return the salt
+    }
 
+    public function eraseCredentials()
+    {
+        // Implement to erase sensitive data from the user
+    }
+    public function getRoles(): array
+    {
+        return [];
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified)
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
 
 }
