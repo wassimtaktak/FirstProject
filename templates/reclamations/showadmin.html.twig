@@ -119,12 +119,14 @@
                 <div class="card-body">
                     <label for="status">Selectionner Statut:</label>
                     <select id="status" name="status" class="form-control" style="background-color:#262626">
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Resolved">Resolved</option>
+                        <option value="Pending" {% if reclamation.status == 'Resolved' %} disabled {% endif %}>Pending</option>
+                        <option value="In Progress" {% if reclamation.status == 'Resolved' %} disabled {% endif %}>In Progress</option>
+                        <option value="Resolved" {% if reclamation.status == 'Resolved' %} selected disabled {% endif %}>Resolved</option>
                     </select>
+
+
                 </div>
-                <button type="submit" class="btn btn-primary rounded-pill m-2">Update Status</button>
+                <button type="submit" class="btn btn-primary rounded-pill m-2" {% if reclamation.status == 'Resolved' %}disabled{% endif %} >Update Status</button>
             </form>
             </div>
 

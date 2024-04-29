@@ -17,13 +17,21 @@ use Symfony\Component\Security\Core\Security;
 use DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\ReclamationsRepository;
-use Joli\JoliNotif\Notification;
-use Joli\JoliNotif\NotifierFactory;
 use vendor\consoletvs;
+use App\Notification\CustomEmailNotification;
+
 
 #[Route('/reclamations')]
 class ReclamationsController extends AbstractController
 {
+    private $customEmailNotification;
+    
+
+    public function __construct(CustomEmailNotification $customEmailNotification)
+    {
+        $this->customEmailNotification = $customEmailNotification;
+        
+    }
     #[Route('/admin', name: 'app_reclamationsadmin_index', methods: ['GET'])]
     public function indexadmin(EntityManagerInterface $entityManager, ReclamationsRepository $reclamationsRepository): Response
     {
@@ -95,13 +103,6 @@ class ReclamationsController extends AbstractController
             $reclamation->setMessage($cleanedcontenu);
             $entityManager->persist($reclamation);
             $entityManager->flush();
-            $notifier = NotifierFactory::create();
-            $notification =
-                    (new Notification())
-                ->setTitle('Nouvelle réponse')
-                ->setBody('Une réponse à été ajoutée');
-            $notifier->send($notification);
-
             return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -121,6 +122,9 @@ class ReclamationsController extends AbstractController
             'reponses' => $reponses
         ]);
     }
+    
+
+    
     #[Route('/admin/{id}', name: 'app_reclamationsadmin_show', methods: ['GET','POST'])]
     public function showadmin(Reclamations $reclamation,ReclamationreponseRepository $reclamationreponseRepository,EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -133,7 +137,16 @@ class ReclamationsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamationreponse);
             $entityManager->flush();
+            $receiver = $reclamationreponse->getIdUser()->getEmail();
+            $message = $reclamationreponse->getReponse();
+
+
+            $this->customEmailNotification->sendEmailNotification($receiver, '[Nouvelle réponse à la réclamation]', 'L\'admin a répondu a votre réclamation:'.$message);
             
+
+            
+
+
             return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$reclamation->getId()], Response::HTTP_SEE_OTHER);
         }
         $reponses = $reclamationreponseRepository->findBy(['idReclamation' => $reclamation->getId()]);
@@ -201,16 +214,31 @@ class ReclamationsController extends AbstractController
     #[Route('/{id}/change-status', name: 'change_reclamation_status', methods: ['POST'])]
     public function changeStatus(Request $request, Reclamations $reclamation, EntityManagerInterface $entityManager): Response
     {
-        // Retrieve the new status from the request
         $newStatus = $request->request->get('status');
 
-        // Update the status of the reclamation entity
-        $reclamation->setStatus($newStatus);
-
-        // Persist the changes to the database
+        // Check if the transition is allowed
+        if ($reclamation->getStatus() === 'Pending' && ($newStatus === 'In Progress'||$newStatus === 'Resolved')) {
+            // Update the status of the reclamation entity
+            $reclamation->setStatus($newStatus);
+        } elseif ($reclamation->getStatus() === 'In Progress' && $newStatus === 'Resolved') {
+            // Update the status of the reclamation entity
+            $reclamation->setStatus($newStatus);
+        } elseif ($reclamation->getStatus() === 'Resolved') {
+            // If the current status is 'Resolved', no transition is allowed
+            // You can handle this case according to your application's requirements
+            // For example, you can display a message or redirect the user
+            return $this->redirectToRoute('app_reclamationsadmin_show', ['id' => $reclamation->getId()]);
+        } else {
+            // If the transition is not allowed, you can handle this case as well
+            // For example, display an error message or redirect the user
+            return $this->redirectToRoute('app_reclamationsadmin_show', ['id' => $reclamation->getId()]);
+        }
+    
+    
+        // Persister les changements dans la base de données
         $entityManager->flush();
-
-        // Redirect to the reclamation details page
+    
+        // Rediriger vers la page de détails de la réclamation
         return $this->redirectToRoute('app_reclamationsadmin_show', ['id' => $reclamation->getId()]);
     }
 
