@@ -41,9 +41,20 @@ body {
 .fc-header-toolbar {
     background-color: #313030; 
 }
-
+.fc-event-title{
+	color: #ffffff; 
+}
+.fc-event-time{
+	color: #fff; 
+}
+.fc-v-event {
+	background-color: #8B0000; 
+}
+.fc-scrollgrid-sync-inner {
+	color: #fff;
+}
 .fc-daygrid-event {
-    background-color: #dc3545; 
+    background-color: #8B0000; 
 }
 .fc {
     background-color: #313131; 
