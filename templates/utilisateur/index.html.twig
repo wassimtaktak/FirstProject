@@ -8,7 +8,7 @@
         <h1 style="position : center">Gestion des Utilisateurs </h1>
        
     </div>
-    <table class="table">
+    <table class="table"style="border-color : white">
         <thead>
             <tr>
                 <th>Id</th>
@@ -47,8 +47,41 @@
     </table>
     <div class="text-center col-12 mt-4">
     <a type="button" class="btn btn-outline-primary m-2"href="{{ path('app_utilisateur_new') }}">Create new</a>
-    <br>
+    
     <a type="button" class="btn btn-outline-primary m-2"href="{{ path('app_role_index')}}">show roles</a>
     </div>
+    <br>
+    <div class="row justify-content-center">
+    <div class="col-sm-4 col-xl-6">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4"style="text-align : center">Graphique à barres des statistiques des utilisateurs</h6>
+            <canvas id="user-stats-bar-chart" width="688" height="343" style="display: block; box-sizing: border-box; height: 274.4px; width: 550.4px;"></canvas>
+        </div>
+    </div>
+</div>
+    
+     <script>
+    
+    var ctx = $("#user-stats-bar-chart").get(0).getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Admin", "Joueur", "Organisateur", "Rapporteur"], 
+            datasets: [{
+                label: 'Nombre d\'utilisateurs',
+                backgroundColor: "rgba(235, 22, 22, .7)",
+                data: [
+                    {{ adminCount }}, // Admin count
+                    {{ userCount }}, // User count
+                    {{ organisateurCount }}, // Organisateur count
+                    {{ rapporteurCount }} // Rapporteur count
+                ]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
 {% endblock %}
 
