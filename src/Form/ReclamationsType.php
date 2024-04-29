@@ -45,12 +45,12 @@ class ReclamationsType extends AbstractType
         'attr' => ['class' => 'form-control bg-dark', 'id' => 'formFile'],
         'required' => false,
         'data_class' => null,
-     ])
+       ]);
         
-    ->add('idUser', EntityType::class, [
+    /*->add('idUser', EntityType::class, [
          'class' => 'App\Entity\Utilisateur',
         'choice_label' => 'username', // Replace 'username' with the property you want to display in the dropdown
-        ]);
+        ]);*/
 }
     public function configureOptions(OptionsResolver $resolver): void
     {

@@ -53,9 +53,11 @@ class ReclamationsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_reclamations_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,\Symfony\Component\Security\Core\Security $security): Response
     {
         $reclamation = new Reclamations();
+        $user = $security->getUser();
+        $reclamation->setIdUser($user);
        // $currentUser = $reclamation->getIdUser();
        // $reclamation->setIdUser($currentUser);
        //$user =new Utilisateur();

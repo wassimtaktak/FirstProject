@@ -35,7 +35,7 @@
                 <p class="header-text">Action</p>
             </div>
             {% for reclamation in reclamations %}
-            {% if reclamation.idUser.id == "13" %} {#session.idiser.id#}
+            {% if reclamation.idUser.id == app.user.id %} {#session.idiser.id#}
             <div class="card">
                 <div class="card-body">
                     <span class="card-text container">

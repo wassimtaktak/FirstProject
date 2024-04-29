@@ -22,7 +22,14 @@ doctrine:
                 DAY: DoctrineExtensions\Query\Mysql\Day
                 WEEK: DoctrineExtensions\Query\Mysql\Week
                 YEARWEEK: DoctrineExtensions\Query\Mysql\YearWeek
-
+                DAYOFWEEK : DoctrineExtensions\Query\Mysql\DayOfWeek
+                WEEKDAY : DoctrineExtensions\Query\Mysql\WeekDay
+                WEEKOFYEAR : DoctrineExtensions\Query\Mysql\WeekOfYear
+                YEARMONTH : DoctrineExtensions\Query\Mysql\YearMonth
+                DAYNAME : DoctrineExtensions\Query\Mysql\DayName
+                MONTHNAME : DoctrineExtensions\Query\Mysql\MonthName
+                DATE : DoctrineExtensions\Query\Mysql\Date
+                DATEFORMAT : DoctrineExtensions\Query\Mysql\DateFormat
 when@test:
     doctrine:
         dbal:

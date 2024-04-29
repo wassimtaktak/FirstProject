@@ -53,10 +53,10 @@
             <h2 class="mb-4">Réclamations par date</h2>
             <canvas id="bar-chart" width="688" height="343" style="display: block; box-sizing: border-box; height: 274.4px; width: 550.4px;"></canvas>
             <div class="btn-group" style="margin:10px;align-items:center" role="group" aria-label="Periods">
-                <button type="button" class="btn btn-primary" id="day-btn">Day</button>
-                <button type="button" class="btn btn-primary" id="week-btn">Week</button>
-                <button type="button" class="btn btn-primary" id="month-btn">Month</button>
-                <button type="button" class="btn btn-primary" id="year-btn">Year</button>
+                <button type="button" class="btn btn-primary" id="day-btn">Jour</button>
+                <button type="button" class="btn btn-primary" id="week-btn">Semaine</button>
+                <button type="button" class="btn btn-primary" id="month-btn">Mois</button>
+                <button type="button" class="btn btn-primary" id="year-btn">Année</button>
             </div>
         </div>
     
@@ -116,7 +116,10 @@
       responsive: true,
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          ticks: {
+          precision: 0
+        }
         }
       }
     }

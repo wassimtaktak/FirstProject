@@ -46,11 +46,12 @@ class ReclamationsRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 
-    $statisticsByDay = $this->createQueryBuilder('r')
-        ->select('COUNT(r) as count, DAY(r.dateCreation) as day')
+        $statisticsByDay = $this->createQueryBuilder('r')
+        ->select("COUNT(r) as count, DATEFORMAT(r.dateCreation, '%e %b') as day")
         ->groupBy('day')
         ->getQuery()
         ->getResult();
+    
 
     $statisticsByWeek = $this->createQueryBuilder('r')
         ->select('COUNT(r) as count, WEEK(r.dateCreation) as week')
@@ -59,7 +60,7 @@ class ReclamationsRepository extends ServiceEntityRepository
         ->getResult();
 
     $statisticsByMonth = $this->createQueryBuilder('r')
-        ->select('COUNT(r) as count, MONTH(r.dateCreation) as month')
+        ->select('COUNT(r) as count, MONTHNAME(r.dateCreation) as month')
         ->groupBy('month')
         ->getQuery()
         ->getResult();
