@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Form\UtilisateurTypeNoRole;
 use App\Form\UtilisateurTypenopass;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,6 +89,24 @@ class UtilisateurController extends AbstractController
         }
 
         return $this->renderForm('utilisateur/edit.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/editprofile', name: 'app_utilisateur_editprofile', methods: ['GET', 'POST'])]
+    public function editProfile(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UtilisateurTypeNoRole::class, $utilisateur);
+        $form->handleRequest($request);
+        $utilisateur = $this->getUser();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_utilisateur_show', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('utilisateur/editProfile.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);
