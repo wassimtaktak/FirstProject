@@ -6,63 +6,59 @@
 {% block body %}
     <h1>My reclamations</h1>
     <a href="{{ path('app_reclamations_new') }}" class="btn btn-lg btn-primary m-2">Create new reclamation</a>
-    <!--<div class="row" style="display:flex; justify-content:space-between;" >
-     
-    <div>
-        <h3>Filtrer par statut :</h3>
-        <button onclick="filterByStatus('all')">Tous</button>
-        {% for status in statuses %}
-            <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
-        {% endfor %}
-    </div>
-          
-    <div>
-        <h3>Filtrer par sujet :</h3>
-        {% for sujet in sujets %}
-            <button onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
-        {% endfor %}
-    </div>
-
-    
-    <div>
-        <h3>Trier par date de création :</h3>
-        <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
-        <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
-    </div>
-    </div>-->
-
-   
-    <div class="row1">
-                <div class="cards-header">
-                    <p class="header-text">Message</p>
-                    <p class="header-text">Date de Création</p>
-                    <p class="header-text">Statut</p>
-                    <p class="header-text">Action</p>
-                </div>
-        {% for reclamation in reclamations %}
-        {% if reclamation.idUser.id == "13" %} {#session.udiser.id#}
+    <div class="row" >
+       <div class="col" style="display:flex; justify-content:space-between;" >
+            <div>
+            <h3>Filtrer par statut :</h3>
+            <button class="btn btn-light rounded-pill m-1" onclick="filterByStatus('all')">Tous</button>
+            {% for status in statuses %}
+            <button class="btn btn-dark rounded-pill m-1" onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
+            {% endfor %}
+            </div>  
+            <div>
+                <h3>Filtrer par sujet :</h3>
+                {% for sujet in sujets %}
+                    <button class="btn btn-dark rounded-pill m-1" onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Trier par date de création :</h3>
+                <button class="btn btn-dark rounded-pill m-1" onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
+                <button class="btn btn-light rounded-pill m-1" onclick="sortByCreationDate('desc')">Plus récent en premier</button>
+            </div>
+        </div>
+        <div class="row1">
+            <div class="cards-header">
+                <p class="header-text">Message</p>
+                <p class="header-text">Date de Création</p>
+                <p class="header-text">Statut</p>
+                <p class="header-text">Action</p>
+            </div>
+            {% for reclamation in reclamations %}
+            {% if reclamation.idUser.id == "13" %} {#session.idiser.id#}
             <div class="card">
                 <div class="card-body">
-              <span class="card-text container">
-                <p class="card-text">{{ reclamation.sujet }}</p>
-                <p class="card-text message">{{ reclamation.message }}</p>
-                <a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}" class="show-more">Show more</a>
-            </span>
-                    <p class="card-text">{{ reclamation.dateCreation }}</p>
-                    <p class="card-text">{{ reclamation.status }}</p>
-                         <div class="card-text">
-                    <a class="btn btn-light rounded-pill m-2" href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" >Edit</a>
-                    <div>{{ include('reclamations/_delete_form.html.twig') }}</div>
+                    <span class="card-text container">
+                        <p class="card-text subject">{{ reclamation.sujet }}</p>
+                        <p class="card-text message">{{ reclamation.message }}</p>
+                        <a href="{{ path('app_reclamations_show', {'id': reclamation.id}) }}" class="show-more">Show more</a>
+                    </span>
+                    <p class="card-text date">{{ reclamation.dateCreation }}</p>
+                    <p class="card-text status">{{ reclamation.status }}</p>
+                    <div class="card-text">
+                        <a class="btn btn-light rounded-pill m-2" href="{{ path('app_reclamations_edit', {'id': reclamation.id}) }}" >Edit</a>
+                        <div>{{ include('reclamations/_delete_form.html.twig') }}</div>
                     </div>
                 </div>
             </div>
-            {% endif %}
-        {% else %}
+        {% endif %}
+    {% else %}
             <div class="col">
                 <p>No reclamations found</p>
-            </div>
-            
-        {% endfor %}
+            </div>                                  
+                
+            {% endfor %}
+        </div>
     </div>
     <style>
 
@@ -149,7 +145,7 @@
         });
     });
 
-    // Fonction de filtrage par sujet
+   // Fonction de filtrage par sujet
   
 function filterBySubject(subject) {
         const cards = document.querySelectorAll('.card');

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\ReclamationsRepository;
 use Joli\JoliNotif\Notification;
 use Joli\JoliNotif\NotifierFactory;
+use vendor\consoletvs;
 
 #[Route('/reclamations')]
 class ReclamationsController extends AbstractController
@@ -87,9 +88,17 @@ class ReclamationsController extends AbstractController
                 // If no new file was uploaded, retain the existing file path
                 $reclamation->setCaptureecranpath($reclamation->getCaptureecranpath());
             }
-            
+            $content=$reclamation->getMessage();
+            $cleanedcontenu= \ConsoleTVs\Profanity\Builder::blocker($content)->filter();
+            $reclamation->setMessage($cleanedcontenu);
             $entityManager->persist($reclamation);
             $entityManager->flush();
+            $notifier = NotifierFactory::create();
+            $notification =
+                    (new Notification())
+                ->setTitle('Nouvelle réponse')
+                ->setBody('Une réponse à été ajoutée');
+            $notifier->send($notification);
 
             return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -122,12 +131,7 @@ class ReclamationsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamationreponse);
             $entityManager->flush();
-            $notifier = NotifierFactory::create();
-            $notification =
-                    (new Notification())
-                ->setTitle('Nouvelle réponse')
-                ->setBody('Une réponse à été ajoutée');
-            $notifier->send($notification);
+            
             return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$reclamation->getId()], Response::HTTP_SEE_OTHER);
         }
         $reponses = $reclamationreponseRepository->findBy(['idReclamation' => $reclamation->getId()]);
@@ -160,10 +164,14 @@ class ReclamationsController extends AbstractController
                     
                 );
                 $reclamation->setCaptureecranpath($fileName);
+                
             } else {
                 // If no new file was uploaded, retain the existing file path
                 $reclamation->setCaptureecranpath($reclamation->getCaptureecranpath());
             }
+            $content=$reclamation->getMessage();
+                $cleanedcontenu= \ConsoleTVs\Profanity\Builder::blocker($content)->filter();
+                $reclamation->setMessage($cleanedcontenu);
             $entityManager->flush();
             
     
@@ -202,5 +210,16 @@ class ReclamationsController extends AbstractController
 
         // Redirect to the reclamation details page
         return $this->redirectToRoute('app_reclamationsadmin_show', ['id' => $reclamation->getId()]);
+    }
+
+    #[Route('/reclamations/statistiques', name: 'app_reclamations_statistics', methods: ['GET'])]
+    public function statistics(ReclamationsRepository $reclamationsRepository): Response
+    {
+        // Récupérer les statistiques depuis le repository
+        $statistics = $reclamationsRepository->getStatistics();
+
+        return $this->render('reclamations/statistics.html.twig', [
+            'statistics' => $statistics,
+        ]);
     }
 }

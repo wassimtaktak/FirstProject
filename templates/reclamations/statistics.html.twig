@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block body %}
+    <h1>Statistiques des Réclamations</h1>
+
+    <p>Nombre total de réclamations : {{ statistics.totalReclamations }}</p>
+
+  {#  <h2>Réclamations par sujet</h2>
+    <ul>
+        {% for sujetCount in statistics.sujetsCount %}
+            <li>{{ sujetCount.sujet }} : {{ sujetCount.count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Réclamations par jour</h2>
+    <ul>
+        {% for stat in statistics.statisticsByDay %}
+            <li>Jour {{ stat.day }} : {{ stat.count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Réclamations par semaine</h2>
+    <ul>
+        {% for stat in statistics.statisticsByWeek %}
+            <li>Semaine {{ stat.week }} : {{ stat.count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Réclamations par mois</h2>
+    <ul>
+        {% for stat in statistics.statisticsByMonth %}
+            <li>Mois {{ stat.month }} : {{ stat.count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Réclamations par année</h2>
+    <ul>
+        {% for stat in statistics.statisticsByYear %}
+            <li>Année {{ stat.year }} : {{ stat.count }}</li>
+        {% endfor %}
+    </ul>#}
+    <div class="row">
+   <div class="col-sm-12 col-xl-6">
+      <div class="bg-secondary rounded h-100 p-4">
+      <h2 class="mb-4">Réclamations par sujet</h2>
+        <canvas id="pie-chart" width="400" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+    </div>
+    </div>
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-secondary rounded p-4">
+            <h2 class="mb-4">Réclamations par date</h2>
+            <canvas id="bar-chart" width="688" height="343" style="display: block; box-sizing: border-box; height: 274.4px; width: 550.4px;"></canvas>
+            <div class="btn-group" style="margin:10px;align-items:center" role="group" aria-label="Periods">
+                <button type="button" class="btn btn-primary" id="day-btn">Day</button>
+                <button type="button" class="btn btn-primary" id="week-btn">Week</button>
+                <button type="button" class="btn btn-primary" id="month-btn">Month</button>
+                <button type="button" class="btn btn-primary" id="year-btn">Year</button>
+            </div>
+        </div>
+    
+    </div>
+
+    
+</div>
+    {# JavaScript pour créer le Pie Chart #}
+    <script>
+        // Pie Chart Data
+        var labels = [];
+        var data = [];
+
+        // Parcourir les sujetsCount et remplir les tableaux labels et data
+        {% for sujetCount in statistics.sujetsCount %}
+            labels.push("{{ sujetCount.sujet }}");
+            data.push("{{ sujetCount.count }}");
+        {% endfor %}
+
+        // Pie Chart
+        var ctx = $("#pie-chart").get(0).getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: [
+                        "rgba(235, 22, 22, .7)",
+                        "rgba(235, 22, 22, .6)",
+                        "rgba(235, 22, 22, .5)",
+                        "rgba(235, 22, 22, .4)",
+                        "rgba(235, 22, 22, .3)"
+                    ],
+                    data: data
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+        $(document).ready(function() {
+  // Initialiser le graphique avec les données par jour
+  var ctx = $("#bar-chart").get(0).getContext("2d");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [{% for stat in statistics.statisticsByDay %}"{{ stat.day }}",{% endfor %}],
+      datasets: [{
+        label: 'Reclamations par jour',
+        data: [{% for stat in statistics.statisticsByDay %}{{ stat.count }},{% endfor %}],
+        backgroundColor: "rgba(235, 22, 22, .7)",
+        borderColor: "rgba(235, 22, 22, 1)",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Gérer les clics sur les boutons
+  $("#day-btn").click(function() {
+    updateChart('day');
+  });
+
+  $("#week-btn").click(function() {
+    updateChart('week');
+  });
+
+  $("#month-btn").click(function() {
+    updateChart('month');
+  });
+
+  $("#year-btn").click(function() {
+    updateChart('year');
+  });
+
+  // Fonction pour mettre à jour le graphique en fonction de la période sélectionnée
+  function updateChart(period) {
+    var labels = [];
+    var data = [];
+    var label = '';
+    var datasets = [];
+
+    // Sélectionner les données appropriées en fonction de la période
+    switch (period) {
+      case 'day':
+        labels = [{% for stat in statistics.statisticsByDay %}"{{ stat.day }}",{% endfor %}];
+        data = [{% for stat in statistics.statisticsByDay %}{{ stat.count }},{% endfor %}];
+        label = 'Reclamations par jour';
+        break;
+      case 'week':
+         labels = [{% for stat in statistics.statisticsByWeek %}"{{ stat.week }}",{% endfor %}];
+        data = [{% for stat in statistics.statisticsByWeek %}{{ stat.count }},{% endfor %}];
+        label = 'Reclamations par semaine';
+        break;
+      case 'month':
+        labels = [{% for stat in statistics.statisticsByMonth %}"{{ stat.month }}",{% endfor %}];
+        data = [{% for stat in statistics.statisticsByMonth %}{{ stat.count }},{% endfor %}];
+        label = 'Reclamations par mois';
+        break;
+      case 'year':
+          labels = [{% for stat in statistics.statisticsByYear %}"{{ stat.year }}",{% endfor %}];
+        data = [{% for stat in statistics.statisticsByYear %}{{ stat.count }},{% endfor %}];
+        label = 'Reclamations par année';
+        break;
+      default:
+        break;
+    }
+
+    // Mettre à jour le graphique avec les nouvelles données
+    myChart.data.labels = labels;
+    myChart.data.datasets[0].data = data;
+    myChart.data.datasets[0].label = label;
+    myChart.update();
+  }
+});
+
+    </script>
+{% endblock %}

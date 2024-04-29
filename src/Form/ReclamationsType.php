@@ -33,9 +33,9 @@ class ReclamationsType extends AbstractType
         ->add('message', TextareaType::class, [
             'attr' => ['rows' => 10], 
             'required' => true,
-            'constraints' => [
-                new CustomAssert\InappropriateWords(),
-            ], 
+           // 'constraints' => [
+           //     new CustomAssert\InappropriateWords(),
+           // ], 
             
         ])
        // ->add('dateCreation')

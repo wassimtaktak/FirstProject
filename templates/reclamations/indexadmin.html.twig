@@ -4,28 +4,30 @@
 
 {% block body %}
     <h1>Reclamations</h1>
+    <a href="{{ path('app_reclamations_statistics') }}" class="btn btn-primary">Voir les statistiques</a>
+
 
    <div class="col" style="display:flex; justify-content:space-between;" >
     <div>
         <h3>Filtrer par statut :</h3>
-        <button onclick="filterByStatus('all')">Tous</button>
+        <button class="btn btn-light rounded-pill m-1" onclick="filterByStatus('all')">Tous</button>
         {% for status in statuses %}
-            <button onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
+            <button class="btn btn-dark rounded-pill m-1" onclick="filterByStatus('{{ status.status }}')">{{ status.status }}</button>
         {% endfor %}
     </div>
           
     <div>
         <h3>Filtrer par sujet :</h3>
         {% for sujet in sujets %}
-            <button onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
+            <button class="btn btn-dark rounded-pill m-1" onclick="filterBySubject('{{ sujet.sujet }}')">{{ sujet.sujet }}</button>
         {% endfor %}
     </div>
 
     
     <div>
         <h3>Trier par date de création :</h3>
-        <button onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
-        <button onclick="sortByCreationDate('desc')">Plus récent en premier</button>
+        <button class="btn btn-dark rounded-pill m-1" id="btnAsc" onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
+        <button class="btn btn-light rounded-pill m-1" id="btnDesc" onclick="sortByCreationDate('desc')">Plus récent en premier</button>
     </div>
     </div>
     <div class="row1">
@@ -154,6 +156,7 @@ function filterBySubject(subject) {
     }
     // Fonction de tri par date de création
 function sortByCreationDate(order) {
+
         // Sélectionnez toutes les réclamations
         var reclamations = document.querySelectorAll('.card');
 
@@ -173,11 +176,23 @@ function sortByCreationDate(order) {
                 return dateB - dateA;
             }
         });
+        
 
         // Mettez à jour l'affichage des réclamations dans le DOM
         reclamationsArray.forEach(function(reclamation) {
             reclamation.parentNode.appendChild(reclamation);
         });
+           if (order === 'desc') {
+        document.getElementById('btnAsc').classList.remove('btn-light');
+        document.getElementById('btnAsc').classList.add('btn-dark');
+        document.getElementById('btnDesc').classList.remove('btn-dark');
+        document.getElementById('btnDesc').classList.add('btn-light');
+    } else {
+        document.getElementById('btnDesc').classList.remove('btn-light');
+        document.getElementById('btnDesc').classList.add('btn-dark');
+        document.getElementById('btnAsc').classList.remove('btn-dark');
+        document.getElementById('btnAsc').classList.add('btn-light');
+    }
     }
 
     // Fonction de filtrage par statut
@@ -199,6 +214,15 @@ function filterByStatus(status) {
                 reclamation.style.display = 'none';
             }
         });
+        document.querySelectorAll('.btn-status').forEach(button => {
+        if (button.textContent === status) {
+            button.classList.remove('btn-light');
+            button.classList.add('btn-dark');
+        } else {
+            button.classList.remove('btn-dark');
+            button.classList.add('btn-light');
+        }
+    });
     }
 
 </script>
