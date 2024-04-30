@@ -48,4 +48,18 @@ public function findUsersByForum($forumId)
             ->getQuery()
             ->getResult();
     }
+    /**
+     * Find the top N most liked posts.
+     *
+     * @param int $limit The maximum number of posts to retrieve
+     * @return array The top N most liked posts
+     */
+    public function findTopLikedPosts(int $limit): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.nbLike', 'DESC') // Assuming 'nbLike' is the field storing the number of likes
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

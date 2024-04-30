@@ -62,22 +62,45 @@ class PostController extends AbstractController
     #[Route('/{id}/like', name: 'app_like_add', methods : ['GET'])]
     public function nblike(Post $post,EntityManagerInterface $entityManager):Response
     {
-        
-    // If the user has not already liked the post, add a like
+        $currentUser = $this->getUser();
     
+    // If the user has not already liked the post, add a like
+    if (!$post->isLikedByUser($currentUser)) {
         // Update the like count of the post
         $post->setNbLike($post->getNbLike() + 1);
-
-
-        // Persist the UserLikes entity and flush changes to the database
+        
+        // Add the user to the list of likers
+        $post->addLiker($currentUser);
+        
+        // Persist the changes
         $entityManager->persist($post);
         $entityManager->flush();
-    
+    }
 
     // Redirect to the forum page or any other appropriate page
     return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
+}
+#[Route('/{id}/dislike', name: 'app_dislike_remove', methods: ['GET'])]
+public function dislike(Post $post, EntityManagerInterface $entityManager): Response
+{
+    $currentUser = $this->getUser();
+    
+    // If the user has liked the post, remove the like
+    if ($post->isLikedByUser($currentUser)) {
+        // Remove the user from the list of likers
+        $post->removeLiker($currentUser);
         
+        // Update the like count of the post
+        $post->setNbLike($post->getNbLike() - 1);
+        
+        // Persist the changes
+        $entityManager->persist($post);
+        $entityManager->flush();
     }
+
+    // Redirect to the forum page or any other appropriate page
+    return $this->redirect("/forum/".$post->getIdForum()->getId(), Response::HTTP_SEE_OTHER);
+}
 
     #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response

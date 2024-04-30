@@ -3,79 +3,74 @@
 {% block title %}Post index{% endblock %}
 {% block active5 %}class="active"{% endblock %}
 {% block body %}
-    <h2>{{forum.sujet}}</h2>
-    
-    
+    <h2>{{ forum.sujet }}</h2>
       
-            <div class="cards-container">
-                {% for post in posts %}
-                <div class="card">
-                    <div class="card-body" >
-                        <div style="display:flex;flex-direction:column;">
+    <div class="cards-container">
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-body">
+                    <div style="display:flex;flex-direction:column;">
                         <div style="display:flex;flex-direction:row;">
-                        <img src="{{asset('img/profil.png')}}" style="height:25px;width:25px;margin-right:10px;"/>
-                        <p class="card-title">{{post.idUser.username}}</p>
-                        <p class="card-title">{{post.datePost}}</p>
+                            <img src="{{ asset('img/profil.png') }}" style="height:25px;width:25px;margin-right:10px;"/>
+                            <p class="card-title">{{ post.idUser.username }}</p>
+                            <p class="card-title">{{ post.datePost }}</p>
                         </div>
-                        <p class="card-title" >{{ post.message|raw }}</p>
-                        </div>
-                        <div style="display:flex;flex-direction:column;">
-                        <!--<a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>-->
-                        {% if post.IdUser.id=='6' %}
-                        <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
-                        {{ include('post/_delete_form.html.twig') }}
-                        {% endif %}
-                        <a href="{{ path('app_like_add', {'id': post.id}) }}"><img src="{{asset('/img/coeur.png')}}"/></a>
-                        <p class="card-text">{{ post.nblike }}</p>
-                        </div>
+                        <p class="card-title">{{ post.message|raw }}</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;">
                         
+                        
+                        
+                        {% if post.likedBy is not null and post.isLikedByUser(app.user) %}
+                            <a href="{{ path('app_dislike_remove', {'id': post.id}) }}"><img style="margin:10px;width:25px;height:25px;" src="{{ asset('/img/coeurm3ebi.png') }}"/></a>
+                        {% else %}
+                            <a href="{{ path('app_like_add', {'id': post.id}) }}"><img style="margin:10px;width:25px;height:25px;" src="{{ asset('/img/coeur.png') }}"/></a>
+                        {% endif %}
+                        <p style="margin-left:17px;color:white">{{ post.nblike }}</p>
+                        {% if post.IdUser.id == app.user.id %}
+                            <div class="row">
+                            <a href="{{ path('app_post_edit', {'id': post.id}) }}"><img style="margin:10px;width:20px;height:20px;" src="{{ asset('/img/editer.png') }}"/></a>
+                            {{ include('post/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-                    
-                
-            
+            </div>
         {% else %}
-                <p>no records found</p>
-            
+            <p>no records found</p>
         {% endfor %}
-        
+    </div>
 
-    <!--<a href="{{ path('app_post_new',{'id': forum.id}) }}">Create new post</a>-->
-
-    {{include('post/_form.html.twig')}}
+    {{ include('post/_form.html.twig') }}
     <style>
-    .titles-container{
-        display:flex;
-        flex-direction:row;
-        justify-content:space-between;
-        
-    }
-    .title{
-        text-decoration:underline;
-    }
-    .cards-container{
-        display:flex;
-        flex-direction:column;
-    }
-    .card{
-        background-color:#323232;
-        border-radius:20px;
-        width:97%;
-        margin:1%;
-        
-    }
-    .card-body{
-        display:flex;
-        justify-content: space-between;
-    }
-    .card-text{
-        color:white;
-    }
-    .card-title{
-        
-        min-width:380px;
-        color:white;
-    }
+        .titles-container{
+            display:flex;
+            flex-direction:row;
+            justify-content:space-between;
+        }
+        .title{
+            text-decoration:underline;
+        }
+        .cards-container{
+            display:flex;
+            flex-direction:column;
+        }
+        .card{
+            background-color:#323232;
+            border-radius:20px;
+            width:97%;
+            margin:1%;
+        }
+        .card-body{
+            display:flex;
+            justify-content: space-between;
+        }
+        .card-text{
+            color:white;
+        }
+        .card-title{
+            min-width:380px;
+            color:white;
+        }
     </style>
 {% endblock %}
-

@@ -23,7 +23,7 @@
                         </div>
                         <div style="display:flex;flex-direction:column;">
                         <!--<a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>-->
-                        <a href="{{ path('app_postadmin_edit', {'id': post.id}) }}">edit</a>
+                        <a href="{{ path('app_postadmin_edit', {'id': post.id}) }}"><img style="margin:10px;width:20px;height:20px;" src="{{ asset('/img/editer.png') }}"/></a>
                         <!--<a href="#">like</a>-->
                         {{ include('post/_delete_form.html.twig') }}
                         <!--<p class="card-text">{{ post.nblike }}</p>-->
