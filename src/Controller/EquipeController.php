@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Equipe;
+use App\Entity\Membre;
 use App\Form\EquipeType;
 use App\Repository\TournoiRepository;
 use App\Repository\MembreRepository;
@@ -99,6 +100,10 @@ class EquipeController extends AbstractController
                 } catch (FileException $e) {
                 }
             }
+            $membre=new Membre();
+            $membre->setIdequipe($equipe);
+            $membre->setIduser($this->getUser());
+            $entityManager->persist($membre);
             $entityManager->persist($equipe);
             $entityManager->flush();
 
