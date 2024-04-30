@@ -66,11 +66,6 @@ class ReclamationsController extends AbstractController
         $reclamation = new Reclamations();
         $user = $security->getUser();
         $reclamation->setIdUser($user);
-       // $currentUser = $reclamation->getIdUser();
-       // $reclamation->setIdUser($currentUser);
-       //$user =new Utilisateur();
-       //$user->setId(16);
-       //$reclamation->setIdUser($user);
            // Définir le statut par défaut
         $reclamation->setStatus('Pending');
 
@@ -103,6 +98,12 @@ class ReclamationsController extends AbstractController
             $reclamation->setMessage($cleanedcontenu);
             $entityManager->persist($reclamation);
             $entityManager->flush();
+            $receiver = $reclamation->getIdUser()->getEmail();
+            $message = $reclamation->getMessage();
+            $this->customEmailNotification->sendEmailNotification($receiver, '[Nouvelle réclamation]', 'Vous avez déposé une nouvelle réclamation'.$message);
+            $this->customEmailNotification->sendEmailNotification("firasdhmaid@gmail.com", '[Nouvelle réclamation]', 'Une nouvelle réclamation a été ajoutée'.$message);
+
+
             return $this->redirectToRoute('app_reclamations_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -139,13 +140,7 @@ class ReclamationsController extends AbstractController
             $entityManager->flush();
             $receiver = $reclamationreponse->getIdUser()->getEmail();
             $message = $reclamationreponse->getReponse();
-
-
             $this->customEmailNotification->sendEmailNotification($receiver, '[Nouvelle réponse à la réclamation]', 'L\'admin a répondu a votre réclamation:'.$message);
-            
-
-            
-
 
             return $this->redirectToRoute('app_reclamationsadmin_show', ['id'=>$reclamation->getId()], Response::HTTP_SEE_OTHER);
         }

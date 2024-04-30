@@ -27,4 +27,32 @@
     <a href="{{ path('app_reclamationreponse_edit', {'id': reclamationreponse.id}) }}">edit</a>
 
     {{ include('reclamationreponse/_delete_form.html.twig') }}
+
+    <!-- Ajoutez un bouton pour afficher la notification -->
+    <button id="show-notification">Afficher la notification</button>
+
+    <!-- Div pour afficher la notification -->
+    <div id="notification-container"></div>
+
+    <!-- Script JavaScript pour gérer la requête AJAX -->
+    <script>
+       $(document).ready(function() {
+    // Lorsque le bouton est cliqué
+    $('#show-notification').click(function() {
+        // Effectuer une requête AJAX pour charger la vue Twig de la notification
+        $.ajax({
+            url: '{{ path('notification_show') }}',
+            type: 'GET',
+            success: function(response) {
+                // Afficher la vue Twig de la notification dans un modèle ou une fenêtre modale
+                $('#notification-container').html(response);
+            },
+            error: function() {
+                alert('Erreur lors du chargement de la notification.');
+            }
+        });
+    });
+});
+
+    </script>
 {% endblock %}

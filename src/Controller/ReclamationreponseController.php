@@ -49,13 +49,39 @@ class ReclamationreponseController extends AbstractController
         ]);
     }
 
+    
     #[Route('/{id}', name: 'app_reclamationreponse_show', methods: ['GET'])]
     public function show(Reclamationreponse $reclamationreponse): Response
     {
+
+
+        
         return $this->render('reclamationreponse/show.html.twig', [
             'reclamationreponse' => $reclamationreponse,
+            
         ]);
     }
+
+    #[Route('/show-notification', name: 'notification_show', methods: ['GET'])]
+    
+    public function showNotification(): Response
+    {
+        
+        // Récupérer les données nécessaires pour la notification
+        $notificationData = [
+            'title' => 'Nouvelle notification',
+            'content' => 'Vous avez reçu un nouveau message de notification.',
+            'timestamp' => new \DateTime(),
+            'sender' => 'John Doe',
+            'recipient' => 'Jane Smith',
+            // Autres données spécifiques à la notification...
+        ];
+
+        return $this->render('reclamationreponse/notification.html.twig', [
+            'notificationData' => $notificationData,
+        ]);
+    }
+
 
     #[Route('/{id}/edit', name: 'app_reclamationreponse_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamationreponse $reclamationreponse, EntityManagerInterface $entityManager): Response

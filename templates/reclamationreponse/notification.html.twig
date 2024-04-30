@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notification{% endblock %}
+
+{% block body %}
+    <h1>Notification</h1>
+
+    <div>
+        <h2>{{ notificationData.title }}</h2>
+        <p>{{ notificationData.content }}</p>
+        <p>Expéditeur: {{ notificationData.sender }}</p>
+        <p>Destinataire: {{ notificationData.recipient }}</p>
+        <p>Date: {{ notificationData.timestamp|date('d/m/Y H:i:s') }}</p>
+    </div>
+{% endblock %}
