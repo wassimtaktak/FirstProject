@@ -1,0 +1,42 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Verification de l'otp{% endblock %}
+
+{% block body %}
+<div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-xl-8">
+            <div class="rounded h-100 p-4" style="background: #262626;text-align: center;">
+            <h4>Verification du code</h4>
+
+                <br>
+                {% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
+                <br>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="code"style="Color : white">code:</label>
+                        <input type="text" id="code" name="code" class="form-control" required>
+                    </div>
+                    <br>
+                    
+                    <br>
+                    <br>
+                    <div  style="display: flex;margin-left : 250px">
+                    
+                    <button type="submit" class="btn btn-outline-light m-2">Submit</button>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-light m-2">Back</a>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div> 
+<br>
+
+
+{% endblock %}

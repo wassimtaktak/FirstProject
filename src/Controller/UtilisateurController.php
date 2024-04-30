@@ -46,7 +46,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the plain password
+
             $utilisateur->setPassword(
                 $userPasswordHasher->encodePassword(
                     $utilisateur,
@@ -71,10 +71,10 @@ class UtilisateurController extends AbstractController
     {
         $user = $security->getUser();
 
-        // Initialize the userId variable
+
         $userId = null;
 
-        // Check if a user is logged in
+
         if ($user) {
             $userId = $user->getId();
         }

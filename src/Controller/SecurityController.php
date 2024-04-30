@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
 use App\Entity\Utilisateur;
+use App\Form\ChangePasswordType;
+use App\Form\UtilisateurTypeNoRole;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -12,18 +17,24 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Twilio\Rest\Client;
 
 class SecurityController extends AbstractController
 {
     private $mailer;
     private $texter;
+    private $session;
+    private $em;
 
-    public function __construct(MailerInterface $mailer, TexterInterface $texter)
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, TexterInterface $texter, SessionInterface $session)
     {
         $this->mailer = $mailer;
         $this->texter = $texter;
+        $this->session = $session;
+        $this->em = $em;
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -42,7 +53,49 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        // Handle logout logic here
+    }
+
+    #[Route(path: '/changePassword', name: 'change_password')]
+    public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $user = $this->session->get('password_recovery_user');
+        $role = $this->em->getRepository(Role::class)->findOneBy(['role' => 'Joueur']);
+        $user->setIdRole($role);
+
+        $form = $this->createForm(ChangePasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $password = $form->get('password')->getData();
+
+            $hashedPassword = $passwordEncoder->encodePassword($user, $password);
+            $user->setPassword($hashedPassword);
+
+            $this->em->flush();
+
+            $this->addFlash('success', 'Password changed successfully. Please log in with your new password.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('/security/changepassword.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route(path: '/code_verification', name: 'code_verification')]
+    public function verifyCode(Request $request): Response
+    {
+        $otp = $request->query->get('otp');
+        if ($request->isMethod('POST')) {
+            $input = $request->request->get('code');
+            $user = $this->session->get('password_recovery_user');
+            if ($input == $otp && $user) {
+                return $this->redirectToRoute('change_password');
+            } else {
+                $this->addFlash('error', "wrong otp!");
+            }
+        }
+        return $this->render('/security/verifyotp.html.twig', ['otp' => $otp]);
     }
 
     #[Route('/password-recovery', name: 'password_recovery')]
@@ -56,9 +109,12 @@ class SecurityController extends AbstractController
             $user = $userRepository->findOneBy(['username' => $username]);
 
             if ($user) {
+                $this->session->set('password_recovery_user', $user);
+
                 $otp = $this->generateOTP();
                 $this->sendOTP($user, $otp, $deliveryMethod);
                 $this->addFlash('success', sprintf('An OTP has been sent to your %s.', $deliveryMethod));
+                return $this->redirectToRoute('code_verification', ['otp' => $otp]);
             } else {
                 $this->addFlash('error', 'Username not found. Please try again.');
             }
@@ -98,7 +154,7 @@ class SecurityController extends AbstractController
     private function sendOTPBySMS(Utilisateur $user, string $otp): void
     {
         $sid = "ACc97c33ee3e59b4273d6b60b2b95fb0bb";
-        $token = "eae890d7d955a456084ed7997973155e";
+        $token = "01e642d09f3ae87f14e0555e60ceabf4";
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages
@@ -106,9 +162,8 @@ class SecurityController extends AbstractController
                 "+21629281941", // to
                 array(
                     "from" => "+13184504863",
-                    "body" => "this is your otp" . $otp
+                    "body" => "this is your otp : " . $otp
                 )
             );
-
     }
 }
