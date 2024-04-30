@@ -1,50 +1,61 @@
 {% extends 'baseuser.html.twig' %}
 
-{% block title %}Afficher Produit{% endblock %}
+{% block title %}Afficher Produit
+{% endblock %}
 
 {% block body %}
 
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
+	<div class="container-fluid pt-4 px-4">
+		<div class="row g-4">
 
-            <div class="col-12">
-                <div class="bg-secondary rounded h-100 p-4" >
-                    <h6 class="mb-4">Panier</h6>
-                </div>
-            </div>
-            <div class="col-12">
+			<div class="col-12">
+				<div class="bg-secondary rounded h-100 p-4">
+					<h6 class="mb-4">Panier</h6>
+				</div>
+			</div>
+			<div class="col-12">
 
-                <table class="table-responsive table bg-white">
-                    <tbody style="width:100%">
-                        <th>Libellé</th>
-                        <th>Image</th>
-                        <th>Prix</th>
-                        <th>Marque</th>
-                        <th>Action</th>
-                        {% set total = 0 %}
-                        {% for product in products %}
-                            <tr>
-                                <td>{{ product.libelle }}</td>
-                                <td><img src="{{ asset('img/' ~ product.image) }}" alt="" width="200" height="200"/></td>
+				<table class="table-responsive table bg-white">
+					<tbody style="width:100%">
+						<th>Libellé</th>
+						<th>Image</th>
+						<th>Prix</th>
+						<th>Marque</th>
+						<th>Action</th>
+						{% set total = 0 %}
+						{% for product in products %}
+							<tr>
+								<td>{{ product.libelle }}</td>
+								<td><img src="{{ asset('img/' ~ product.image) }}" alt="" width="200" height="200"/></td>
 
-                                <td>{{ product.prix}}</td>
-                                <td>{{ product.marque }}</td>
-                                <td><a href="{{ path('remove_from_card', {'id': product.id}) }}" class="btn btn-danger">Retirer du panier</a></td>
-                            </tr>
-                            {% set total = total + product.prix %}
-                        {% endfor %}
-                    </tbody>
+								<td>{{ product.prix}}</td>
+								<td>{{ product.marque }}</td>
+								<td>
+									<a href="{{ path('remove_from_card', {'id': product.id}) }}" class="btn btn-danger">Retirer du panier</a>
+								</td>
+							</tr>
+							{% set total = total + product.prix %}
+						{% endfor %}
+					</tbody>
 
-                </table>
+				</table>
 
-            </div>
-            <span><h4> Total = {{ total }} DT</h4></span>
-            <div class="anime__details__btn w-100  pl-2 text-right">
-                <a href="{{ path('checkout') }}" class="watch-btn">
-                    <span>Acheter</span>
-                </a>
-                <a href="{{ path('clear_card') }}" class="btn btn-danger">Vider le panier</a>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+			</div>
+			<span>
+				<h4>
+					Total =
+					{{ total }}
+					DT</h4>
+			</span>
+			<div class="anime__details__btn w-100 pl-2 text-right">
+				<form action="/stripe" method="POST">
+
+					<input type="hidden" name="total_amount" value="{{ total }}">
+					<button type="submit">Acheter</button>
+				</form>
+			</div>
+
+			<a href="{{ path('clear_card') }}" class="btn btn-danger">Vider le panier</a>
+		</div>
+	</div>
+</div>{% endblock %}

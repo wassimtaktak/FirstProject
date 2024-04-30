@@ -35,50 +35,54 @@
 			<div class="loader"></div>
 		</div>
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a href="./index.html">
-                            <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="./blog.html">Nos tournois</a></li>
-                                <li><a href="./blog.html">Produits</a></li>
-                                <li><a href="./blog.html">Réclamations</a></li>
-                                <li><a href="#">Forum</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        {% if app.user is not null %}
-                            <a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}"><span class="icon_profile"></span></a>
-                        {% else %}
-                            <a href="#"><span class="icon_profile"></span></a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div id="mobile-menu-wrap"></div>
-        </div>
-    </header>
-    <!-- Header End -->
-
-								<span class="badge badge-light">
-									Panier {{ app.session.get('products')|length }}
-								</span>
+		<!-- Header Section Begin -->
+		<header class="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-2">
+						<div class="header__logo">
+							<a href="./index.html">
+								<img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
 							</a>
+						</div>
+					</div>
+					<div class="col-lg-8">
+						<div class="header__nav">
+							<nav class="header__menu mobile-menu">
+								<ul>
+									<li class="active">
+										<a href="./index.html">Home</a>
+									</li>
+									<li>
+										<a href="./blog.html">Nos tournois</a>
+									</li>
+									<li>
+										<a href="/produit-cards">Produits</a>
+									</li>
+									<li>
+										<a href="./blog.html">Réclamations</a>
+									</li>
+									<li>
+										<a href="#">Forum</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="header__right">
+							<a href="#" class="search-switch">
+								<span class="icon_search"></span>
+							</a>
+							{% if app.user is not null %}
+								<a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}">
+									<span class="icon_profile"></span>
+								</a>
+							{% else %}
+								<a href="#">
+									<span class="icon_profile"></span>
+								</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -87,71 +91,42 @@
 		</header>
 		<!-- Header End -->
 
-		<!-- Hero Section Begin -->
-		<section class="hero">
-			<div class="container"> {% block body %}{% endblock %}
-				</div>
-			</section>
-			<!-- Hero Section End -->
+		<a href="/produit/checkout">
 
-
-			<!-- Footer Section Begin -->
-			<footer class="footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-3">
-							<div class="footer__logo">
-								<a href="./index.html"><img src="img/logo.png" alt=""></a>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="footer__nav">
-								<ul>
-									<li class="active">
-										<a href="./index.html">Homepage</a>
-									</li>
-									<li>
-										<a href="./categories.html">Categories</a>
-									</li>
-									<li>
-										<a href="./blog.html">Our Blog</a>
-									</li>
-									<li>
-										<a href="#">Contacts</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-lg-3">
-							<p>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>
-									document.write(new Date().getFullYear());
-								</script>
-								All rights reserved | This template is made with
-								<i class="fa fa-heart" aria-hidden="true"></i>
-								by
-								<a href="https://colorlib.com" target="_blank">Colorlib</a>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</p>
-
-						</div>
-					</div>
-				</div>
-			</footer>
-			<!-- Footer Section End -->
-			<!-- Search model end -->
-
-			<!-- Js Plugins --><script src="{{ asset('js1/jquery-3.3.1.min.js') }}"> </script>
-			<script src="{{ asset('js1/bootstrap.min.js') }}"></script>
-			<script src="{{ asset('js1/player.js') }}"></script>
-			<script src="{{ asset('js1/jquery.nice-select.min.js') }}"></script>
-			<script src="{{ asset('js1/mixitup.min.js') }}"></script>
-			<script src="{{ asset('js1/jquery.slicknav.js') }}"></script>
-			<script src="{{ asset('js1/owl.carousel.min.js') }}"></script>
-			<script src="{{ asset('js1/main.js') }}"></script>
-
-
-		</body>
-
-	</html>
+			<span class="badge badge-light">
+				Panier
+				{{ app.session.get('products')|length }}
+			</span>
+		</a>
+	</body>
+</html></div></div></div><div id="mobile-menu-wrap"></div></div></header><!-- Header End --><!-- Hero Section Begin --><section class="hero"><div class="container"> {% block body %}{% endblock %}</div></section><!-- Hero Section End --><!-- Footer Section Begin --><footer class="footer"><div class="container"><div class="row"><div class="col-lg-3">
+<div class="footer__logo">
+	<a href="./index.html"><img src="img/logo.png" alt=""></a>
+</div></div><div class="col-lg-6">
+<div class="footer__nav">
+	<ul>
+		<li class="active">
+			<a href="./index.html">Homepage</a>
+		</li>
+		<li>
+			<a href="./categories.html">Categories</a>
+		</li>
+		<li>
+			<a href="./blog.html">Our Blog</a>
+		</li>
+		<li>
+			<a href="#">Contacts</a>
+		</li>
+	</ul>
+</div></div><div class="col-lg-3">
+<p>
+	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+	Copyright &copy;<script>
+		document.write(new Date().getFullYear());
+	</script>
+	All rights reserved | This template is made with
+	<i class="fa fa-heart" aria-hidden="true"></i>
+	by
+	<a href="https://colorlib.com" target="_blank">Colorlib</a>
+	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</p></div></div></div></footer><!-- Footer Section End --><!-- Search model end --><!-- Js Plugins --><script src="{{ asset('js1/jquery-3.3.1.min.js') }}"> </script><script src="{{ asset('js1/bootstrap.min.js') }}"></script><script src="{{ asset('js1/player.js') }}"></script><script src="{{ asset('js1/jquery.nice-select.min.js') }}"></script><script src="{{ asset('js1/mixitup.min.js') }}"></script><script src="{{ asset('js1/jquery.slicknav.js') }}"></script><script src="{{ asset('js1/owl.carousel.min.js') }}"></script><script src="{{ asset('js1/main.js') }}"></script></body></html>

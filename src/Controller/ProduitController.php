@@ -7,11 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Produit;
+use App\Entity\Commande;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategorieRepository;
 use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class ProduitController extends AbstractController
 {
@@ -198,7 +204,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    
+
     #[Route('/produit/add-to-card/{id}', name: 'add_to_card')]
     public function addToCard(Request $request, Produit $product): Response
     {
@@ -206,23 +212,85 @@ class ProduitController extends AbstractController
         $products = $session->get('products', []);
         $products = [...$products, $product];
         $session->set('products', $products);
-$this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
+        $this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
         return $this->redirectToRoute('produit_detail', ['id' => $product->getId()]);
     }
 
     #[Route('/produit/checkout', name: 'checkout')]
     public function checkout(Request $request): Response
     {
-       
+
         return $this->render('Produit/checkout.html.twig', ['products' => $request->getSession()->get('products', [])]);
     }
+
+    #[Route('/stripe', name: 'stripe')]
+    public function stripe(Request $request, $stripeSK): Response
+    {
+        Stripe::setApiKey($stripeSK);
+        $totalAmount = $request->request->get('total_amount');
+
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items'           => [
+                [
+                    'price_data' => [
+                        'currency'     => 'usd',
+                        'product_data' => [
+                            'name' => 'T-shirt',
+                        ],
+                        'unit_amount'  => $totalAmount * 100,
+                    ],
+                    'quantity'   => 1,
+                ]
+            ],
+            'mode'                 => 'payment',
+            'success_url'          => $this->generateUrl('success_url', ['totalAmount' => $totalAmount], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url'           => $this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
+
+        return $this->redirect($session->url, 303);
+    }
+
+
+    #[Route('/success-url', name: 'success_url')]
+    public function successUrl(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    {
+
+        $pro = $request->getSession()->get('products', []);
+        $totalAmount = $request->query->get('totalAmount');
+        $produitIds = [];
+        foreach ($pro as $produit) {
+            // Ajouter l'ID du produit à la liste des IDs de produits
+            $produitIds[] = $produit->getId();
+        }
+        $user = $security->getUser();
+        $commande = new Commande();
+        $commande->setDateAchat(new \DateTime());
+        $commande->setMontant($totalAmount);
+        $commande->setProduits($produitIds);
+        $commande->setUser($user);
+        $entityManager->persist($commande);
+        $entityManager->flush();
+        $session = $request->getSession();
+        $session->set('products', []);
+        return $this->render('produit/success.html.twig', []);
+    }
+
+
+    #[Route('/cancel-url', name: 'cancel_url')]
+    public function cancelUrl(): Response
+    {
+        return $this->render('produit/cancel.html.twig', []);
+    }
+
 
     #[Route('/produit/remove-from-card/{id}', name: 'remove_from_card')]
     public function removeFromCart(Request $request, Produit $product): Response
     {
         $session = $request->getSession();
         $products = $session->get('products', []);
-        
+
         // Parcourir le tableau des produits pour trouver le produit à retirer
         foreach ($products as $key => $prod) {
             if ($prod->getId() === $product->getId()) {
@@ -230,23 +298,31 @@ $this->addFlash('produit_card', 'Produit ajouté au panier avec succès');
                 break; // Sortir de la boucle dès que le produit est retiré
             }
         }
-        
+
         $session->set('products', $products);
-        
+
         $this->addFlash('produit_card', 'Produit retiré du panier avec succès');
-        
+
         return $this->redirectToRoute('checkout');
     }
-    
-
-#[Route('/produit/clear-card', name: 'clear_card')]
-public function clearCard(Request $request): Response
-{
-    $session = $request->getSession();
-    $session->set('products', []);
-    $this->addFlash('produit_card', 'Panier vidé avec succès');
-    return $this->redirectToRoute('produit_cards');
-}
 
 
+    #[Route('/produit/clear-card', name: 'clear_card')]
+    public function clearCard(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->set('products', []);
+        $this->addFlash('produit_card', 'Panier vidé avec succès');
+        return $this->redirectToRoute('produit_cards');
+    }
+
+    #[Route('/historique', name: 'historique')]
+    public function historique(Request $request, CommandeRepository $rp, Security $security, ProduitRepository $prp): Response
+    {
+        $user = $security->getUser();
+        $commandes = $rp->findByUser($user);
+        
+
+        return $this->render('produit/historique.html.twig', ['co' => $commandes, 'prp' => $prp]);
+    }
 }
