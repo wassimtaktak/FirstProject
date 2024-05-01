@@ -1,18 +1,49 @@
 <head>
     <script src="https://cdn.tiny.cloud/1/4o9f4fijrr3q5qzvhkynquagslplrxm6c8edrjw8w959w9ou/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tinymce.init({
             selector: '#mytextarea',
             skin: 'oxide-dark',
-            content_css: 'dark', // Load the default dark theme CSS
-            forecolor : 'white',
-             
+            content_css: 'dark', 
+            setup: function(editor) {
+                editor.on('change', function() {
+                    enforceStructure(editor);
+                });
+            }
         });
+
+        function enforceStructure(editor) {
+            editor.getBody().querySelectorAll('p').forEach(function(paragraph) {
+                if (paragraph.children.length !== 1 || paragraph.children[0].tagName.toLowerCase() !== 'span') {
+                    var span = editor.getDoc().createElement('span');
+                    span.innerHTML = paragraph.innerHTML;
+                    span.style.color = 'white';
+                    paragraph.innerHTML = '';
+                    paragraph.appendChild(span);
+                }
+            });
+        }
+
+        // Fonction pour valider le formulaire
+        function validateForm() {
+            var content = tinymce.get('mytextarea').getContent();
+            if (!content.trim()) {
+                Swal.fire({
+                icon: "error",
+                title: "Oops...une erreur est survenue",
+                text: "Vous devez entrer un message!",
+            });
+                return false; // Empêcher la soumission du formulaire
+            }
+            return true; // Permettre la soumission du formulaire si le contenu n'est pas vide
+        }
     </script>
 </head>
 <body>
-    <form method="post">
+    <form method="post" onsubmit="return validateForm();">
         <textarea id="mytextarea" name="post_content" style="color: white;">{{ post.message }}</textarea>
-        <button type="submit">Poster</button>
+        <button type="submit" class="m-3 btn btn-primary">Poster</button>
     </form>
 </body>
+

@@ -3,26 +3,33 @@
 {% block title %}Forum index{% endblock %}
 {% block active5 %}class="active"{% endblock %}
 {% block body %}
-<a class="btn btn-primary" href="{{ path('app_forum_new') }}">Ajouter forum</a>
-<div class="titles-container">
-<p class="title">Titre</p>
-<p class="title">date creation</p>
-<!--<p class="title">Actions</p>-->
+<div style="text-align:center">
+<h1 style="font-weight:thin">Espace <span style="color:#8b0000; font-weight:bold">Forum</span></h1>
+<p style="color:#fff; font-size: 20px;">Partagez vos expériences, posez vos questions, et échangez avec la communauté.</p>
 </div>
+<div class="d-flex align-items-center m-5">
+    <input id="myInput" class="form-control bg-dark border-0" type="text" placeholder="Rechercher un sujet..." style="color:#fff; border-radius:20px">
+    <ul id="searchResults"></ul>
+</div>
+
+<a class="btn btn-lg btn-primary m-2" style="width:100%" href="{{ path('app_forum_new') }}">Ajouter forum</a>
+<div>
+        <h3>Trier par date de création :</h3>
+        <button class="btn btn-dark rounded-pill m-1" onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
+        <button class="btn btn-light rounded-pill m-1" onclick="sortByCreationDate('desc')">Plus récent en premier</button>
+    </div>
+
     
-    <div class="cards-container">
+    <div class="row1">
+    <div class="cards-header">
+                    <p class="header-text">Titre</p>
+                    <p class="header-text">Date de Création</p>
+                </div>
         {% for forum in forums %}
                 <div class="card">
                     <div class="card-body" >
-                        <div class="user-space">
                         <a href="{{ path('app_forum_show', {'id': forum.id}) }}"><p class="card-title" >{{ forum.sujet }}</p></a>
-                        <p class="card-text">{{ forum.dateCreation }}</p>
-                        </div>
-                        <!--         <div>
-                        <a href="{{ path('app_forum_edit', {'id': forum.id}) }}" class="btn btn-secondary">Edit</a>
-                        {{ include('forum/_delete_form.html.twig') }}
-                        </div>       -->
-                        
+                        <p class="card-text date">{{ forum.dateCreation }}</p>
                     </div>
                 </div>
             
@@ -30,52 +37,109 @@
             <h1>no record found</h1>
         {% endfor %}
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".card").filter(function () {
+                $(this).toggle($(this).find('.card-title').text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
     <style>
-    .titles-container{
+
+    .row1{
+        display:flex;
+        flex-direction:column;
+        width:95.5%;
+        margin:1.5%;
+        color:#ffffff;
+    }
+    .card{
+        background-color: #323232;
+        border-radius:20px;
+        margin-bottom:10px;
+    }
+    .card-body{
         display:flex;
         flex-direction:row;
         justify-content:space-between;
-        padding-left:100px;
-        padding-right:100px;
-        padding-top:30px;
-    }
-    .title{
-        text-decoration:underline;
-    }
-    .cards-container{
-        display:flex;
-        flex-direction:column;
-    }
-    .card{
-        background-color:#323232;
-        border-radius:20px;
-        width:97%;
-        margin:1%;
-    }
-    .card-body{
-        /*display:flex;
-        justify-content: space-between;*/
+        width:100%; 
     }
     
     .card-title{
-        margin-right:150px;
-        min-width:380px;
-        max-width:380px;
+        
+        min-width:15em;
+        max-width:30em;
+        position:relative;
         color:white;
-    }
-    .user-space{
         display:flex;
         flex-direction:row;
-        justify-content:space-between;
+        align-items:center;
+        
     }
+
     .card-title:hover{
         font-weight:bold;
     }
     .card-text{
         color:white;
+        position:relative;
+        min-width:15em;
+        max-width:15em;
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+      
+        
+    }
+        .cards-header{
+        display:flex;
+        flex-direction:row;
+        justify-content:space-between;
+        margin-left:10px;
+    }
+    .header-text{
+        position:relative;
+        width:10em;
+        color:#797979;
+        text-decoration-line: underline;
+        min-width:15em;
+        max-width:15em;
+        margin-right : 10px;
     }
     </style>
+    <script>
+    function sortByCreationDate(order) {
+        // Sélectionnez toutes les réclamations
+        var reclamations = document.querySelectorAll('.card');
+
+        // Convertissez les réclamations en un tableau pour pouvoir les trier
+        var reclamationsArray = Array.from(reclamations);
+
+        // Triez les réclamations en fonction de la date de création
+        reclamationsArray.sort(function(a, b) {
+            // Récupérez les dates de création des réclamations
+            var dateA = new Date(a.querySelector('.date').textContent.trim());
+            var dateB = new Date(b.querySelector('.date').textContent.trim());
+
+            // Déterminez l'ordre de tri en fonction du paramètre order
+            if (order === 'asc') {
+                return dateA - dateB;
+            } else {
+                return dateB - dateA;
+            }
+        });
+
+        // Mettez à jour l'affichage des réclamations dans le DOM
+        reclamationsArray.forEach(function(reclamation) {
+            reclamation.parentNode.appendChild(reclamation);
+        });
+    }
+    </script>
         
 
     

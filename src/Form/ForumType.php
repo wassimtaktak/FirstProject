@@ -22,8 +22,15 @@ class ForumType extends AbstractType
             ])
             ->add('dateCreation', TextType::class, [
                 'label' => 'Date Creation :',
+                'data' => (new \DateTime())->format('Y-m-d'),
                 'label_attr' => ['class' => 'col-sm-4 label-white'],
-                'attr' => ['class' => 'form-control col-sm-6 datepicker', 'id' => 'dateCreation', 'placeholder' =>'Date Creation'],
+                'attr' => [
+                    'class' => 'form-control col-sm-6',
+                    'readonly' => true, // Make the field read-only
+                    'onclick' => 'return false;', // Prevent click event
+                    'id' => 'dateCreation',
+                    'placeholder' =>'Date Creation'
+                ],
                 'row_attr' => ['class' => 'mb-3 row'], 'required' => true
             ]);
         ;

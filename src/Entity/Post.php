@@ -34,6 +34,12 @@ class Post
      * @ORM\Column(name="nb_like", type="integer", nullable=false)
      */
     private $nbLike;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_post", type="string", nullable=false)
+     */
+    private $datePost;
 
     /**
      * @var Forum
@@ -54,6 +60,70 @@ class Post
      * })
      */
     private $idUser;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $likedBy = [];
+
+    // Constructor and other methods...
+
+    /**
+     * Get the users who liked this post.
+     *
+     * @return array
+     */
+    public function getLikedBy(): ?array
+    {
+        return $this->likedBy;
+    }
+
+    /**
+     * Check if the given user has liked this post.
+     *
+     * @param Utilisateur $user
+     * @return bool
+     */
+    public function isLikedByUser(Utilisateur $user): bool
+    {
+        $likedBy = $this->likedBy ?: [];
+
+        return in_array($user->getId(), $likedBy);
+    }
+
+    /**
+     * Add a user to the list of likers.
+     *
+     * @param Utilisateur $user
+     */
+    public function addLiker(Utilisateur $user): void
+    {
+        $userId = $user->getId();
+    
+    // Ensure $this->likedBy is an array
+    $likedBy = $this->likedBy ?: [];
+
+    if (!in_array($userId, $likedBy)) {
+        $likedBy[] = $userId;
+    }
+
+    $this->likedBy = $likedBy;
+    }
+
+    public function removeLiker(Utilisateur $user): void
+    {
+        $userId = $user->getId();
+        
+        // Ensure $this->likedBy is an array
+        $likedBy = $this->likedBy ?: [];
+
+        $key = array_search($userId, $likedBy);
+        if ($key !== false) {
+            unset($likedBy[$key]);
+        }
+
+        $this->likedBy = $likedBy;
+    }
 
     public function getId(): int
     {
@@ -89,6 +159,15 @@ class Post
     {
         return $this->idForum;
     }
+    public function getDatePost(): ?string
+    {
+        return $this->datePost;
+    }
+
+    public function setDatePost(string $datePost): void
+    {
+        $this->datePost = $datePost;
+    }
 
     public function setIdForum(Forum $idForum): void
     {
@@ -104,6 +183,7 @@ class Post
     {
         $this->idUser = $idUser;
     }
+    
 
 
 }

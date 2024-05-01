@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Form\UtilisateurTypeNoRole;
 use App\Form\UtilisateurTypenopass;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,7 +93,22 @@ class UtilisateurController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/{id}/editprofile', name: 'app_utilisateur_editprofile', methods: ['GET', 'POST'])]
+    public function editProfile(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UtilisateurTypeNoRole::class, $utilisateur);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+            return $this->redirectToRoute('app_utilisateur_show', ['id' => $utilisateur->getId()], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('utilisateur/editProfile.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form,
+        ]);
+    }
     #[Route('/delete/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {

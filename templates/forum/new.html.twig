@@ -8,19 +8,12 @@
 <div class="container-fluid pt-4 px-4" style="margin-bottom: 120px;">
     <div class="row justify-content-center">
         <div class="col-sm-12 col-xl-8">
-            <div class="bg-secondary rounded h-100 p-4">
-                <h1>Create new Forum</h1>
+            <div class="rounded h-100 p-4" style="background : #262626;">
+                <h1 style="margin-bottom: 30px">Ajouter un forum</h1>
                 {{ include('forum/_form.html.twig') }}
             </div>
         </div>
     </div>
 </div>
-<script>
-    $j(function() {
-        $j('.datepicker').datepicker({
-            dateFormat: 'yy-mm-dd',
-            language: 'fr'
-        });
-    });
-</script>
+
 {% endblock %}
