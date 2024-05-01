@@ -4,8 +4,12 @@
 {% block active4 %}class="active"{% endblock %}
 
 {% block body %}
-    <h1>My reclamations</h1>
-    <a href="{{ path('app_reclamations_new') }}" class="btn btn-lg btn-primary m-2">Create new reclamation</a>
+    <div style="text-align:center">
+<h1 style="color:#8b0000; font-weight:thin">Espace <span style="color:#fff">Reclamations</span></h1>
+<p style="color:#fff; font-size: 20px;">
+Partagez vos soucis, faites part de vos réclamations et trouvez du soutien au sein de notre communauté.</p>
+</div>
+    <a href="{{ path('app_reclamations_new') }}" class="btn btn-lg btn-primary m-5">Créer une nouvelle réclamation</a>
     <div class="row" >
        <div class="col" style="display:flex; justify-content:space-between;" >
             <div>
