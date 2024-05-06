@@ -23,7 +23,7 @@ class Jeu
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank(message="Le nom ne peut pas être vide")
      * @ORM\Column(name="nom", type="string", length=50, nullable=true)
@@ -31,7 +31,7 @@ class Jeu
     private $nom;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank(message="L'image ne peut pas être vide")
      * @ORM\Column(name="imageJeu", type="string", length=150, nullable=true)
@@ -39,9 +39,9 @@ class Jeu
     private $imagejeu;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="imageData", type="blob", length=0, nullable=false)
+     * @ORM\Column(name="imageData", type="blob", length=0, nullable=true)
      */
     private $imagedata;
 
@@ -55,32 +55,32 @@ class Jeu
         $this->id = $id;
     }
 
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): void
+    public function setNom(?string $nom): void
     {
         $this->nom = $nom;
     }
 
-    public function getImagejeu(): string
+    public function getImagejeu(): ?string
     {
         return $this->imagejeu;
     }
 
-    public function setImagejeu(string $imagejeu): void
+    public function setImagejeu(?string $imagejeu): void
     {
         $this->imagejeu = $imagejeu;
     }
 
-    public function getImagedata(): string
+    public function getImagedata(): ?string
     {
         return $this->imagedata;
     }
 
-    public function setImagedata(string $imagedata): void
+    public function setImagedata(?string $imagedata): void
     {
         $this->imagedata = $imagedata;
     }

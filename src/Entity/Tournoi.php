@@ -26,7 +26,7 @@ class Tournoi
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @Assert\NotBlank(message="Le champ nom ne peut pas être vide")
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
@@ -112,12 +112,12 @@ class Tournoi
         $this->id = $id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }

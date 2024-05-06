@@ -7,7 +7,10 @@ use App\Entity\Membre;
 use App\Entity\Utilisateur;
 use App\Repository\EquipeRepository;
 use App\Repository\InvitationRepository;
-
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 use App\Form\InvitationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/invitation')]
 class InvitationController extends AbstractController
 {
+    private $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
     #[Route('/', name: 'app_invitation_index', methods: ['GET'])]
     public function index(InvitationRepository $invitationRepository,EntityManagerInterface $entityManager): Response
     {
@@ -69,6 +78,17 @@ class InvitationController extends AbstractController
             if ($user) {
                 $entityManager->persist($invitation);
                 $entityManager->flush();
+                $emailContent = (new TemplatedEmail())
+                    ->from(new Address('forhopeplay@gmail.com', 'Invitation reçue'))
+                    ->to($user->getEmail())
+                    ->subject('Vous avez reçu une invitation pour rejoindre une équipe')
+                    ->htmlTemplate('emails/invitation.html.twig') // Template Twig pour l'e-mail d'invitation
+                    ->context([
+                        'user_name' => $user->getNom(),
+                        'equipe_name'=>$eq->getNom(),
+                    ]);
+
+                $this->mailer->send($emailContent);
                 $this->addFlash('success', 'Utilisateur invité avec succès : ' . $username);
                 return $this->redirectToRoute('app_invitation_new', ['id'=>$idequipe], Response::HTTP_SEE_OTHER);
             } 
