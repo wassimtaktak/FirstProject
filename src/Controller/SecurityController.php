@@ -59,6 +59,7 @@ class SecurityController extends AbstractController
     public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->session->get('password_recovery_user');
+
         $role = $this->em->getRepository(Role::class)->findOneBy(['role' => 'Joueur']);
         $user->setIdRole($role);
 
@@ -70,7 +71,7 @@ class SecurityController extends AbstractController
 
             $hashedPassword = $passwordEncoder->encodePassword($user, $password);
             $user->setPassword($hashedPassword);
-
+            //$this->em->persist($user);
             $this->em->flush();
 
             $this->addFlash('success', 'Password changed successfully. Please log in with your new password.');
