@@ -63,6 +63,13 @@ class Equipe
      */
     private $idtournoi;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imageequipe", type="string", length=200, nullable=true)
+     */
+    private $imageequipe;
+
     public function getId(): int
     {
         return $this->id;
@@ -132,5 +139,18 @@ class Equipe
     {
         return $this->nom;
     }
+
+    public function getImageequipe(): ?string
+    {
+        return $this->imageequipe;
+    }
+
+    public function setImageequipe(?string $imageequipe): void
+    {
+        
+        $this->imageequipe = $imageequipe;
+
+    }
+    
 
 }

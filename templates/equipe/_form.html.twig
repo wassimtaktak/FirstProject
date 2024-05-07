@@ -10,7 +10,11 @@
        {{ form_errors(form.associationname) }}
     </div>
 
-    <div class="text-center col-12 mt-4"> <!-- Utilisation de la classe text-center pour centrer le contenu -->
+    {{ form_row(form.imageequipe, {'attr': {'class': 'form-control', 'id': 'formFile'}}) }}
+    <div class="invalid-feedback">
+    {{ form_errors(form.imageequipe) }}
+    </div>
+    <div class="text-center col-12 mt-4">
         <button type="submit" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
         <button type="button" class="btn btn-outline-light m-2">Annuler</button>
     </div>

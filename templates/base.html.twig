@@ -20,12 +20,17 @@
               <!-- Libraries Stylesheet -->
               <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
               <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+              <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+              
+
 
 			<!-- Customized Bootstrap Stylesheet -->
 			<link
 			href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
               <!-- Template Stylesheet -->
+              <link href="{{ asset('css/style.css') }}" rel="stylesheet">
               
         {% endblock %}
 
@@ -41,10 +46,10 @@
               <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
               <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
               <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-              <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
               <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
               <script>
          {% if not app.user %} {
             window.location.href = "{{ path('app_login') }}";
@@ -55,7 +60,9 @@
               <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
     </head>
+    
     <body>
+    
         <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -93,10 +100,10 @@
                           <img class="circle rounded-circle" src="{{ asset('img/tournament.png') }}" alt="">Tournois
                       </a>
                       <div class="dropdown-menu bg-transparent border-0">
-
-                          <a href="{{ path('app_equipe_show', {'id': 1}) }}" class="dropdown-item">Equipes</a>
-                          <a href="{{ path('app_partie_index') }}" class="dropdown-item">Parties</a>
-                          <a href="#" class="dropdown-item">Jeux</a>
+                          <a href="{{ path('app_equipe_show', {'id': 1}) }}" class="dropdown-item">Gestion des équipes</a>
+                          <a href="{{ path('app_partie_show',{'id': 2}) }}" class="dropdown-item">Gestion des parties</a>
+                          <a href="/jeu" class="dropdown-item">Gestion des jeux</a>
+                          <a href="/tournoi/new" class="dropdown-item">Ajouter un Tournoi</a>
                     </div>
                     <a href="{{path('app_forumadmin_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/forum.png') }}" alt="">Forums</a>
                     <a href="{{path('app_reclamationsadmin_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/fichier.png') }}" alt="">Réclamations</a>
@@ -146,9 +153,7 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
+              {% block search_bar %}{% endblock %}
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -231,13 +236,12 @@
             </nav>
             <div style="border-radius: 30px;background-color:black;padding:10px;margin:10px;">
             <!-- Navbar End -->
-            <div style="border-radius: 30px;background-color:black;padding:20px;margin-right:10px; min-height:90%">
+            <div style="border-radius: 30px;background-color:black;padding:20px;margin:10px;min-height:80%"> 
             {% block body %} {% endblock %}
             </div>
               <!-- Footer Start -->
-
               <div class="container-fluid pt-4 px-4" style="background-color:black;border-radius:30px;">
-                  <div class=" rounded-top p-4" style="background-color:black;">            
+                  <div class=" rounded-top p-4" style="background-color:black;">
                       <div class="row">
                           <div class="col-12 col-sm-6 text-center text-sm-start">
                               &copy; <a href="#">PLAY FOR HOPE</a>, All Right Reserved. 
@@ -247,7 +251,6 @@
                           </div>
                       </div>
                   </div>
-
               <!-- Footer End -->
         </div>
         <!-- Content End -->

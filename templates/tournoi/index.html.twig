@@ -1,0 +1,64 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Tournoi index{% endblock %}
+
+{% block body %}
+    <div style="display:flex; justify-content:center;">
+    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; text-shadow: 0 0 4px #fff, 0 0 2px #8B0000, 0 0 20px #8B0000, 0 0 30px #8b0000;">Liste des Tournois </h1>
+    {% set currentType = app.request.query.get('type') %}
+    {% set newType = currentType == 'date_desc' ? 'date_asc' : 'date_desc' %}
+    {% set newIconClass = currentType == 'date_desc' ? 'fas fa-sort-amount-up ms-2 white-icon' : 'fas fa-sort-amount-down ms-2 white-icon' %}
+
+    <a style="color:white;margin-top:40px"href="{{ path('app_tournoi_index', {'type': newType}) }}" class="btn btn-link text-decoration-none">
+        <i class="{{ newIconClass }}"></i>
+    </a>
+    </div>
+     <form action="{{ path('app_tournoi_index') }}" method="get">
+    <select name="game" class="form-control">
+        <option value="">Tous les jeux</option>
+        {% for jeu in jeux %}
+            <option value="{{ jeu.id }}">{{ jeu.nom }}</option>
+        {% endfor %}
+    </select>
+    <button style="background-color:#8B0000"type="submit" class="btn btn-primary">Filtrer</button>
+</form>
+
+    {% if app.user and app.user.idrole.id == 2 %}
+    <div style="text-align: right;">
+        <a href="{{ path('app_tournoi_new') }}" class="add-btn">Add</a>
+    </div>
+    {% else %}
+   <div style="text-align: right;">
+       <a href="{{ path('app_tournoi_calendrier') }}" >Calendrier des Tournois</a>
+    </div>
+    {% endif %}
+    <div class="filters-content">
+        <div style="margin-bottom:30px;" class="row grid">
+            {% for tournament in pagination %}
+                <div class="col-sm-6 col-lg-4 ">
+                    <div class="box">
+                        <div>
+                            <div class="img-box">
+                                <img src="{{ asset('uploads/images/' ~ tournament.idjeu.imagejeu) }}" alt="">
+                            </div>
+                            <div class="detail-box">
+                                <h5 style="text-align: center; font-family: 'Montserrat', sans-serif; color: #000000; font-weight: bold;">{{ tournament.name }}</h5>
+                                <p style="color:white"> <strong >Date : </strong>{{ tournament.jour | date('Y-m-d') }} à {{ tournament.tempsdeb }}</p>
+                                <p style="color:white"> <strong> Inscription : </strong> {{ tournament.registration }}</p>
+                                <p style="color:white"><strong > Prix :</strong>  {{tournament.prize}} Dinars </p>
+                                <div class="show-btn-container">
+                                <p>  <a href="{{ path('app_tournoi_show', {'id': tournament.id}) }}" class="show-btn">Détails</a> <p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+    <div style="display:flex; justify-content:center;color:#8B0000">
+        {{knp_pagination_render(pagination)}}
+    </div>
+
+{% endblock %}

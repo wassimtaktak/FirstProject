@@ -79,6 +79,6 @@ class MembreController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_membre_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_equipe_show', ['id'=>2], Response::HTTP_SEE_OTHER);
     }
 }

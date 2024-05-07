@@ -1,0 +1,35 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Invite person{% endblock %}
+
+{% block body %}
+    <div class="container-fluid pt-4 px-4" style="margin-bottom: 110px;">
+        <div class="row justify-content-center"">
+            <div class="col-sm-12 col-xl-8">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <h4 class="text-center">Inviter un joueur</h4>
+                                    <form method="post" action="{{ path('invitation_send', {'idequipe': idequipe}) }}">
+                                        <div class="form-group row">
+                                            <label for="username" class="col-sm-4 label-white">Nom d'utilisateur :</label>
+                                            <input type="text" id="username" class="form-control col-sm-6" name="username" required>
+                                        </div>
+                                        <div class="text-center col-12 mt-4">
+                                            <button type="submit" class="btn btn-outline-primary m-2">Inviter</button>
+                                            <button type="button" class="btn btn-outline-light m-2">Annuler</button>
+                                        </div>
+                                    </form>
+                                    {% for flashMessage in app.flashes('error') %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    <i class="fa fa-exclamation-circle me-2"></i>{{ flashMessage }}
+                                                </div>
+                                    {% endfor %}
+                                    {% for flashMessage in app.flashes('success') %}
+                                                <div class="alert alert-success" role="alert">
+                                                    {{ flashMessage }}
+                                                </div>
+                                    {% endfor %}
+                                </div>
+            </div>                            
+        </div>
+    </div>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Form\UtilisateurTypeNoRole;
 use App\Form\UtilisateurTypenopass;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,15 +18,24 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UtilisateurController extends AbstractController
 {
     #[Route('/all', name: 'app_utilisateur_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, UtilisateurRepository $repo): Response
     {
         $utilisateurs = $entityManager
             ->getRepository(Utilisateur::class)
             ->findAll();
-
+        $adminCount = $repo->countUsersByRoleId(2);
+        $userCount = $repo->countUsersByRoleId(1);
+        $organisateurCount = $repo->countUsersByRoleId(3);
+        $rapporteurCount = $repo->countUsersByRoleId(4);
         return $this->render('utilisateur/index.html.twig', [
             'utilisateurs' => $utilisateurs,
+            'adminCount' => $adminCount,
+            'userCount' => $userCount,
+            'organisateurCount' => $organisateurCount,
+            'rapporteurCount' => $rapporteurCount,
         ]);
+
+
     }
 
     #[Route('/new', name: 'app_utilisateur_new', methods: ['GET', 'POST'])]
@@ -36,7 +46,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the plain password
+
             $utilisateur->setPassword(
                 $userPasswordHasher->encodePassword(
                     $utilisateur,
@@ -61,10 +71,10 @@ class UtilisateurController extends AbstractController
     {
         $user = $security->getUser();
 
-        // Initialize the userId variable
+
         $userId = null;
 
-        // Check if a user is logged in
+
         if ($user) {
             $userId = $user->getId();
         }

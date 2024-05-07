@@ -1,0 +1,46 @@
+{% extends 'baseuser.html.twig' %}
+{% block title %}Calendrier{% endblock %}
+
+
+{% block body %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ asset('bundles/tattali/calendar/css/style.css') }}" />
+
+{% endblock %}
+                <div class="container-fluid pt-4 px-4">
+                       <div class="align-items-center justify-content-between">
+                        <div id="calendar"></div>
+                    </div>
+                </div> 
+{% block javascripts %}
+<script src="{{ asset('bundles/tattali/calendar/js/main.js') }}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js" integrity="sha256-dHUNnePy81fXq4D/wfu7cPsEIP7zl6MvLb84jtZf+UY=" crossorigin="anonymous"></script>
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var events = {{ events | json_encode| raw }};
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                events: events,
+                eventClick: function(info) {
+                    if (info.event.url) {
+                        window.location = info.event.url;
+                    }
+                },
+                headerToolbar: {
+            start: 'prev,next today',
+            center: 'title',
+            end: 'dayGridMonth,timeGridWeek,timeGridDay',
+           
+        },
+        timeZone: 'UTC',
+       
+    });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+{% endblock %}

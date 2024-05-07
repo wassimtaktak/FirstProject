@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Tournoi{% endblock %}
+{% block stylesheet %}
+<style>
+    .disabled-date {
+        background-color: #f2f2f2;
+        color: #999; 
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+ <div class="container-fluid pt-4 px-4 neon-border">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-6" >
+                <div class="bg-secondary rounded h-100 p-4" style="width:150% ;margin-top:5px;margin-left:120px">
+                <a style="display:flex;Text-align:right;justify-content:right;color:#fff"href="{{ path('app_statistiques') }}">Consulter les Statistiques</a>
+                    <h1 style="Text-align:center;font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif; ">Ajouter un Tournoi</h1>
+                    {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endfor %}
+                     {{ include('tournoi/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+   <script>
+    $(function() {
+        $('.datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            language: 'fr',
+            minDate: 0, // Disable past dates
+            beforeShowDay: function(date) {
+                var today = new Date();
+                if (date < today) {
+                    return [false, 'disabled-date', 'This date has already passed'];
+                }
+                return [true, ''];
+            }
+        });
+    });
+</script>
+{% endblock %}

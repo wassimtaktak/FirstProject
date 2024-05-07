@@ -29,7 +29,7 @@ class Invitation
     private $statut;
 
     /**
-     * @var Invitation
+     * @var Equipe
      *
      * @ORM\ManyToOne(targetEntity="Equipe")
      * @ORM\JoinColumns({
@@ -78,17 +78,17 @@ class Invitation
         $this->statut = $statut;
     }
 
-    public function getIdequipe(): Invitation
+    public function getIdequipe(): Equipe
     {
         return $this->idequipe;
     }
 
-    public function setIdequipe(Invitation $idequipe): void
+    public function setIdequipe(Equipe $idequipe): void
     {
         $this->idequipe = $idequipe;
     }
 
-    public function getJoueurinvite(): Utilisateur
+    public function getJoueurinvite(): ?Utilisateur
     {
         return $this->joueurinvite;
     }

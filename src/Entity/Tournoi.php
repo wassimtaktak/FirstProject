@@ -5,6 +5,8 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\TournoiRepository;
 
 /**
  * Tournoi
@@ -24,8 +26,9 @@ class Tournoi
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
+     * @Assert\NotBlank(message="Le champ nom ne peut pas être vide")
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
@@ -33,6 +36,7 @@ class Tournoi
     /**
      * @var string|null
      *
+     * @Assert\NotBlank(message="Le champ régles ne peut pas être vide")
      * @ORM\Column(name="regles", type="text", length=65535, nullable=true)
      */
     private $regles;
@@ -40,20 +44,27 @@ class Tournoi
     /**
      * @var DateTime|null
      *
+     * @Assert\NotBlank(message="Le champ date ne peut pas être vide")
      * @ORM\Column(name="jour", type="date", nullable=true)
      */
     private $jour;
 
     /**
      * @var int|null
-     *
+     * 
+     *@Assert\NotBlank(message="Le champ prix ne peut pas être vide")
      * @ORM\Column(name="prize", type="integer", nullable=true)
      */
     private $prize;
 
     /**
      * @var string|null
-     *
+     * 
+     * @Assert\NotBlank(message="Le champ date début ne peut pas être vide")
+     * @Assert\Regex(
+     * pattern="/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/",
+     * message="Le format du temps doit être HH:mm"
+     * )
      * @ORM\Column(name="tempsDeb", type="string", length=20, nullable=true)
      */
     private $tempsdeb;
@@ -68,6 +79,7 @@ class Tournoi
     /**
      * @var int|null
      *
+     * @Assert\NotBlank(message="Le champ nombre de joueurs par équipe ne peut pas être vide")
      * @ORM\Column(name="jpt", type="integer", nullable=true)
      */
     private $jpt;
@@ -75,6 +87,7 @@ class Tournoi
     /**
      * @var int|null
      *
+     * @Assert\NotBlank(message="Le champ nombre d'équipe ne peut pas être vide")
      * @ORM\Column(name="NbrEquipe", type="integer", nullable=true)
      */
     private $nbrequipe;
@@ -99,12 +112,12 @@ class Tournoi
         $this->id = $id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -179,7 +192,7 @@ class Tournoi
         $this->nbrequipe = $nbrequipe;
     }
 
-    public function getIdjeu(): Jeu
+    public function getIdjeu(): ?Jeu
     {
         return $this->idjeu;
     }

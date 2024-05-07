@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jeux{% endblock %}
+{% block search_bar %}
+<div class="d-flex align-items-center">
+    <input id="myInput" class="form-control bg-dark border-0" type="text" placeholder="Search">
+    <ul id="searchResults"></ul>
+</div>
+
+<script>
+       $(document).ready(function () {
+           $("#myInput").on("keyup", function () {
+               var value = $(this).val().toLowerCase();
+               $("#myTable tr").filter(function () {
+                   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+               });
+           })
+       });
+   </script>
+{% endblock %}
+
+{% block body %}
+   {% if app.flashes('error') %}
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ce jeu est déjà utilisé dans un tournoi',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+         </script>
+    {% endif %}
+<h1 style="text-align: center; font-weight: 700; font-family: Quantico, Noto Sans, Malgun Gothic, Apple SD Gothic Neo, sans-serif;">Liste des Jeux</h1>
+
+<br></br>
+
+
+    <table id="myTable"class="table">
+        <thead>
+            <tr>
+             
+                <th>Image</th>
+                <th>Nom 
+{% set currentType = app.request.query.get('type') %}
+{% set newType = currentType == 'alphabetique-desc' ? 'alphabetique-asc' : 'alphabetique-desc' %}
+{% set newIconClass = currentType == 'alphabetique-desc' ? 'fas fa-sort-alpha-up ms-2' : 'fas fa-sort-alpha-down ms-2' %}
+
+<a href="{{ path('app_jeu_index', {'type': newType}) }}" class="btn btn-link text-decoration-none">
+    <i class="{{ newIconClass }}"></i>
+</a></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for jeu in pagination %}
+            <tr>
+
+                <td><img src="{{ asset('uploads/images/' ~ jeu.imagejeu) }}" style="width: 150px;"></td>
+                <td>{{ jeu.nom }}</td>
+          <td>
+            <div style="display: flex; align-items: center;">
+                <form method="post" action="{{ path('app_jeu_delete', {'id': jeu.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ jeu.id) }}">
+                    <button type="submit" style="background: none; border: none; color: #8B0000;" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+                <a href="{{ path('app_jeu_edit', {'id': jeu.id}) }}" style="color: #8B0000; margin-left: 10px;" data-toggle="tooltip" data-placement="top" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </div>
+        </td>
+
+
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+     <div style="display:flex; justify-content:center;color:#8B0000">
+        {{knp_pagination_render(pagination)}}
+    </div>
+    <a href="{{ path('app_jeu_new') }}">Create new</a>
+ 
+{% endblock %}

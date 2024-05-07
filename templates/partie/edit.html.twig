@@ -41,11 +41,18 @@
                                         </div>
                                     </div>
                                     <!-- END: Now Playing -->
-                                     <!-- Formulaire avec alerte de confirmation -->
                                         {{ form_start(form, {'attr': {'id': 'formId'}}) }}
                                         {{ form_widget(form) }}
+                                        <div class="text-center col-12 mt-4">
                                         <button type="button" id="submitBtn" class="btn btn-outline-primary m-2">{{ button_label|default('Save') }}</button>
                                         <a href="{{ path('app_partie_index') }}" class="btn btn-outline-light m-2">Annuler</a>
+                                        </div>
+                                        {% for flashMessage in app.flashes('error') %}
+                                                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                                    <i class="fa fa-exclamation-circle me-2"></i>{{ flashMessage }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                        {% endfor %}
                                         {{ form_end(form) }}
                                 </div>
             </div>
