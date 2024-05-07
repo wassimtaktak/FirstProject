@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html >
 
 <head>
     <meta charset="UTF-8">
@@ -9,100 +9,97 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Welcome!{% endblock %}</title>
 
-		<!-- Google Font -->
-		<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-		<link
-		href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
-		<!-- Css Styles -->
-		<link rel="stylesheet" href="{{ asset('css1/bootstrap.min.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/font-awesome.min.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/elegant-icons.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/plyr.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/nice-select.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/owl.carousel.min.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/slicknav.min.css') }}" type="text/css">
-		<link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
+    <!-- Css Styles -->
+<link rel="stylesheet" href="{{ asset('css1/bootstrap.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/font-awesome.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/elegant-icons.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/plyr.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/nice-select.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/owl.carousel.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/slicknav.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
 
-	</head>
 
-	<body>
-		<!-- Page Preloder -->
-		<div id="preloder">
-			<div class="loader"></div>
-		</div>
 
-		<!-- Header Section Begin -->
-		<header class="header">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-2">
-						<div class="header__logo">
-							<a href="./index.html">
-								<img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
-							</a>
-						</div>
-					</div>
-					<div class="col-lg-8">
-						<div class="header__nav">
-							<nav class="header__menu mobile-menu">
-								<ul>
-									<li class="active">
-										<a href="./index.html">Home</a>
-									</li>
-									<li>
-										<a href="./blog.html">Nos tournois</a>
-									</li>
-									<li>
-										<a href="/produit-cards">Produits</a>
-									</li>
-									<li {% block active4 %}{% endblock %}><a href="{{path("app_reclamations_index")}}">Réclamations</a></li>
-                                    <li {% block active5 %}{% endblock %}><a href="{{path("app_forum_index")}}">Forum</a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="header__right">
-							<a href="#" class="search-switch">
-								<span class="icon_search"></span>
-							</a>
-							{% if app.user is not null %}
-								<a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}">
-									<span class="icon_profile"></span>
-								</a>
-							{% else %}
-								<a href="#">
-									<span class="icon_profile"></span>
-								</a>
-							{% endif %}
-						</div>
-					</div>
-				</div>
-				<div id="mobile-menu-wrap"></div>
-			</div>
-		</header>
-		<!-- Header End -->
 
-		<a href="/produit/checkout">
-		<div class="header__right">
-<div class="col-lg-11">
-			<span class="badge badge-light">
-				Panier
-				{{ app.session.get('products')|length }}
-			</span>
-			</div>
-			</div>
-		</a>
-<a href="/historique">
-		<div class="header__right">
-<div class="col-lg-11">
-			<span class="badge badge-light">
-			historique des commandes
-			</span>
-			</div>
-			</div>
-		</a>
+
+
+</head>
+
+<body>
+
+
+{# Your other Twig content #}
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a href="{{ path('app_forum_index')}}">
+                            <img src="{{ asset('img/logo.png') }}" alt="" style="width: 130px; height: 60px;">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li {% block active1 %}{% endblock %}><a href="./index.html">Home</a></li>
+                                <li {% block active2 %}{% endblock %}><a href="./blog.html">Nos tournois</a></li>
+                                <li {% block active3 %}{% endblock %}><a href="./blog.html">Produits</a></li>
+                                <li {% block active4 %}{% endblock %}><a href="{{path("app_reclamations_index")}}">Réclamations</a></li>
+                                <li {% block active5 %}{% endblock %}><a href="{{path("app_forum_index")}}">Forum</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                        
+                        {% if app.user is not null %}
+                            <a href="/produit/checkout" >
+                            <span class="badge badge-light">
+                                Panier
+                                {{ app.session.get('products')|length }}
+                            </span>
+                            </a>
+                            <a href="/historique" >
+                            <span class="badge badge-light">
+                                     commandes
+                            </span>
+                            </a>
+                            <a href="{{ path('app_utilisateur_show', {'id': app.user.id}) }}"><span class="icon_profile"></span></a>
+                            
+                        {% else %}
+                            <a href="#"><span class="icon_profile"></span></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            {% block body %} {% endblock %}
+        </div>
+    </section>
+    <!-- Hero Section End -->
+    
 
 <!-- Footer Section Begin -->
 <footer class="footer">
