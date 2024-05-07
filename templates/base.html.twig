@@ -21,8 +21,9 @@
               <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
               <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
-              <!-- Customized Bootstrap Stylesheet -->
-              <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+			<!-- Customized Bootstrap Stylesheet -->
+			<link
+			href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
               <!-- Template Stylesheet -->
               
@@ -99,13 +100,29 @@
                     </div>
                     <a href="{{path('app_forumadmin_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/forum.png') }}" alt="">Forums</a>
                     <a href="{{path('app_reclamationsadmin_index')}}" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/fichier.png') }}" alt="">Réclamations</a>
-                    <a href="table.html" class="nav-item nav-link"><img class="circle rounded-circle" src="{{ asset('img/products.png') }}" alt="">Produits</a>
+                    <a href="table.html" class="nav-item nav-link"><img class="rounded-circle" src="{{ asset('img/products.png') }}" alt="" style="width: 27px; height: 30px;">Gestion des produits</a>
+					<div class="nav-item dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+									<img class="rounded-circle" src="{{ asset('img/products.png') }}" alt="" style="width: 27px; height: 30px;">
+									Gestion des produits
+								</a>
+								<div class="dropdown-menu bg-transparent border-0">
+									<a href="{{ path ('add_produit') }}" class="dropdown-item">Ajouter un Produit</a>
+									<a href="{{ path ('afficher_produit') }}" class="dropdown-item">Liste des Produits</a>
+									<a href="{{ path ('add_categorie') }}" class="dropdown-item">Ajouter un Categorie</a>
+									<a href="{{ path ('afficher_categorie') }}" class="dropdown-item">Liste des Categories</a>
+								</div>
+					</div>
+
                   </div>
 
-                </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
+								</div>
+							</div>
+
+						</div>
+					</nav>
+				</div>
+				<!-- Sidebar End -->
 
 <style>
 .circle{

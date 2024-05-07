@@ -1,0 +1,79 @@
+{% extends 'baseuser.html.twig' %}
+
+{% block title %}Afficher Produit
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid pt-4 px-4">
+		<div class="row g-4">
+
+			<div class="col-12">
+				<div class="bg-secondary rounded h-100 p-4">
+					<h6 class="mb-4">Panier</h6>
+				</div>
+			</div>
+			<div class="col-12">
+
+				<table class="table-responsive table bg-white">
+					<thead>
+						<tr>
+							<th>Libellé</th>
+							<th>Image</th>
+							<th>Prix</th>
+							<th>Marque</th>
+							<th>Quantité</th>
+							<th>Total</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody style="width:100%">
+						{% set grouped_products = {} %}
+						{% for product in products %}
+							{% set product_id = product.id %}
+							{% if product_id not in grouped_products %}
+								{% set grouped_products = grouped_products|merge({(product_id): {'product': product, 'quantity': 1}}) %}
+							{% else %}
+								{% set grouped_products = grouped_products|merge({(product_id): {'product': product, 'quantity': grouped_products[product_id].quantity + 1}}) %}
+							{% endif %}
+						{% endfor %}
+						{% for productKey, grouped_product in grouped_products %}
+							{% set product = grouped_product.product %}
+							{% set quantity = grouped_product.quantity %}
+							<tr>
+								<td>{{ product.libelle }}</td>
+								<td><img src="{{ asset('img/' ~ product.image) }}" alt="" width="200" height="200"/></td>
+								<td>{{ product.prix}}</td>
+								<td>{{ product.marque }}</td>
+								<td>
+									<span>{{ quantity }}</span>
+									<button class="btn btn-sm btn-success" onclick="addToCard('{{ product.id }}')">+</button>
+									<button class="btn btn-sm btn-danger" onclick="removeFromCard('{{ product.id }}')">-</button>
+								</td>
+								<td>{{ product.prix * quantity }}</td>
+								<td>
+									<a href="{{ path('remove_from_card', {'id': product.id}) }}" class="btn btn-danger">Retirer du panier</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="anime__details__btn w-100  pl-2 text-right">
+				<a href="{{ path('checkout') }}" class="watch-btn">
+					<span>Acheter</span>
+				</a>
+				<a href="{{ path('clear_card') }}" class="btn btn-danger">Vider le panier</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function addToCard(productId) { // Implement your logic to add product to cart with AJAX or form submission
+}
+
+function removeFromCard(productId) { // Implement your logic to remove product from cart with AJAX or form submission
+}
+	</script>
+
+{% endblock %}

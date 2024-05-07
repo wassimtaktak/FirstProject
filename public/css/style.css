@@ -227,11 +227,15 @@
     background: var(--dark);
     transition: 0.5s;
 }
+.sami{
+    background-color: #8B0000;
+}
 
 @media (min-width: 992px) {
     .sidebar {
         margin-left: 0;
     }
+
 
     .sidebar.open {
         margin-left: -250px;

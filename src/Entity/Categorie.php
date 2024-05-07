@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Categorie
  *
@@ -24,6 +24,8 @@ class Categorie
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="nom doit etre non vide")
+     * @Assert\Length(min=6, minMessage="nom doit contenir au moins 6 caractères")
      * @ORM\Column(name="nom", type="string", length=20, nullable=false)
      */
     private $nom;
