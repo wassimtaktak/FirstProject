@@ -66,4 +66,9 @@
     {% if not equipesComplet %}
     <a href="{{ path('app_equipe_new', {'id': idtournoi}) }}">Créer votre équipe</a>
     {% endif %}
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-fluid pt-4 px-4" style="margin-bottom: 110px;">
-        <div class="row justify-content-center"">
+        <div class="row justify-content-center">
             <div class="col-sm-12 col-xl-8">
                                 <div class="bg-secondary rounded h-100 p-4">
                                     <h4 class="text-center">Créer une équipe</h4>
@@ -19,4 +19,9 @@
         </div>
     </div>
     <a href="{{ path('app_equipe_index') }}">back to list</a>
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

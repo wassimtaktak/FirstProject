@@ -17,4 +17,9 @@
         <li>Your template at <code><a href="{{ 'C:/Users/ghazo/OneDrive/Documents/GitHub/FirstProject/templates/commande/index.html.twig'|file_link(0) }}">templates/commande/index.html.twig</a></code></li>
     </ul>
 </div>
+<script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

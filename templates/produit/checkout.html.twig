@@ -58,4 +58,10 @@
 			<a href="{{ path('clear_card') }}" class="btn btn-danger">Vider le panier</a>
 		</div>
 	</div>
-</div>{% endblock %}
+</div>
+<script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
+{% endblock %}

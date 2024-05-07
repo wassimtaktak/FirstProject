@@ -34,4 +34,9 @@
     </table>
 
     <a href="{{ path('app_reclamationreponse_new') }}">Create new</a>
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

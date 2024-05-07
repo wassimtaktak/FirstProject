@@ -23,9 +23,9 @@
                         <input type="password" name="password" id="inputPassword" class="form-control input__item" autocomplete="current-password" required>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     </div>
-                    
+                    <!--
                     <div class="g-recaptcha" data-sitekey="{{ '6Lcb7skpAAAAAMCy5jiGPLftlPFJklnqazCJa8Eh' }}"></div>
-                    
+                    -->
                     <div class="text-center col-12 mt-4">
                         <button class="btn btn-outline-light m-2" type="submit">Sign in</button>
                         <br>
@@ -38,10 +38,12 @@
         </div>
     </div>
 </div>
+<!--
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <style>
  .g-recaptcha {
         margin-left: 200px; 
     }
 </style>
+-->
 {% endblock %}

@@ -86,5 +86,11 @@
         {{knp_pagination_render(pagination)}}
     </div>
     <a href="{{ path('app_jeu_new') }}">Create new</a>
+
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
  
 {% endblock %}

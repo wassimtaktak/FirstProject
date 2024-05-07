@@ -27,4 +27,9 @@
     <a href="{{ path('app_forum_edit', {'id': forum.id}) }}">edit</a>
 
     {{ include('forum/_delete_form.html.twig') }}
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

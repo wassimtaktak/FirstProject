@@ -35,9 +35,9 @@ class LoginauthAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         $recaptchaResponse = $request->request->get('g-recaptcha-response');
-        if (!$this->isRecaptchaValid($recaptchaResponse)) {
+        /*if (!$this->isRecaptchaValid($recaptchaResponse)) {
             throw new CustomUserMessageAuthenticationException('Invalid reCAPTCHA response.');
-        }
+        }*/
 
         $username = $request->request->get('username', '');
 
@@ -77,8 +77,8 @@ class LoginauthAuthenticator extends AbstractLoginFormAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-    private function isRecaptchaValid(string $response): bool
+    /*private function isRecaptchaValid(string $response): bool
     {
         return $this->recaptcha->verify($response)->isSuccess();
-    }
+    }*/
 }

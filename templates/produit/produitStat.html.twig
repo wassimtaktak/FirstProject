@@ -75,5 +75,10 @@
 function removeFromCard(productId) { // Implement your logic to remove product from cart with AJAX or form submission
 }
 	</script>
+	<script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 
 {% endblock %}

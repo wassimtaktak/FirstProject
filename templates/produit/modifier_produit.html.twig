@@ -57,4 +57,10 @@
 		</div>
 	</div>
 
+	<script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
+
 {% endblock %}

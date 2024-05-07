@@ -28,4 +28,9 @@
     <a href="{{ path('app_jeu_edit', {'id': jeu.id}) }}">edit</a>
 
     {{ include('jeu/_delete_form.html.twig') }}
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

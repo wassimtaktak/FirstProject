@@ -38,4 +38,10 @@
     {% if  not existunupdated %}
     <a href="{{ path('app_partie_new',{'id': idtournoi}) }}">Génerer les parties restants</a>
     {% endif %}
+
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}

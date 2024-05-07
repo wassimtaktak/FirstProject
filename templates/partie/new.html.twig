@@ -23,4 +23,9 @@
     </div>
 
     <a href="{{ path('app_partie_index') }}">back to list</a>
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
 {% endblock %}
