@@ -13,14 +13,14 @@
                         <div style="display:flex;flex-direction:row;">
                             <img src="{{ asset('img/profil.png') }}" style="height:25px;width:25px;margin-right:10px;"/>
                             <p class="card-title">{{ post.idUser.username }}</p>
-                            <p class="card-title">{{ post.datePost }}</p>
+                            <!--<p class="card-title">{{ post.datePost }}</p>-->
                         </div>
                         <p class="card-title">{{ post.message|raw }}</p>
                     </div>
                     <div style="display:flex;flex-direction:column;">
                         
                         
-                        
+                        {% if app.user is not null %}
                         {% if post.likedBy is not null and post.isLikedByUser(app.user) %}
                             <a href="{{ path('app_dislike_remove', {'id': post.id}) }}"><img style="margin:10px;width:25px;height:25px;" src="{{ asset('/img/coeurm3ebi.png') }}"/></a>
                         {% else %}
@@ -33,6 +33,7 @@
                             {{ include('post/_delete_form.html.twig') }}
                             </div>
                         {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -40,8 +41,9 @@
             <p>no records found</p>
         {% endfor %}
     </div>
-
+{% if app.user is not null %}
     {{ include('post/_form.html.twig') }}
+{% endif %}
     <style>
         .titles-container{
             display:flex;
