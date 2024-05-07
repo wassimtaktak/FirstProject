@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/equipe')]
 class EquipeController extends AbstractController
@@ -204,7 +206,7 @@ class EquipeController extends AbstractController
         ]);
     }
 
-    #[Route('delete/{id}/{idtournoi}', name: 'app_equipe_delete', methods: ['POST'])]
+    #[Route('delete/{id}/{idtournoi}', name: 'app_equipe_delete', methods: ['POST','GET'])]
     public function delete(Request $request, Equipe $equipe, EntityManagerInterface $entityManager): Response
     {   
         $idTournoi = $request->get('idtournoi'); 

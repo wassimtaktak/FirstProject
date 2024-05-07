@@ -44,10 +44,7 @@
                                                 <button class="follow-btn">  Quitter</button>
                                             </form>
                                             {% if not existpartie %}
-                                            <form id="deleteForm" method="post" action="{{ path('app_equipe_delete', {'id': equipe.id,'idtournoi':idtournoi}) }}">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ equipe.id) }}">
-                                                <button class="follow-btn"><i class="fa fa-trash" aria-hidden="true"></i>  Supprimer</button>
-                                            </form>
+                                            {{ include('equipe/_delete_form.html.twig') }}
                                             {% else %}
                                                 <button class="follow-btn" type="button" onclick="showAlert()"><i class="fa fa-trash" aria-hidden="true"></i>  supprimer</button>
                                             {% endif %}
