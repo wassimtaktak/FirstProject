@@ -92,12 +92,25 @@
 		<!-- Header End -->
 
 		<a href="/produit/checkout">
-
+		<div class="header__right">
+<div class="col-lg-11">
 			<span class="badge badge-light">
 				Panier
 				{{ app.session.get('products')|length }}
 			</span>
+			</div>
+			</div>
 		</a>
+<a href="/historique">
+		<div class="header__right">
+<div class="col-lg-11">
+			<span class="badge badge-light">
+			historique des commandes
+			</span>
+			</div>
+			</div>
+		</a>
+
 	</body>
 </html></div></div></div><div id="mobile-menu-wrap"></div></div></header><!-- Header End --><!-- Hero Section Begin --><section class="hero"><div class="container"> {% block body %}{% endblock %}</div></section><!-- Hero Section End --><!-- Footer Section Begin --><footer class="footer"><div class="container"><div class="row"><div class="col-lg-3">
 <div class="footer__logo">

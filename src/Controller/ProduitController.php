@@ -237,7 +237,7 @@ class ProduitController extends AbstractController
                     'price_data' => [
                         'currency'     => 'usd',
                         'product_data' => [
-                            'name' => 'T-shirt',
+                            'name' => 'Montant à payer',
                         ],
                         'unit_amount'  => $totalAmount * 100,
                     ],

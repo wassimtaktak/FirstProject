@@ -24,26 +24,7 @@
 						<h3>{{produit.libelle}}</h3>
 						<span>{{produit.categorie.nom}}</span>
 					</div>
-					<div class="anime__details__rating">
-						<div class="rating">
-							<a href="#">
-								<i class="fa fa-star"></i>
-							</a>
-							<a href="#">
-								<i class="fa fa-star"></i>
-							</a>
-							<a href="#">
-								<i class="fa fa-star"></i>
-							</a>
-							<a href="#">
-								<i class="fa fa-star"></i>
-							</a>
-							<a href="#">
-								<i class="fa fa-star-half-o"></i>
-							</a>
-						</div>
-						<span>1.029 Votes</span>
-					</div>
+					
 					<p>{{produit.description}}</p>
 					<div class="anime__details__widget">
 						<div class="row">
@@ -71,9 +52,6 @@
 
 
 						<div class="anime__details__btn">
-							<a href="#" class="follow-btn">
-								<i class="fa fa-heart-o"></i>
-								J'aime</a>
 							<a href="{{ path('add_to_card', {'id': produit.id}) }}" class="watch-btn">
 								<span>Ajouter au panier</span>
 								<i class="fa fa-angle-right"></i>
