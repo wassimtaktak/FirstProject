@@ -325,4 +325,10 @@ class ProduitController extends AbstractController
 
         return $this->render('produit/historique.html.twig', ['co' => $commandes, 'prp' => $prp]);
     }
+    #[Route('/ia', name: 'ia')]
+    public function ia(): Response
+    {
+        
+     return $this->render('produit/ia.html.twig');
+    }
 }
