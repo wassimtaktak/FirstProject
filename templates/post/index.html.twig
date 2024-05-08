@@ -20,7 +20,7 @@
                     <div style="display:flex;flex-direction:column;">
                         
                         
-                        
+                        {% if app.user %}
                         {% if post.likedBy is not null and post.isLikedByUser(app.user) %}
                             <a href="{{ path('app_dislike_remove', {'id': post.id}) }}"><img style="margin:10px;width:25px;height:25px;" src="{{ asset('/img/coeurm3ebi.png') }}"/></a>
                         {% else %}
@@ -33,6 +33,7 @@
                             {{ include('post/_delete_form.html.twig') }}
                             </div>
                         {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -40,8 +41,9 @@
             <p>no records found</p>
         {% endfor %}
     </div>
-
+{% if app.user %}
     {{ include('post/_form.html.twig') }}
+{% endif %}
     <style>
         .titles-container{
             display:flex;
@@ -73,9 +75,5 @@
             color:white;
         }
     </style>
-    <script>
-        {% if not app.user %}
-            window.location.href = "{{ path('app_login') }}";
-        {% endif %}
-    </script>
+    
 {% endblock %}

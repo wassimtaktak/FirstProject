@@ -11,8 +11,9 @@
     <input id="myInput" class="form-control bg-dark border-0" type="text" placeholder="Rechercher un sujet..." style="color:#fff; border-radius:20px">
     <ul id="searchResults"></ul>
 </div>
-
+{% if app.user %}
 <a class="btn btn-lg btn-primary m-2" style="width:100%" href="{{ path('app_forum_new') }}">Ajouter forum</a>
+{% endif %}
 <div>
         <h3>Trier par date de création :</h3>
         <button class="btn btn-dark rounded-pill m-1" onclick="sortByCreationDate('asc')">Plus ancien en premier</button>
@@ -140,11 +141,7 @@
         });
     }
     </script>
-    <script>
-        {% if not app.user %}
-            window.location.href = "{{ path('app_login') }}";
-        {% endif %}
-    </script>
+    
         
 
     
