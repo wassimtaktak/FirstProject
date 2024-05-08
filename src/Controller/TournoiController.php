@@ -40,6 +40,17 @@ class TournoiController extends AbstractController
             'jeux' => $jeux,
         ]);
     }
+
+    #[Route('/admin', name: 'app_tournoi_admin', methods: ['GET'])]
+    public function indexadmin(Request $request, TournoiRepository $tournoiRepository, JeuRepository $jeuRepository,PaginatorInterface $paginator): Response
+    {
+        
+            $tournois = $tournoiRepository->findAll();
+        return $this->render('tournoi/tournoiadmin.html.twig', [
+            'tournois' => $tournois,
+        ]);
+    }
+
     #[Route('/statistiques', name: 'app_statistiques', methods: ['GET'])]
     public function statistiques(TournoiRepository $tournoiRepository): Response
     {
@@ -67,6 +78,7 @@ class TournoiController extends AbstractController
             'events' => $events, 
         ]);
     }
+    
     #[Route('/new', name: 'app_tournoi_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

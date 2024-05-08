@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}tournoi index{% endblock %}
+
+{% block body %}
+    <h1>Parties des tournois</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>jour</th>
+                <th>Nombre d equipes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tournoi in tournois %}
+            <tr>
+                <td>{{ tournoi.name }}</td>
+                <td>{{ tournoi.jour ? tournoi.jour|date('Y-m-d') : '' }}</td>
+                <td>{{ tournoi.NbrEquipe }}</td>
+                <td>
+                        <a href="{{ path('app_partie_show', {'id': tournoi.id}) }}">Voir les parties</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucune tournoi</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        {% if not app.user %}
+            window.location.href = "{{ path('app_login') }}";
+        {% endif %}
+    </script>
+{% endblock %}
