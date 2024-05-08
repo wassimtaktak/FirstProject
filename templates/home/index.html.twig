@@ -20,7 +20,7 @@
             {% set tri_tournament = tournois|sort((a, b) => a.jour <=> b.jour) %}
             {% set closest_tournament = tri_tournament|slice(0,1) %}
             {% for tournoi in closest_tournament %}
-            <div class="hero__items set-bg" data-setbg={{ asset('uploads/images/' ~ tournoi.idjeu.imagejeu) }}>
+            <div class="hero__items set-bg" data-setbg={{ asset('img/' ~ tournoi.idjeu.imagejeu) }}>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hero__text">
@@ -128,9 +128,5 @@
 </section>
 <!-- Product Section End -->
 
-<script>
-        {% if not app.user %}
-            window.location.href = "{{ path('app_login') }}";
-        {% endif %}
-    </script>
+
 {% endblock %}
