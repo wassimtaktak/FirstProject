@@ -9,7 +9,7 @@
             <div class="rounded h-100 p-4" style="background: #262626;text-align: center;">
                 <h1 style="margin-bottom: 30px;text-align: center;">Login</h1>
                 
-                <form method="post">
+                <form method="POST" >
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
@@ -27,7 +27,7 @@
                     <div class="g-recaptcha" data-sitekey="{{ '6Lcb7skpAAAAAMCy5jiGPLftlPFJklnqazCJa8Eh' }}"></div>
                     -->
                     <div class="text-center col-12 mt-4">
-                        <button class="btn btn-outline-light m-2" type="submit">Sign in</button>
+                        <button class="btn btn-outline-light m-2" type="submit" action="{{ path('app_login') }}">Sign in</button>
                         <br>
                         <a href="{{ path('app_register') }}" class="text">Don't have an account yet? Register now</a>
                         <br>

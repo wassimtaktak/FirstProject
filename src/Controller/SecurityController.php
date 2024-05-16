@@ -41,7 +41,11 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_utilisateur_index');
+            if ($this->getUser()->getIdrole()->getRole() == "Joueur") {
+                return $this->redirectToRoute('app_home');
+            } else {
+                return $this->redirectToRoute('app_utilisateur_index');
+            }
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
