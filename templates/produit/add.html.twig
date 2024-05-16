@@ -58,8 +58,12 @@
 		</div>
 	</div>
 <script>
-        {% if not app.user %}
+        {% if not app.user  %}
             window.location.href = "{{ path('app_login') }}";
         {% endif %}
+        {% if app.user.idrole.role =="Joueur"  %}
+            window.location.href = "{{ path('app_home') }}";
+        {% endif %}
+
     </script>
 {% endblock %}
